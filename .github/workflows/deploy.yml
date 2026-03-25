@@ -1,17 +1,24 @@
-name: Deploy to ecomnewshq.com
+name: 🚀 Deploy to ecomnewshq.com
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      message:
+        description: 'Deploy note'
+        default: 'Manual deploy'
 
 jobs:
   deploy:
+    name: Deploy via SFTP
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Deploy via SFTP
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📤 Upload to server via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.SSH_USER }}
@@ -22,5 +29,7 @@ jobs:
           remote_path: '/home/ecomrztt/public_html/'
           sftp_only: true
 
-      - name: Done
-        run: echo "Deployed $(date)"
+      - name: ✅ Done
+        run: |
+          echo "Deployed at $(date)"
+          echo "Site: https://ecomnewshq.com"
