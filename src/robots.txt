@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /_claude_api.php
+Disallow: /_test_claude.html
+
+Sitemap: https://ecomnewshq.com/sitemap.xml
