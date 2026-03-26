@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Center — EcomNewsHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Fraunces:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#e8500a;
+  --dark:#121110;
+  --white:#fff;
+  --off:#f4f4f0;
+  --gray:#6b6b6b;
+  --border:#e0e0e0;
+  --success:#1a8a50;
+  --warn:#c47d0a;
+  --danger:#c0392b;
+  --info:#1a6eb5;
+  --sidebar-w:220px;
+  --topbar-h:56px;
+  --serif:'Fraunces',serif;
+  --sans:'Plus Jakarta Sans',sans-serif;
+}
+html,body{height:100%;font-family:var(--sans);background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* ── LOCK SCREEN ─────────────────── */
+#lockscreen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:24px}
+.lock-logo{font-family:var(--serif);font-size:28px;color:#fff;letter-spacing:-.02em}
+.lock-logo em{color:var(--orange);font-style:normal}
+.lock-box{background:#1c1b19;border:1px solid #2a2928;padding:32px;width:320px;text-align:center}
+.lock-title{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:20px;letter-spacing:.04em;text-transform:uppercase}
+.lock-input{width:100%;background:#121110;border:1px solid #2a2928;color:#fff;font-size:18px;text-align:center;letter-spacing:.25em;padding:12px;font-family:var(--sans);outline:none;margin-bottom:12px}
+.lock-input:focus{border-color:var(--orange)}
+.lock-btn{width:100%;background:var(--orange);color:#fff;border:none;padding:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s}
+.lock-btn:hover{background:#c94008}
+.lock-err{font-size:12px;color:#e24b4a;margin-top:8px;display:none}
+
+/* ── LAYOUT ──────────────────────── */
+#app{display:none;min-height:100vh}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--dark);z-index:100;display:flex;align-items:center;padding:0 20px;gap:16px}
+.tb-logo{font-family:var(--serif);font-size:18px;color:#fff;letter-spacing:-.02em;margin-right:8px}
+.tb-logo em{color:var(--orange);font-style:normal}
+.tb-tag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:3px 8px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.tb-status{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.4)}
+.tb-dot{width:7px;height:7px;border-radius:50%;background:#1a8a50}
+.tb-btn{background:var(--orange);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border:none;cursor:pointer;font-family:var(--sans);letter-spacing:.02em}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:var(--topbar-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--topbar-h));background:#fff;border-right:1px solid var(--border);overflow-y:auto;z-index:90;padding:16px 0}
+.nav-section{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#aaa;padding:14px 20px 6px;margin-top:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:background .15s;position:relative}
+.nav-item:hover{background:var(--off)}
+.nav-item.active{background:#fff8f5}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange)}
+.nav-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.nav-label{font-size:13px;color:#333}
+.nav-item.active .nav-label{color:var(--orange);font-weight:500}
+.nav-badge{margin-left:auto;font-size:10px;font-weight:600;padding:2px 6px;background:var(--orange);color:#fff}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);margin-top:var(--topbar-h);padding:24px;min-height:calc(100vh - var(--topbar-h))}
+.page{display:none}
+.page.active{display:block}
+
+/* ── COMPONENTS ──────────────────── */
+.page-title{font-family:var(--serif);font-size:26px;font-weight:700;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--gray);margin-bottom:24px}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--border);padding:16px}
+.stat-num{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--dark)}
+.stat-num.orange{color:var(--orange)}
+.stat-lbl{font-size:12px;color:var(--gray);margin-top:3px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--border);padding:20px}
+.card-title{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.card-title .badge{font-size:10px;font-weight:600;padding:3px 8px}
+.badge-green{background:rgba(26,138,80,.1);color:var(--success)}
+.badge-orange{background:rgba(232,80,10,.1);color:var(--orange)}
+.badge-gray{background:var(--off);color:var(--gray)}
+.badge-blue{background:rgba(26,110,181,.1);color:var(--info)}
+
+/* PIPELINE */
+.pipeline{display:flex;border:1px solid var(--border);background:var(--off);gap:1px;margin-bottom:24px;overflow:hidden}
+.pipe-step{flex:1;background:#fff;padding:14px 12px;cursor:pointer;transition:background .15s;border-bottom:3px solid transparent}
+.pipe-step.on{border-bottom-color:var(--orange);background:#fff8f5}
+.pipe-step:hover{background:var(--off)}
+.ps-n{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.08em;margin-bottom:4px}
+.ps-name{font-size:12px;font-weight:600;color:var(--dark)}
+.ps-desc{font-size:11px;color:var(--gray);margin-top:2px;line-height:1.4}
+.ps-dot{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--success);margin-top:5px}
+.ps-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0}
+.ps-dot.idle{color:var(--gray)}
+.ps-dot.idle::before{background:var(--gray)}
+
+/* TASK RUNNER */
+.task-box{background:#fff;border:1px solid var(--border);padding:20px;margin-bottom:16px}
+.task-presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.preset{font-size:11px;padding:5px 12px;border:1px solid var(--border);background:var(--off);color:var(--gray);cursor:pointer;transition:all .15s}
+.preset:hover,.preset.sel{border-color:var(--orange);color:var(--orange);background:rgba(232,80,10,.05)}
+.task-row{display:flex;gap:10px;align-items:flex-start}
+.task-ta{flex:1;padding:10px 12px;font-size:13px;font-family:var(--sans);color:var(--dark);background:var(--off);border:1px solid var(--border);resize:none;min-height:68px;outline:none;line-height:1.55}
+.task-ta:focus{border-color:var(--orange)}
+.task-btns{display:flex;flex-direction:column;gap:6px}
+.btn-primary{background:var(--orange);color:#fff;border:none;padding:10px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+.btn-primary:hover{background:#c94008}
+.btn-secondary{background:#fff;color:var(--dark);border:1px solid var(--border);padding:10px 18px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.btn-secondary:hover{background:var(--off)}
+
+/* SKILLS LIST */
+.skill-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.skill-item:last-child{border-bottom:none}
+.skill-item:hover{background:var(--off)}
+.sk-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--off)}
+.sk-info{flex:1}
+.sk-name{font-size:13px;font-weight:500;color:var(--dark)}
+.sk-desc{font-size:11px;color:var(--gray);margin-top:1px}
+.sk-status{font-size:10px;padding:2px 7px;font-weight:600}
+.sk-arrow{font-size:12px;color:#ccc}
+
+/* ACTIVITY */
+.act-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.act-dot.s{background:var(--success)}
+.act-dot.i{background:var(--orange)}
+.act-dot.p{background:#ccc}
+.act-text{flex:1;font-size:13px;color:#333;line-height:1.5}
+.act-time{font-size:11px;color:#aaa;white-space:nowrap}
+
+/* QA METRICS */
+.qa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.qa-m{background:var(--off);padding:12px;text-align:center}
+.qa-num{font-family:var(--serif);font-size:26px;font-weight:700}
+.qa-num.p{color:var(--success)}
+.qa-num.w{color:var(--warn)}
+.qa-num.f{color:var(--danger)}
+.qa-lbl{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* AFFILIATE TABLE */
+.aff-table{width:100%;font-size:12px;border-collapse:collapse}
+.aff-table th{text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);border-bottom:1px solid var(--border)}
+.aff-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.aff-table tr:hover td{background:var(--off)}
+.aff-table .pay{font-weight:600;color:var(--orange)}
+.tier1{background:rgba(232,80,10,.07);color:var(--orange);font-size:10px;font-weight:600;padding:2px 6px}
+.tier2{background:rgba(26,138,80,.07);color:var(--success);font-size:10px;font-weight:600;padding:2px 6px}
+
+/* PAGES STATUS */
+.pages-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pg-item{background:var(--off);padding:10px;display:flex;align-items:center;justify-content:space-between}
+.pg-url{font-size:11px;color:var(--dark);font-weight:500}
+.pg-ok{font-size:10px;font-weight:700;color:var(--success)}
+.pg-fail{font-size:10px;font-weight:700;color:var(--danger)}
+
+/* SITES ROW */
+.site-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.site-c{background:#fff;border:1px solid var(--border);padding:16px;cursor:pointer;transition:border-color .15s}
+.site-c:hover{border-color:var(--orange)}
+.site-c-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.site-c-url{font-size:11px;color:var(--gray);margin-bottom:10px}
+.site-c-row{display:flex;gap:10px}
+.site-c-stat{font-size:11px;color:var(--gray)}
+.site-c-stat b{color:var(--dark)}
+
+/* BUTTONS ROW */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.action-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;font-size:12px;font-weight:500;border:1px solid var(--border);background:#fff;cursor:pointer;color:var(--dark);transition:all .15s;font-family:var(--sans)}
+.action-btn:hover{border-color:var(--orange);color:var(--orange)}
+.action-btn.primary-btn{background:var(--orange);color:#fff;border-color:var(--orange)}
+.action-btn.primary-btn:hover{background:#c94008}
+</style>
+</head>
+<body>
+
+<!-- ════ LOCK SCREEN ════ -->
+<div id="lockscreen">
+  <div class="lock-logo">EcomNews<em>HQ</em></div>
+  <div class="lock-box">
+    <div class="lock-title">Command Center Access</div>
+    <input class="lock-input" type="password" id="pinInput" placeholder="••••" maxlength="6" onkeydown="if(event.key==='Enter')unlock()">
+    <button class="lock-btn" onclick="unlock()">Enter →</button>
+    <div class="lock-err" id="lockErr">Incorrect PIN</div>
+  </div>
+</div>
+
+<!-- ════ APP ════ -->
+<div id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tb-logo">EcomNews<em>HQ</em></div>
+    <div class="tb-tag">Command Center</div>
+    <div class="tb-right">
+      <div class="tb-status"><div class="tb-dot"></div> ecomnewshq.com live</div>
+      <button class="tb-btn" onclick="goTo('tasks')">+ New Task</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="goTo('dashboard')"><div class="nav-icon">▣</div><div class="nav-label">Dashboard</div></div>
+    <div class="nav-item" onclick="goTo('tasks')"><div class="nav-icon">⚡</div><div class="nav-label">Run Pipeline</div><div class="nav-badge">7</div></div>
+
+    <div class="nav-section">Content</div>
+    <div class="nav-item" onclick="goTo('pipeline')"><div class="nav-icon">→</div><div class="nav-label">Content Pipeline</div></div>
+    <div class="nav-item" onclick="goTo('skills')"><div class="nav-icon">◈</div><div class="nav-label">Skills</div><div class="nav-badge">7</div></div>
+    <div class="nav-item" onclick="goTo('affiliate')"><div class="nav-icon">$</div><div class="nav-label">Affiliate Programs</div></div>
+
+    <div class="nav-section">Site</div>
+    <div class="nav-item" onclick="goTo('site')"><div class="nav-icon">◎</div><div class="nav-label">Site Status</div></div>
+    <div class="nav-item" onclick="goTo('qa')"><div class="nav-icon">✓</div><div class="nav-label">QA Report</div></div>
+
+    <div class="nav-section">Resources</div>
+    <div class="nav-item" onclick="window.open('https://ecomnewshq.com','_blank')"><div class="nav-icon">↗</div><div class="nav-label">Open Site</div></div>
+    <div class="nav-item" onclick="window.open('https://github.com/amzdoc93/ecomnewshq-site/actions','_blank')"><div class="nav-icon">↗</div><div class="nav-label">GitHub Actions</div></div>
+    <div class="nav-item" onclick="window.open('https://docs.google.com/spreadsheets/d/1ARd6UKaxR2Mg-v1ZQBb4tCa93Zk5bkkOdmPfmCgl64c/edit','_blank')"><div class="nav-icon">↗</div><div class="nav-label">YouTube Data</div></div>
+    <div class="nav-item" onclick="window.open('https://claude.ai','_blank')"><div class="nav-icon">↗</div><div class="nav-label">Claude AI</div></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">EcomNewsHQ — Command Center · <span id="now"></span></div>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num orange">7</div><div class="stat-lbl">Active Skills</div></div>
+        <div class="stat-card"><div class="stat-num">14<span style="font-size:16px;color:var(--gray)">/16</span></div><div class="stat-lbl">Pages Online</div></div>
+        <div class="stat-card"><div class="stat-num">1</div><div class="stat-lbl">Articles Published</div></div>
+        <div class="stat-card"><div class="stat-num orange">50+</div><div class="stat-lbl">Affiliate Programs</div></div>
+        <div class="stat-card"><div class="stat-num">11</div><div class="stat-lbl">QA Pass</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Quick Actions <span class="badge badge-orange">Pipeline</span></div>
+          <div class="task-presets">
+            <div class="preset sel" onclick="qp(this,'Запусти полный контент-пайплайн: YouTube данные → SEO анализ → напиши статью → задеплой на сайт')">Full Pipeline</div>
+            <div class="preset" onclick="qp(this,'Запусти QA проверку всего сайта ecomnewshq.com и дай подробный отчёт')">QA Check</div>
+            <div class="preset" onclick="qp(this,'Собери свежие YouTube данные за последние 7 дней через Apps Script и покажи топ-10 тем')">YouTube Data</div>
+            <div class="preset" onclick="qp(this,'Задеплой последние изменения на ecomnewshq.com через GitHub Actions')">Deploy</div>
+            <div class="preset" onclick="qp(this,'Порекомендуй лучшие партнёрские программы для следующей статьи с расчётом потенциального дохода')">Affiliate Tips</div>
+          </div>
+          <div class="task-row">
+            <textarea class="task-ta" id="qTaskInput" rows="3">Запусти полный контент-пайплайн: YouTube данные → SEO анализ → напиши статью → задеплой на сайт</textarea>
+            <div class="task-btns">
+              <button class="btn-primary" onclick="runQ()">Run ↗</button>
+              <button class="btn-secondary" onclick="document.getElementById('qTaskInput').value=''">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Activity Feed</div>
+          <div id="feed">
+            <div class="act-item"><div class="act-dot s"></div><div class="act-text">Статья <b>Helium 10 vs Jungle Scout 2026</b> опубликована · Score 10/11</div><div class="act-time">25 Mar 17:04</div></div>
+            <div class="act-item"><div class="act-dot s"></div><div class="act-text">Samsung-style дизайн задеплоен · 16 сек</div><div class="act-time">25 Mar 16:58</div></div>
+            <div class="act-item"><div class="act-dot s"></div><div class="act-text">7 nav-страниц созданы · QA 14/16 OK</div><div class="act-time">25 Mar 17:30</div></div>
+            <div class="act-item"><div class="act-dot s"></div><div class="act-text">7 скилов разработаны и сохранены в проект</div><div class="act-time">25 Mar 18:00</div></div>
+            <div class="act-item"><div class="act-dot i"></div><div class="act-text">Affiliate Advisor: VPS + Proxy + Virtual Numbers добавлены</div><div class="act-time">25 Mar 18:45</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-cards">
+        <div class="site-c" onclick="window.open('https://ecomnewshq.com','_blank')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="site-c-name">EcomNewsHQ</div><span class="badge badge-green">live</span></div>
+          <div class="site-c-url">ecomnewshq.com</div>
+          <div class="site-c-row"><div class="site-c-stat"><b>1</b> article</div><div class="site-c-stat"><b>14/16</b> pages</div><div class="site-c-stat"><b>Samsung</b> design</div></div>
+        </div>
+        <div class="site-c" onclick="window.open('https://docs.google.com/spreadsheets/d/1ARd6UKaxR2Mg-v1ZQBb4tCa93Zk5bkkOdmPfmCgl64c/edit','_blank')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="site-c-name">YouTube Data</div><span class="badge badge-blue">Sheets</span></div>
+          <div class="site-c-url">Google Sheets · v2.1 · 23 Mar 2026</div>
+          <div class="site-c-row"><div class="site-c-stat"><b>58</b> videos 7d</div><div class="site-c-stat"><b>240</b> videos 30d</div></div>
+        </div>
+        <div class="site-c" onclick="window.open('https://github.com/amzdoc93/ecomnewshq-site/actions','_blank')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="site-c-name">GitHub Actions</div><span class="badge badge-green">passing</span></div>
+          <div class="site-c-url">amzdoc93/ecomnewshq-site · main</div>
+          <div class="site-c-row"><div class="site-c-stat"><b>SFTP</b> auto</div><div class="site-c-stat"><b>~16 sec</b> deploy</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TASKS ── -->
+    <div class="page" id="page-tasks">
+      <div class="page-title">Run Pipeline</div>
+      <div class="page-sub">Выбери скил или напиши задачу — Claude выполнит автоматически</div>
+
+      <div class="task-box">
+        <div class="task-presets">
+          <div class="preset sel" onclick="sp(this,'Запусти полный контент-пайплайн: YouTube данные → SEO анализ топ тем → напиши статью с партнёрскими ссылками → задеплой на сайт')">⚡ Full Content Pipeline</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_youtube_analyzer — собери свежие YouTube данные за последние 7 дней и покажи топ-10 видео по Views/Day')">📺 YouTube Collect</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_seo_specialist — проанализируй последние YouTube данные, проскорь топ-10 тем и дай SEO задание для лучшей темы')">🔍 SEO Analysis</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_copywriter — напиши полную статью (2000+ слов) по последнему SEO заданию с Schema markup, FAQ и CTA боксом')">✍️ Write Article</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_site_manager_v2 — задеплой последние изменения на ecomnewshq.com через git push → GitHub Actions')">🚀 Deploy Site</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_qa_tester — запусти полную QA проверку ecomnewshq.com: HTTP статусы всех страниц, SEO теги, disclosure, Schema, ссылки')">✅ QA Check</div>
+          <div class="preset" onclick="sp(this,'Используй SKILL_affiliate_advisor — порекомендуй топ-5 партнёрских программ для следующей статьи с расчётом LTV и потенциального дохода')">💰 Affiliate Advice</div>
+          <div class="preset" onclick="sp(this,'Найди новые партнёрские программы в нише VPS, прокси и виртуальных номеров которых ещё нет в нашей базе. Оцени условия и добавь лучшие в SKILL_affiliate_advisor')">🔎 Find New Affiliates</div>
+        </div>
+        <div class="task-row">
+          <textarea class="task-ta" id="mainTaskInput" rows="4" placeholder="Опиши задачу для Claude или выбери пресет выше..."></textarea>
+          <div class="task-btns">
+            <button class="btn-primary" onclick="runMain()">Launch ↗</button>
+            <button class="btn-secondary" onclick="document.getElementById('mainTaskInput').value=''">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Pipeline Flow</div>
+        <div class="pipeline">
+          <div class="pipe-step on" onclick="toggleStep(this)">
+            <div class="ps-n">01 · YouTube</div>
+            <div class="ps-name">Analyzer</div>
+            <div class="ps-desc">58 videos · 7d · Apps Script</div>
+            <div class="ps-dot">ready</div>
+          </div>
+          <div class="pipe-step" onclick="toggleStep(this)">
+            <div class="ps-n">02 · SEO</div>
+            <div class="ps-name">Specialist</div>
+            <div class="ps-desc">Scoring до 11 · keyword analysis</div>
+            <div class="ps-dot">ready</div>
+          </div>
+          <div class="pipe-step" onclick="toggleStep(this)">
+            <div class="ps-n">03 · Copy</div>
+            <div class="ps-name">Copywriter</div>
+            <div class="ps-desc">HTML · Schema · CTA · FAQ</div>
+            <div class="ps-dot">ready</div>
+          </div>
+          <div class="pipe-step" onclick="toggleStep(this)">
+            <div class="ps-n">04 · Deploy</div>
+            <div class="ps-name">Publisher</div>
+            <div class="ps-desc">git push → GitHub → ~16 сек</div>
+            <div class="ps-dot">ready</div>
+          </div>
+          <div class="pipe-step" onclick="toggleStep(this)">
+            <div class="ps-n">05 · QA</div>
+            <div class="ps-name">Tester</div>
+            <div class="ps-desc">Links · SEO · Compliance</div>
+            <div class="ps-dot">ready</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SKILLS ── -->
+    <div class="page" id="page-skills">
+      <div class="page-title">Skills</div>
+      <div class="page-sub">7 активных скилов — кликни для запуска</div>
+      <div class="card">
+        <div class="skill-item" onclick="launch('Используй SKILL_youtube_analyzer_v2_1 — собери YouTube данные за последние 7 дней и покажи топ-10 видео по Views/Day и Engagement')">
+          <div class="sk-icon">📺</div>
+          <div class="sk-info"><div class="sk-name">YouTube Analyzer v2.1</div><div class="sk-desc">Apps Script · 18 каналов · 7 поисковых запросов · 58 видео последний запуск</div></div>
+          <span class="sk-status badge-green badge">✓ ready</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_seo_specialist — возьми последние YouTube данные, проскорь топ темы по матрице (max 11 баллов) и выдай SEO задание для топ-1 темы')">
+          <div class="sk-icon">🔍</div>
+          <div class="sk-info"><div class="sk-name">SEO Specialist</div><div class="sk-desc">Scoring matrix · keyword clusters · commercial intent · competition check</div></div>
+          <span class="sk-status badge-green badge">✓ ready</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_copywriter — напиши полную статью (2000-2500 слов) по последнему SEO заданию: HTML с Schema markup, Article + FAQ, affiliate disclosure, CTA box, sidebar')">
+          <div class="sk-icon">✍️</div>
+          <div class="sk-info"><div class="sk-name">Copywriter</div><div class="sk-desc">2000-2500 слов · HTML · Schema · FAQ · CTA · FTC compliance</div></div>
+          <span class="sk-status badge-green badge">✓ ready</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_site_manager_v2 — задеплой последние файлы на ecomnewshq.com через git push → GitHub Actions → SFTP. Покажи результат деплоя.')">
+          <div class="sk-icon">🚀</div>
+          <div class="sk-info"><div class="sk-name">Site Manager v2</div><div class="sk-desc">git push · GitHub Actions · SFTP · ~16 сек · ecomnewshq.com</div></div>
+          <span class="sk-status badge-green badge">✓ ready</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_qa_tester — запусти полную QA проверку сайта ecomnewshq.com: HTTP статусы 16 страниц, SEO теги, Schema, disclosure, affiliate rel=nofollow. Дай отчёт.')">
+          <div class="sk-icon">✅</div>
+          <div class="sk-info"><div class="sk-name">QA Tester</div><div class="sk-desc">HTTP · SEO · Schema · Links · Compliance · 16 страниц</div></div>
+          <span class="sk-status badge-green badge">✓ 14/16</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_affiliate_advisor — порекомендуй топ-3 партнёрские программы для следующей статьи. Посчитай потенциальный доход через 12 месяцев по формуле LTV.')">
+          <div class="sk-icon">💰</div>
+          <div class="sk-info"><div class="sk-name">Affiliate Advisor</div><div class="sk-desc">50+ программ · VPS · Proxy · Virtual Numbers · LTV расчёт</div></div>
+          <span class="sk-status badge-green badge">✓ ready</span>
+          <div class="sk-arrow">›</div>
+        </div>
+        <div class="skill-item" onclick="launch('Используй SKILL_content_factory — запусти полный автоматический пайплайн: YouTube Analyzer → SEO Specialist → Copywriter → Publisher → QA Tester')">
+          <div class="sk-icon">⚡</div>
+          <div class="sk-info"><div class="sk-name">Content Factory</div><div class="sk-desc">Full pipeline orchestrator · ~4600 токенов · YouTube→SEO→Copy→Deploy→QA</div></div>
+          <span class="sk-status badge-orange badge">pipeline</span>
+          <div class="sk-arrow">›</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PIPELINE ── -->
+    <div class="page" id="page-pipeline">
+      <div class="page-title">Content Pipeline</div>
+      <div class="page-sub">Полный путь от YouTube данных до опубликованной статьи</div>
+      <div class="pipeline">
+        <div class="pipe-step on"><div class="ps-n">01</div><div class="ps-name">YouTube Analyzer</div><div class="ps-desc">Собирает топ видео · 18 каналов · 7 запросов</div><div class="ps-dot">ready</div></div>
+        <div class="pipe-step"><div class="ps-n">02</div><div class="ps-name">SEO Specialist</div><div class="ps-desc">Scoring тем · keyword research</div><div class="ps-dot">ready</div></div>
+        <div class="pipe-step"><div class="ps-n">03</div><div class="ps-name">Copywriter</div><div class="ps-desc">2000+ слов · Schema · FAQ · CTA</div><div class="ps-dot">ready</div></div>
+        <div class="pipe-step"><div class="ps-n">04</div><div class="ps-name">Publisher</div><div class="ps-desc">git push → GitHub Actions → SFTP</div><div class="ps-dot">ready</div></div>
+        <div class="pipe-step"><div class="ps-n">05</div><div class="ps-name">QA Tester</div><div class="ps-desc">HTTP · SEO · Links · Compliance</div><div class="ps-dot">ready</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Опубликованные статьи</div>
+          <div class="skill-item" onclick="window.open('https://ecomnewshq.com/articles/helium-10-vs-jungle-scout-2026.html','_blank')">
+            <div class="sk-icon">📄</div>
+            <div class="sk-info"><div class="sk-name">Helium 10 vs Jungle Scout 2026</div><div class="sk-desc">Score 10/11 · H10 25% + JS 30% affiliate · 2000+ слов · 25 Mar</div></div>
+            <span class="sk-status badge-green badge">live</span>
+            <div class="sk-arrow">›</div>
+          </div>
+          <div class="btn-row">
+            <button class="action-btn primary-btn" onclick="launch('Запусти полный контент-пайплайн и напиши следующую статью по топ YouTube теме этой недели')">+ New Article ↗</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Token Budget</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+            <div style="background:var(--off);padding:10px"><div style="font-weight:600;margin-bottom:3px">YouTube Analyzer</div><div style="color:var(--gray)">~500 tokens</div></div>
+            <div style="background:var(--off);padding:10px"><div style="font-weight:600;margin-bottom:3px">SEO Analysis</div><div style="color:var(--gray)">~800 tokens</div></div>
+            <div style="background:var(--off);padding:10px"><div style="font-weight:600;margin-bottom:3px">Copywriting</div><div style="color:var(--gray)">~3000 tokens</div></div>
+            <div style="background:var(--off);padding:10px"><div style="font-weight:600;margin-bottom:3px">Deploy + QA</div><div style="color:var(--gray)">~300 tokens</div></div>
+            <div style="background:rgba(232,80,10,.08);padding:10px;grid-column:span 2;border-left:3px solid var(--orange)"><div style="font-weight:600;color:var(--orange)">Total: ~4,600 tokens</div><div style="color:var(--gray);font-size:11px;margin-top:2px">полный цикл от идеи до публикации</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── QA ── -->
+    <div class="page" id="page-qa">
+      <div class="page-title">QA Report</div>
+      <div class="page-sub">Последняя проверка: 25 Mar 2026 · ecomnewshq.com</div>
+      <div class="qa-grid">
+        <div class="qa-m"><div class="qa-num p">11</div><div class="qa-lbl">PASS</div></div>
+        <div class="qa-m"><div class="qa-num w">1</div><div class="qa-lbl">WARN</div></div>
+        <div class="qa-m"><div class="qa-num f">2</div><div class="qa-lbl">FAIL</div></div>
+        <div class="qa-m"><div class="qa-num" style="color:var(--dark)">14/16</div><div class="qa-lbl">Pages OK</div></div>
+      </div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">Page Status</div>
+        <div class="pages-grid">
+          <div class="pg-item"><div class="pg-url">/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/about.html</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/contact.html</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/amazon-fba/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/shopify/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/tiktok-shop/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/tools/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/news/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/newsletter/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/walmart/</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/articles/h10-vs-js</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/sitemap.html</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/sitemap.xml</div><div class="pg-fail">403 ✗</div></div>
+          <div class="pg-item"><div class="pg-url">/robots.txt</div><div class="pg-fail">403 ✗</div></div>
+          <div class="pg-item"><div class="pg-url">/affiliate-disclosure</div><div class="pg-ok">200 ✓</div></div>
+          <div class="pg-item"><div class="pg-url">/privacy-policy</div><div class="pg-ok">200 ✓</div></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn primary-btn" onclick="launch('Используй SKILL_qa_tester — запусти полную свежую QA проверку сайта ecomnewshq.com прямо сейчас и дай актуальный отчёт')">Run Fresh QA ↗</button>
+      </div>
+    </div>
+
+    <!-- ── SITE ── -->
+    <div class="page" id="page-site">
+      <div class="page-title">Site Status</div>
+      <div class="page-sub">ecomnewshq.com · Namecheap Stellar · GitHub Actions deploy</div>
+      <div class="grid-3" style="margin-bottom:16px">
+        <div class="card"><div class="card-title">Hosting</div><div style="font-size:13px;line-height:1.8;color:var(--gray)">Provider: <b style="color:var(--dark)">Namecheap Stellar</b><br>Server: <b style="color:var(--dark)">server144</b><br>IP: <b style="color:var(--dark)">162.213.255.27</b><br>SSL: <b style="color:var(--dark)">valid to Mar 2027</b></div></div>
+        <div class="card"><div class="card-title">Deploy</div><div style="font-size:13px;line-height:1.8;color:var(--gray)">Repo: <b style="color:var(--dark)">amzdoc93/ecomnewshq-site</b><br>Branch: <b style="color:var(--dark)">main</b><br>Action: <b style="color:var(--dark)">SFTP auto-deploy</b><br>Time: <b style="color:var(--dark)">~16 seconds</b></div></div>
+        <div class="card"><div class="card-title">Design</div><div style="font-size:13px;line-height:1.8;color:var(--gray)">Style: <b style="color:var(--dark)">Samsung.com inspired</b><br>Fonts: <b style="color:var(--dark)">Fraunces + Plus Jakarta</b><br>Accent: <b style="color:var(--orange)">#e8500a</b><br>Dark: <b style="color:var(--dark)">#121110</b></div></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn primary-btn" onclick="window.open('https://ecomnewshq.com','_blank')">Open Site ↗</button>
+        <button class="action-btn" onclick="window.open('https://github.com/amzdoc93/ecomnewshq-site/actions','_blank')">GitHub Actions ↗</button>
+        <button class="action-btn" onclick="window.open('https://server144.web-hosting.com:2083','_blank')">cPanel ↗</button>
+        <button class="action-btn" onclick="launch('Используй SKILL_site_manager_v2 — задеплой последние изменения на сайт прямо сейчас')">Deploy Now ↗</button>
+      </div>
+    </div>
+
+    <!-- ── AFFILIATE ── -->
+    <div class="page" id="page-affiliate">
+      <div class="page-title">Affiliate Programs</div>
+      <div class="page-sub">50+ программ · расставлены по приоритету выплат</div>
+      <div class="card">
+        <table class="aff-table">
+          <thead><tr><th>Service</th><th>Payout</th><th>Type</th><th>Network</th><th>Tier</th></tr></thead>
+          <tbody>
+            <tr><td><b>Decodo</b> (Proxy)</td><td class="pay">50% recurring</td><td>%</td><td>Impact.com</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Copy.ai</b></td><td class="pay">45% recurring</td><td>%</td><td>PartnerStack</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>GetResponse</b></td><td class="pay">33% lifetime</td><td>%</td><td>Direct</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Jungle Scout</b></td><td class="pay">30% recurring</td><td>%</td><td>ShareASale</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Liquid Web</b> (VPS)</td><td class="pay">150% monthly plan</td><td>CPA</td><td>Impact.com</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Bright Data</b> (Proxy)</td><td class="pay">up to $2,500/client</td><td>CPA</td><td>Direct</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Helium 10</b></td><td class="pay">25% recurring</td><td>%</td><td>Impact.com</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Brex</b></td><td class="pay">$200-500/signup</td><td>CPA</td><td>Impact.com</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>ScalaHosting</b> (VPS)</td><td class="pay">$50-200/sale</td><td>CPA tiered</td><td>ShareASale</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Shopify</b></td><td class="pay">$150/sale</td><td>CPA</td><td>Partners</td><td><span class="tier1">TIER 1</span></td></tr>
+            <tr><td><b>Klaviyo</b></td><td class="pay">20% recurring</td><td>%</td><td>Impact.com</td><td><span class="tier2">TIER 2</span></td></tr>
+            <tr><td><b>ShipBob</b></td><td class="pay">$150/signup</td><td>CPA</td><td>Impact.com</td><td><span class="tier2">TIER 2</span></td></tr>
+            <tr><td><b>Mercury Bank</b></td><td class="pay">$100/signup</td><td>CPA</td><td>Impact.com</td><td><span class="tier2">TIER 2</span></td></tr>
+            <tr><td><b>Cloudways</b> (VPS)</td><td class="pay">$55-200 + 7% rec.</td><td>CPA+%</td><td>Impact.com</td><td><span class="tier2">TIER 2</span></td></tr>
+            <tr><td><b>Proxy-Seller</b></td><td class="pay">30%</td><td>%</td><td>Direct</td><td><span class="tier2">TIER 2</span></td></tr>
+            <tr><td><b>HeroSMS</b> (Virtual #)</td><td class="pay">5% + referral</td><td>%</td><td>Direct</td><td><span class="tier2">TIER 2</span></td></tr>
+          </tbody>
+        </table>
+        <div class="btn-row">
+          <button class="action-btn primary-btn" onclick="launch('Используй SKILL_affiliate_advisor — найди 5 новых партнёрских программ которых ещё нет в нашей базе. Критерии: выплата ≥$50 или ≥20% recurring, cookie ≥30 дней, релевантность ecom аудитории.')">Find New Programs ↗</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+const PIN = '2026';
+
+function unlock(){
+  const val = document.getElementById('pinInput').value;
+  if(val === PIN){
+    document.getElementById('lockscreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('now').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  } else {
+    const err = document.getElementById('lockErr');
+    err.style.display='block';
+    document.getElementById('pinInput').value='';
+    setTimeout(()=>err.style.display='none',2000);
+  }
+}
+
+document.getElementById('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
+
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'")){n.classList.add('active');}
+  });
+}
+
+function toggleStep(el){
+  document.querySelectorAll('.pipe-step').forEach(s=>s.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function addFeed(text){
+  const feed = document.getElementById('feed');
+  if(!feed)return;
+  const now = new Date();
+  const t = now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  const div = document.createElement('div');
+  div.className='act-item';
+  div.innerHTML=`<div class="act-dot i"></div><div class="act-text">${text}</div><div class="act-time">now · ${t}</div>`;
+  feed.insertBefore(div,feed.firstChild);
+}
+
+function qp(el,text){
+  document.querySelectorAll('.preset').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('qTaskInput').value=text;
+}
+
+function sp(el,text){
+  document.querySelectorAll('.preset').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('mainTaskInput').value=text;
+}
+
+function launch(text){
+  addFeed('Задача: '+text.substring(0,70)+'...');
+  window.open('https://claude.ai','_blank');
+  setTimeout(()=>alert('Скопируй и отправь в Claude:\n\n'+text),300);
+}
+
+function runQ(){
+  const t=document.getElementById('qTaskInput').value.trim();
+  if(!t)return;
+  addFeed('Запущено: '+t.substring(0,70)+'...');
+  window.open('https://claude.ai','_blank');
+  setTimeout(()=>alert('Скопируй и отправь в Claude:\n\n'+t),300);
+}
+
+function runMain(){
+  const t=document.getElementById('mainTaskInput').value.trim();
+  if(!t)return;
+  addFeed('Запущено: '+t.substring(0,70)+'...');
+  window.open('https://claude.ai','_blank');
+  setTimeout(()=>alert('Скопируй и отправь в Claude:\n\n'+t),300);
+}
+</script>
+</body>
+</html>
