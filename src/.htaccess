@@ -1,21 +1,11 @@
-# EcomNewsHQ — Apache Configuration
+# EcomNewsHQ — Apache 2.4 Configuration
 Options -Indexes
-
-# Default index files
 DirectoryIndex index.html index.htm
 
-# === ALLOW ACCESS TO STATIC FILES ===
-<Files "sitemap.xml">
-    Order allow,deny
-    Allow from all
-    Satisfy any
-</Files>
-
-<Files "robots.txt">
-    Order allow,deny
-    Allow from all
-    Satisfy any
-</Files>
+# === ALLOW XML AND TXT FILES (Apache 2.4 syntax) ===
+<FilesMatch "\.(xml|txt|html|css|js|jpg|png|svg|ico|woff|woff2)$">
+    Require all granted
+</FilesMatch>
 
 # === URL REWRITING ===
 <IfModule mod_rewrite.c>
@@ -26,10 +16,7 @@ DirectoryIndex index.html index.htm
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-    # Serve directory index.html for clean URLs
-    # /amazon-fba/ → /amazon-fba/index.html (handled by DirectoryIndex)
-    
-    # If file doesn't exist, try adding .html
+    # If file doesn't exist but file.html does — serve it
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}.html -f
@@ -38,14 +25,14 @@ DirectoryIndex index.html index.htm
 
 # === ERROR PAGES ===
 ErrorDocument 404 /index.html
-ErrorDocument 403 /index.html
 
-# === PERFORMANCE ===
+# === PERFORMANCE: GZIP ===
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/css
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
     AddOutputFilterByType DEFLATE application/javascript application/json
 </IfModule>
 
+# === PERFORMANCE: CACHE ===
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/html "access plus 1 hour"
@@ -53,17 +40,4 @@ ErrorDocument 403 /index.html
     ExpiresByType application/javascript "access plus 1 week"
     ExpiresByType image/png "access plus 1 month"
     ExpiresByType image/jpeg "access plus 1 month"
-    ExpiresByType image/svg+xml "access plus 1 month"
 </IfModule>
-
-# === SECURITY ===
-<FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
-
-# Allow .htaccess itself to be read by Apache
-<Files ".htaccess">
-    Order allow,deny
-    Allow from all
-</Files>
