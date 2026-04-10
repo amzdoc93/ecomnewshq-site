@@ -10,461 +10,659 @@
 <meta property="og:description" content="Independent ecommerce media for Amazon FBA, Shopify, TikTok Shop and Walmart sellers. No paid placements. Ever.">
 <meta property="og:url" content="https://ecomnewshq.com">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://ecomnewshq.com/og-image.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"EcomNewsHQ","url":"https://ecomnewshq.com","description":"Independent ecommerce media for Amazon FBA, Shopify, TikTok Shop and Walmart sellers.","potentialAction":{"@type":"SearchAction","target":"https://ecomnewshq.com/?s={search_term_string}","query-input":"required name=search_term_string"}}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"EcomNewsHQ","url":"https://ecomnewshq.com"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
 <style>
+@layer base, theme, layout, components, utils;
+
+/* ═══════════════════════════════════════════
+   2026 TECHNIQUES:
+   - scroll-driven animations (animation-timeline)
+   - container queries
+   - oklch color space + color-mix
+   - bento grid layout
+   - 3D tilt cards (perspective)
+   - noise texture overlay
+   - mesh gradient hero
+   - magnetic buttons (JS)
+   - animated counters (JS + CSS)
+   - staggered scroll reveals
+   - reading progress bar
+   ═══════════════════════════════════════════ */
+
+@layer base {
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Plus Jakarta Sans',sans-serif;color:#1a1a1a;background:#fff;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;--scroll:0}
+body{font-family:'Inter',system-ui,sans-serif;font-optical-sizing:auto;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-:root{--orange:#e8500a;--dark:#121110;--white:#fff;--off:#f4f4f0;--gray:#6b6b6b;--border:#e0e0e0;--nav-h:56px;--serif:'Fraunces',serif;--sans:'Plus Jakarta Sans',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:oklch(.75 .15 45 / .3)}
+}
 
-/* DISCLOSURE */
-.disc{background:var(--dark);color:rgba(255,255,255,.6);font-size:11px;text-align:center;padding:7px 16px;letter-spacing:.03em}
-.disc a{color:var(--orange)}
+@layer theme {
+:root{
+  /* oklch palette */
+  --accent:oklch(.62 .22 38);--accent-h:oklch(.55 .22 38);
+  --ink:oklch(.15 .01 60);--ink-2:oklch(.45 .01 60);--ink-3:oklch(.65 .01 60);
+  --bg:oklch(.985 .005 80);--bg-2:oklch(.96 .008 80);--bg-3:oklch(.93 .01 80);
+  --surf:oklch(1 0 0);--surf-h:oklch(.98 .005 80);
+  --border:oklch(.91 .008 80);--border-2:oklch(.85 .01 80);
+  /* category colors in oklch */
+  --c-amazon:oklch(.72 .17 70);--c-shopify:oklch(.55 .18 150);
+  --c-tiktok:oklch(.6 .25 320);--c-walmart:oklch(.5 .18 260);
+  --c-tools:oklch(.5 .08 50);--c-finance:oklch(.58 .14 180);
+  /* layout */
+  --serif:'Instrument Serif',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+  --max:1280px;--nav-h:56px;--r:10px;
+}
+[data-t="dark"]{
+  --ink:oklch(.92 .01 80);--ink-2:oklch(.65 .01 80);--ink-3:oklch(.45 .01 60);
+  --bg:oklch(.1 .01 60);--bg-2:oklch(.13 .01 60);--bg-3:oklch(.17 .01 60);
+  --surf:oklch(.14 .01 60);--surf-h:oklch(.17 .01 60);
+  --border:oklch(.2 .01 60);--border-2:oklch(.25 .01 60);
+}
+}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:900;background:#fff;border-bottom:1px solid var(--border)}
-.nav-w{max-width:1440px;margin:0 auto;padding:0 24px;height:var(--nav-h);display:flex;align-items:center}
-.logo{font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.02em;margin-right:40px}
-.logo em{color:var(--orange);font-style:normal}
-.cats{display:flex;align-items:stretch;flex:1;height:100%}
-.cat{position:relative;height:100%;display:flex;align-items:center}
-.cat>a{padding:0 14px;font-size:13px;font-weight:500;color:#333;height:100%;display:flex;align-items:center;gap:4px;white-space:nowrap;transition:color .15s}
-.cat>a:hover,.cat>a svg{color:var(--orange)}
-.cat>a svg{width:9px;height:9px;opacity:.5;transition:transform .2s;fill:none;stroke:currentColor;stroke-width:1.5}
-.cat:hover>a{color:var(--orange)}
-.cat:hover>a svg{transform:rotate(180deg);opacity:1}
-.cat:hover .dd{display:flex}
-.dd{display:none;position:absolute;top:var(--nav-h);left:50%;transform:translateX(-50%);background:#fff;border-top:2px solid var(--orange);box-shadow:0 16px 48px rgba(0,0,0,.12);padding:28px 32px;gap:32px;min-width:540px;animation:ddf .15s ease}
-@keyframes ddf{from{opacity:0;transform:translateX(-50%) translateY(-4px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.dc h5{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-bottom:12px}
-.dc a{display:block;font-size:13px;color:#333;padding:4px 0;transition:color .15s}
-.dc a:hover{color:var(--orange)}
-.dp{background:var(--off);padding:18px;min-width:200px}
-.dp .tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
-.dp h4{font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.3;margin-bottom:12px}
-.dp .rd{font-size:12px;font-weight:600;color:var(--orange);border:1.5px solid var(--orange);padding:5px 12px;display:inline-block;transition:all .2s}
-.dp .rd:hover{background:var(--orange);color:#fff}
-.nr{display:flex;align-items:center;gap:8px;margin-left:auto}
-.ni{background:none;border:none;cursor:pointer;padding:8px;display:flex;align-items:center;opacity:.7;transition:opacity .2s}
-.ni:hover{opacity:1}
-.nb{background:var(--orange);color:#fff;font-size:12px;font-weight:600;padding:8px 18px;white-space:nowrap;transition:background .2s}
-.nb:hover{background:#c94008}
+@layer layout {
 
-/* HERO */
-.hero{background:var(--dark);min-height:calc(100vh - var(--nav-h) - 28px);display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
-.hc{padding:80px 64px;display:flex;flex-direction:column;justify-content:center}
-.hbrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:28px}
-.hbrow::before{content:'';width:28px;height:2px;background:var(--orange);flex-shrink:0}
-.hh1{font-family:var(--serif);font-size:clamp(42px,5.5vw,72px);font-weight:700;line-height:1.05;letter-spacing:-.03em;color:#fff;margin-bottom:24px}
-.hh1 em{font-style:italic;color:var(--orange)}
-.hsub{font-size:16px;line-height:1.7;color:rgba(255,255,255,.55);max-width:420px;margin-bottom:40px}
-.hctas{display:flex;gap:12px;flex-wrap:wrap}
-.bw{background:#fff;color:var(--dark);font-size:14px;font-weight:600;padding:13px 28px;display:inline-block;transition:background .2s}
-.bw:hover{background:#f0ede8}
-.bg{border:1.5px solid rgba(255,255,255,.3);color:#fff;font-size:14px;font-weight:500;padding:13px 28px;display:inline-block;transition:border-color .2s}
-.bg:hover{border-color:#fff}
-.hstats{display:flex;gap:40px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(255,255,255,.1)}
-.sn{font-family:var(--serif);font-size:30px;font-weight:700;color:#fff}
-.sl{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
-.hpanels{display:grid;grid-template-rows:1fr 1fr;gap:2px}
-.hp{position:relative;background:#1c1b19;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;cursor:pointer;transition:background .2s}
-.hp::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(232,80,10,.07));pointer-events:none}
-.hp:hover{background:#252320}
-.hpi{position:absolute;top:24px;right:24px;font-size:28px;opacity:.8}
-.pc{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
-.ph3{font-family:var(--serif);font-size:21px;font-weight:600;color:#fff;line-height:1.25;margin-bottom:10px}
-.pm{font-size:11px;color:rgba(255,255,255,.35)}
-.pa{position:absolute;bottom:28px;right:28px;width:36px;height:36px;background:rgba(255,255,255,.06);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.hp:hover .pa{background:var(--orange)}
-.pa svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2}
+/* ─── READING PROGRESS BAR (JS-driven fallback) ─── */
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:999;width:0%;transition:width .1s;pointer-events:none}
 
-/* PLATFORM BAR */
-.pb{background:var(--off);border-bottom:1px solid var(--border)}
-.pbi{max-width:1440px;margin:0 auto;padding:0 24px;height:48px;display:flex;align-items:center;gap:4px}
-.pbi span{font-size:11px;color:#999;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-right:12px;white-space:nowrap}
-.pl{padding:6px 16px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:#fff;color:#444;cursor:pointer;transition:all .15s;white-space:nowrap}
-.pl:hover{border-color:var(--orange);color:var(--orange)}
-.pl.active{background:var(--orange);border-color:var(--orange);color:#fff}
+/* grain removed for perf */
 
-/* SECTION HEADER */
-.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px}
-.st{font-family:var(--serif);font-size:32px;font-weight:700;letter-spacing:-.02em}
-.ss{font-size:13px;color:var(--gray);margin-top:4px}
-.sl2{font-size:13px;font-weight:600;color:var(--orange);display:flex;align-items:center;gap:4px;white-space:nowrap}
-.sl2 svg{width:14px;height:14px}
-.sl2:hover{text-decoration:underline}
+/* ─── NAV ─── */
+.nav{position:sticky;top:0;z-index:900;background:color-mix(in oklch,var(--bg) 85%,transparent);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.4) blur(20px);-webkit-backdrop-filter:saturate(1.4) blur(20px)}
+.nav-w{max-width:var(--max);margin:0 auto;padding:0 20px;height:var(--nav-h);display:flex;align-items:center}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:-.03em;flex-shrink:0}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2px;margin-left:28px;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ink-2);padding:6px 12px;border-radius:8px;white-space:nowrap;transition:.2s}
+.nav-links a:hover{color:var(--ink);background:var(--bg-2)}
+.nav-links a.on{color:var(--accent)}
+.nav-r{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0}
+.nb{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--ink-3);transition:.25s}
+.nb:hover{background:var(--bg-2);color:var(--ink)}
+.nb svg{width:17px;height:17px}
+/* magnetic button */
+.mag{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;margin-left:6px;transition:transform .3s cubic-bezier(.2,1,.3,1),background .2s;will-change:transform}
+.mag:hover{background:var(--accent-h)}
+.burger{display:none}
 
-/* FEATURE STRIP */
-.fs{background:var(--off);padding:0 24px}
-.fsi{max-width:1440px;margin:0 auto}
-.fsg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
-.fc{background:#fff;padding:48px 32px;cursor:pointer;border-top:3px solid transparent;transition:border-color .2s}
-.fc:hover{border-top-color:var(--orange)}
-.fci{font-size:32px;margin-bottom:20px}
-.fcl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
-.fct{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.25;margin-bottom:12px}
-.fcd{font-size:13px;color:var(--gray);line-height:1.55}
+/* ─── MESH GRADIENT HERO ─── */
+.hero{max-width:var(--max);margin:0 auto;padding:20px 20px 0}
+.hero-bento{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:auto auto;gap:2px;border-radius:16px;overflow:hidden}
+.hero-main{grid-row:1/3;position:relative;background:var(--surf);padding:48px 44px;display:flex;flex-direction:column;justify-content:flex-end;min-height:480px;cursor:pointer;overflow:hidden;transition:background .3s}
+.hero-main:hover{background:var(--surf-h)}
+/* mesh gradient via layered radial-gradients (no blur filter) */
+.hero-mesh{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 85% 15%,oklch(.7 .2 320 / .1),transparent),
+    radial-gradient(ellipse 50% 50% at 15% 85%,oklch(.65 .2 38 / .1),transparent),
+    radial-gradient(ellipse 40% 40% at 55% 55%,oklch(.6 .15 260 / .06),transparent);
+  animation:mesh-shift 16s ease-in-out infinite alternate}
+[data-t="dark"] .hero-mesh{
+  background:
+    radial-gradient(ellipse 60% 60% at 85% 15%,oklch(.5 .2 320 / .08),transparent),
+    radial-gradient(ellipse 50% 50% at 15% 85%,oklch(.5 .2 38 / .08),transparent),
+    radial-gradient(ellipse 40% 40% at 55% 55%,oklch(.4 .15 260 / .05),transparent)}
+@keyframes mesh-shift{0%{background-position:0 0,0 0,0 0}100%{background-position:5% -3%,-3% 5%,4% -4%}}
+.hero-main>*:not(.hero-mesh){position:relative;z-index:1}
+.hero-main:hover .h-arrow{opacity:1;transform:translateX(0)}
+.hero-main h2{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.08;letter-spacing:-.04em;color:var(--ink);margin-bottom:16px}
+.hero-main h2 em{font-style:italic;color:var(--accent)}
+.h-sub{font-size:15px;color:var(--ink-2);line-height:1.65;max-width:440px;margin-bottom:20px}
+.h-meta{font-size:12px;color:var(--ink-3);margin-bottom:6px}
+.h-arrow{font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:6px;opacity:0;transform:translateX(-8px);transition:.35s cubic-bezier(.2,1,.3,1)}
 
-/* TOOLS */
-.ts{padding:80px 24px;max-width:1440px;margin:0 auto}
-.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--off)}
-.tc{background:#fff;padding:36px 28px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.tc:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.09);z-index:2}
-.tc.feat{background:var(--dark);color:#fff}
-.tb{position:absolute;top:16px;right:16px;background:var(--orange);color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px}
-.ticon{margin-bottom:20px;display:block;line-height:0;}
-.tc h3{font-family:var(--serif);font-size:19px;font-weight:700;margin-bottom:8px;line-height:1.2}
-.tc.feat h3{color:#fff}
-.td{font-size:13px;color:var(--gray);line-height:1.55;margin-bottom:24px}
-.tc.feat .td{color:rgba(255,255,255,.5)}
-.tcta{font-size:12px;font-weight:600;color:var(--orange);display:flex;align-items:center;gap:6px}
-.tcta svg{width:14px;height:14px;transition:transform .2s}
-.tc:hover .tcta svg{transform:translateX(3px)}
+.hero-card{background:var(--surf);padding:24px 28px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:.3s;container-type:inline-size}
+.hero-card:hover{background:var(--surf-h)}
+.hero-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:2px;background:transparent;transition:.3s}
+.hero-card:hover::before{background:var(--accent)}
+.hero-card:hover h3{color:var(--accent)}
+.hero-card h3{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.28;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;transition:.2s}
+/* container query: smaller text when card is narrow */
+@container (max-width: 400px){.hero-card h3{font-size:16px}}
+.hero-card .meta{font-size:11px;color:var(--ink-3)}
 
-/* NEWS */
-.ns{padding:80px 24px;background:#fff}
-.nsi{max-width:1440px;margin:0 auto}
-.ng{display:grid;grid-template-columns:1.8fr 1fr;gap:2px}
-.nb2{background:var(--off);overflow:hidden;cursor:pointer;transition:opacity .2s}
-.nb2:hover{opacity:.92}
-.nbimg{height:280px;background:linear-gradient(135deg,var(--dark) 0%,#252320 50%,#1a0f08 100%);display:flex;align-items:center;justify-content:center;font-size:72px}
-.nbb{padding:28px 32px}
-.ncat{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
-.nb2 h2{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.2;letter-spacing:-.015em;margin-bottom:12px}
-.nb2 p{font-size:14px;color:var(--gray);line-height:1.6;margin-bottom:20px}
-.nm{font-size:12px;color:#999;display:flex;gap:10px}
-.nl2{display:flex;flex-direction:column;gap:2px}
-.ni2{background:var(--off);padding:20px 22px;cursor:pointer;display:flex;gap:14px;align-items:flex-start;transition:background .15s}
-.ni2:hover{background:var(--dark)}
-.ni2:hover .nit,.ni2:hover .nim{color:rgba(255,255,255,.8)}
-.ni2:hover .ncat{color:var(--orange)}
-.nin{font-family:var(--serif);font-size:24px;font-weight:700;color:#d8d5d0;line-height:1;min-width:32px;flex-shrink:0;transition:color .15s}
-.ni2:hover .nin{color:rgba(255,255,255,.15)}
-.nit{font-size:13px;font-weight:600;line-height:1.35;color:var(--dark);margin-bottom:6px;transition:color .15s}
-.nim{font-size:11px;color:#999;transition:color .15s}
+/* ─── CATEGORY ─── */
+.cat{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+.cat::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cat.amazon{color:var(--c-amazon)}.cat.amazon::before{background:var(--c-amazon)}
+.cat.shopify{color:var(--c-shopify)}.cat.shopify::before{background:var(--c-shopify)}
+.cat.tiktok{color:var(--c-tiktok)}.cat.tiktok::before{background:var(--c-tiktok)}
+.cat.walmart{color:var(--c-walmart)}.cat.walmart::before{background:var(--c-walmart)}
+.cat.tools{color:var(--c-tools)}.cat.tools::before{background:var(--c-tools)}
+.cat.finance{color:var(--c-finance)}.cat.finance::before{background:var(--c-finance)}
 
-/* COMPARE */
-.cs{padding:80px 24px;background:var(--off)}
-.csi{max-width:1440px;margin:0 auto}
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
-.cc{background:#fff;padding:36px 32px;position:relative}
-.cc.best{background:var(--dark);color:#fff}
-.cbadge{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(-50%);background:var(--orange);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;white-space:nowrap}
-.cico{margin-bottom:16px;display:block;line-height:0;}
-.cc h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:4px}
-.cc.best h3{color:#fff}
-.ctag{font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.5}
-.cc.best .ctag{color:rgba(255,255,255,.45)}
-.cprice{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--dark);margin-bottom:2px}
-.cc.best .cprice{color:var(--orange)}
-.cper{font-size:11px;color:#999;margin-bottom:24px}
-.cc.best .cper{color:rgba(255,255,255,.35)}
-.cfl{list-style:none;margin-bottom:28px}
-.cfl li{font-size:13px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;color:var(--dark)}
-.cc.best .cfl li{color:rgba(255,255,255,.75);border-bottom-color:rgba(255,255,255,.08)}
-.cfl li::before{content:'✓';color:var(--orange);font-weight:700;font-size:12px;flex-shrink:0}
-.bo{display:block;background:var(--orange);color:#fff;font-size:13px;font-weight:600;padding:12px;text-align:center;transition:background .2s}
-.bo:hover{background:#c94008}
-.bow{display:block;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-size:13px;font-weight:600;padding:12px;text-align:center;transition:all .2s}
-.bow:hover{border-color:#fff;background:rgba(255,255,255,.05)}
+/* ─── SECTION ─── */
+.sec{max-width:var(--max);margin:0 auto;padding:56px 20px 0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px}
+.sec-t{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:-.04em;color:var(--ink)}
+.sec-l{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:4px;transition:gap .25s}
+.sec-l:hover{gap:8px}
+.sec-l svg{width:14px;height:14px}
+.sec-line{height:1px;background:var(--border);margin-bottom:24px}
 
-/* PLATFORM STATS */
-.pls{background:var(--dark);padding:80px 24px}
-.plsi{max-width:1440px;margin:0 auto}
-.pls .st{color:#fff}
-.pls .ss{color:rgba(255,255,255,.4)}
-.ptabs{display:flex;gap:2px;margin:28px 0 2px}
-.pt{flex:1;background:#1c1b19;color:rgba(255,255,255,.5);border:none;padding:14px 20px;font-size:13px;font-weight:600;font-family:var(--sans);cursor:pointer;transition:all .15s;text-align:center}
-.pt:hover{background:#252320;color:#fff}
-.pt.active{background:var(--orange);color:#fff}
-.pc2{display:none;grid-template-columns:repeat(3,1fr);gap:2px}
-.pc2.active{display:grid}
-.pst{background:#1c1b19;padding:36px}
-.psn{font-family:var(--serif);font-size:44px;font-weight:700;color:#fff;line-height:1;margin-bottom:6px}
-.psn span{color:var(--orange)}
-.psl{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:14px}
-.psd{font-size:12px;color:rgba(255,255,255,.3);line-height:1.55}
+/* ─── PILLS (container-query aware) ─── */
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;container-type:inline-size}
+.pill{padding:7px 16px;font-size:12px;font-weight:500;color:var(--ink-2);background:var(--surf);border:1px solid var(--border);border-radius:100px;transition:.25s}
+.pill:hover{border-color:var(--accent);color:var(--accent)}
+.pill.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+@container (max-width: 500px){.pill{padding:5px 10px;font-size:11px}}
 
-/* NEWSLETTER */
-.nls{background:var(--orange);padding:64px 24px;text-align:center}
-.nls h2{font-family:var(--serif);font-size:38px;font-weight:700;color:#fff;letter-spacing:-.02em;margin-bottom:8px}
-.nls p{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:32px}
-.nlf{display:flex;max-width:460px;margin:0 auto}
-.nlf input{flex:1;padding:14px 18px;font-size:14px;font-family:var(--sans);border:none;background:#fff;color:var(--dark);outline:none}
-.nlf input::placeholder{color:#aaa}
-.nlf button{background:var(--dark);color:#fff;border:none;padding:14px 22px;font-size:13px;font-weight:700;font-family:var(--sans);cursor:pointer;white-space:nowrap;transition:background .2s}
-.nlf button:hover{background:#252320}
-.nln{font-size:11px;color:rgba(255,255,255,.5);margin-top:12px}
+/* ─── FEED LAYOUT ─── */
+.feed-wrap{display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start}
+.feed-wrap .side{position:sticky;top:calc(var(--nav-h) + 20px)}
 
-/* FOOTER */
-footer{background:var(--dark);padding:64px 24px 32px;color:rgba(255,255,255,.45)}
-.fi{max-width:1440px;margin:0 auto}
-.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:32px}
-.fb .flo{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:14px}
-.fb .flo em{color:var(--orange);font-style:normal}
-.fb p{font-size:13px;line-height:1.65;max-width:260px}
-.fcol h5{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:16px}
-.fcol a{display:block;font-size:13px;color:rgba(255,255,255,.4);padding:4px 0;transition:color .15s}
-.fcol a:hover{color:#fff}
-.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.fbot p{font-size:12px}
-.fleg{display:flex;gap:20px}
-.fleg a{font-size:12px;color:rgba(255,255,255,.3);transition:color .15s}
-.fleg a:hover{color:#fff}
+.feed .f-date{font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;padding:18px 0 10px;border-bottom:1px solid var(--border)}
+.feed .f-date:first-child{padding-top:0}
 
-/* RESPONSIVE */
-@media(max-width:1024px){.hero{grid-template-columns:1fr;min-height:auto}.hpanels{display:none}.hc{padding:60px 32px}.tg{grid-template-columns:repeat(2,1fr)}.cg{grid-template-columns:1fr}.fsg{grid-template-columns:repeat(2,1fr)}.ft{grid-template-columns:1fr 1fr;gap:32px}}
-@media(max-width:768px){.cats{display:none}.ng{grid-template-columns:1fr}.pc2{grid-template-columns:1fr}.fsg{grid-template-columns:1fr}.tg{grid-template-columns:1fr}.ptabs{overflow-x:auto}}
+/* ─── 3D TILT CARDS ─── */
+.f-card{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .2s;perspective:800px}
+.f-card:hover h3{color:var(--accent)}
+.f-card:hover .f-vis{transform:rotateY(-4deg) rotateX(2deg) scale(1.02)}
+.f-card h3{font-family:var(--serif);font-size:22px;font-weight:400;line-height:1.22;letter-spacing:-.025em;color:var(--ink);transition:.25s}
+.f-card .exc{font-size:13px;color:var(--ink-2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:6px 0 8px}
+.f-card .meta{font-size:11px;color:var(--ink-3)}
+
+/* 3D visual block with mesh gradient */
+.f-vis{width:200px;height:140px;border-radius:var(--r);flex-shrink:0;position:relative;overflow:hidden;transition:transform .5s cubic-bezier(.2,1,.3,1);transform-style:preserve-3d;will-change:transform}
+.f-vis .mesh{position:absolute;inset:0}
+.f-vis .mesh{position:absolute;inset:0}
+.f-vis.amazon .mesh{background:radial-gradient(ellipse at 80% 20%,oklch(.82 .14 70),oklch(.94 .04 70))}
+[data-t="dark"] .f-vis.amazon .mesh{background:radial-gradient(ellipse at 80% 20%,oklch(.3 .1 70),oklch(.16 .03 70))}
+.f-vis.shopify .mesh{background:radial-gradient(ellipse at 20% 30%,oklch(.75 .16 150),oklch(.94 .04 150))}
+[data-t="dark"] .f-vis.shopify .mesh{background:radial-gradient(ellipse at 20% 30%,oklch(.28 .1 150),oklch(.15 .03 150))}
+.f-vis.tiktok .mesh{background:radial-gradient(ellipse at 70% 30%,oklch(.7 .2 320),oklch(.94 .05 320))}
+[data-t="dark"] .f-vis.tiktok .mesh{background:radial-gradient(ellipse at 70% 30%,oklch(.3 .15 320),oklch(.15 .04 320))}
+.f-vis.walmart .mesh{background:radial-gradient(ellipse at 30% 70%,oklch(.65 .15 260),oklch(.94 .04 260))}
+[data-t="dark"] .f-vis.walmart .mesh{background:radial-gradient(ellipse at 30% 70%,oklch(.28 .1 260),oklch(.15 .03 260))}
+.f-vis.finance .mesh{background:radial-gradient(ellipse at 60% 40%,oklch(.7 .13 180),oklch(.94 .04 180))}
+[data-t="dark"] .f-vis.finance .mesh{background:radial-gradient(ellipse at 60% 40%,oklch(.3 .1 180),oklch(.15 .03 180))}
+.f-vis.tools .mesh{background:radial-gradient(ellipse at 50% 50%,oklch(.75 .07 50),oklch(.94 .03 50))}
+[data-t="dark"] .f-vis.tools .mesh{background:radial-gradient(ellipse at 50% 50%,oklch(.28 .05 50),oklch(.15 .02 50))}
+/* geometric deco inside visual */
+.f-vis .geo{position:absolute;inset:0;z-index:1}
+.f-vis .geo line,.f-vis .geo circle,.f-vis .geo rect{stroke:oklch(.3 0 0 / .08);fill:none;stroke-width:1}
+[data-t="dark"] .f-vis .geo line,[data-t="dark"] .f-vis .geo circle,[data-t="dark"] .f-vis .geo rect{stroke:oklch(.9 0 0 / .1)}
+
+/* ─── SIDEBAR ─── */
+.side-block{margin-bottom:24px}
+.side-h{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.s-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);transition:.2s}
+.s-item:last-child{border:none}
+.s-item:hover .s-rank{color:var(--accent)}
+.s-item:hover .s-t{color:var(--accent)}
+.s-rank{font-family:var(--serif);font-size:20px;color:var(--border-2);min-width:24px;line-height:1;transition:.2s}
+.s-t{font-size:13px;font-weight:500;color:var(--ink);line-height:1.35;transition:.2s}
+.s-m{font-size:11px;color:var(--ink-3);margin-top:3px}
+
+.side-nl{background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:24px;overflow:hidden;position:relative}
+.side-nl::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,color-mix(in oklch,var(--accent) 6%,transparent),transparent 70%);pointer-events:none}
+.side-nl>*{position:relative}
+.side-nl h4{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px}
+.side-nl p{font-size:13px;color:var(--ink-2);margin-bottom:14px;line-height:1.55}
+.side-nl input{width:100%;padding:10px 12px;font-size:13px;font-family:var(--sans);border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:8px;margin-bottom:8px;outline:none;transition:.2s}
+.side-nl input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--accent) 12%,transparent)}
+.side-nl button{width:100%;padding:10px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;border-radius:8px;transition:.2s}
+.side-nl button:hover{background:var(--accent-h)}
+.side-nl .note{font-size:11px;color:var(--ink-3);margin-top:8px;text-align:center}
+
+.side-tags{display:flex;flex-wrap:wrap;gap:5px}
+.side-tag{padding:5px 11px;background:var(--bg-2);border-radius:6px;font-size:11px;font-weight:500;color:var(--ink-2);transition:.2s}
+.side-tag:hover{color:var(--accent);background:color-mix(in oklch,var(--accent) 8%,var(--bg-2))}
+
+/* ─── BENTO PLATFORMS ─── */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:2px;border-radius:14px;overflow:hidden;margin-top:24px}
+.bento-card{background:var(--surf);padding:32px 28px;cursor:pointer;transition:.35s;position:relative;overflow:hidden;container-type:inline-size}
+.bento-card:hover{background:var(--surf-h)}
+.bento-card:hover .b-arrow{opacity:1;transform:translate(0,0)}
+/* scroll-driven entrance: cards animate as they scroll into view */
+.bento-card{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+@keyframes bento-in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.b-color{width:100%;height:4px;border-radius:2px;margin-bottom:18px}
+.bento-card.amazon .b-color{background:var(--c-amazon)}
+.bento-card.shopify .b-color{background:var(--c-shopify)}
+.bento-card.tiktok .b-color{background:var(--c-tiktok)}
+.bento-card.walmart .b-color{background:var(--c-walmart)}
+.bento-card h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px}
+@container (max-width: 280px){.bento-card h3{font-size:18px}}
+.b-desc{font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:18px}
+/* animated counter */
+.b-num{font-family:var(--serif);font-size:36px;font-weight:400;letter-spacing:-.04em;color:var(--ink)}
+.b-label{font-size:11px;color:var(--ink-3);margin-top:2px}
+.b-arrow{position:absolute;top:20px;right:20px;color:var(--ink-3);opacity:0;transform:translate(-4px,4px);transition:.3s}
+.b-arrow svg{width:16px;height:16px}
+
+/* ─── TOOLS ─── */
+.tools-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:14px;overflow:hidden;margin-top:24px}
+.t-card{background:var(--surf);padding:28px 24px;cursor:pointer;transition:.35s;position:relative;container-type:inline-size;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.t-card:hover{background:var(--surf-h)}
+.t-card:hover .t-name{color:var(--accent)}
+.t-card.dark{background:var(--ink);color:var(--bg)}
+.t-card.dark:hover{background:oklch(.18 .01 60)}
+.t-pip{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:color-mix(in oklch,var(--accent) 10%,transparent);padding:3px 8px;border-radius:5px}
+.t-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-weight:800;font-size:13px;color:#fff}
+.t-name{font-family:var(--serif);font-size:20px;font-weight:400;margin-bottom:6px;transition:.2s}
+.t-card.dark .t-name{color:#fff}
+.t-d{font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:16px}
+.t-card.dark .t-d{color:oklch(.65 .01 60)}
+.t-link{font-size:12px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:4px}
+.t-link svg{width:14px;height:14px;transition:transform .25s}
+.t-card:hover .t-link svg{transform:translateX(4px)}
+
+/* ─── NEWSLETTER BANNER ─── */
+.nl-sec{max-width:var(--max);margin:56px auto 0;padding:0 20px}
+.nl-box{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:56px 52px;display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden}
+.nl-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at bottom left,color-mix(in oklch,var(--accent) 5%,transparent),transparent 60%);pointer-events:none}
+.nl-box>*{position:relative}
+.nl-box h2{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:-.04em;margin-bottom:8px}
+.nl-box p{font-size:14px;color:var(--ink-2);line-height:1.6}
+.nl-f{display:flex;gap:8px}
+.nl-f input{padding:13px 18px;font-size:14px;font-family:var(--sans);border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:10px;width:260px;outline:none;transition:.2s}
+.nl-f input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--accent) 12%,transparent)}
+.nl-f button{padding:13px 26px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;border-radius:10px;white-space:nowrap;transition:.25s}
+.nl-f button:hover{background:var(--accent-h)}
+
+/* ─── FOOTER ─── */
+footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px;color:var(--ink-3)}
+.f-inner{max-width:var(--max);margin:0 auto}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.f-brand{font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:10px}.f-brand span{color:var(--accent)}
+.f-about{font-size:13px;line-height:1.65;max-width:230px}
+.f-col h5{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:12px}
+.f-col a{display:block;font-size:13px;color:var(--ink-3);padding:3px 0;transition:.15s}
+.f-col a:hover{color:var(--ink);padding-left:3px}
+.f-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:20px;border-top:1px solid var(--border);font-size:12px}
+.f-leg{display:flex;gap:16px}
+.f-leg a{color:var(--ink-3);transition:.15s}
+.f-leg a:hover{color:var(--ink)}
+
+/* ─── SEARCH ─── */
+.so{display:none;position:fixed;inset:0;z-index:1100;background:oklch(.1 0 0 / .45);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;padding-top:18vh}
+.so.open{display:flex}
+.s-box{background:var(--surf);border:1px solid var(--border);border-radius:16px;width:90%;max-width:520px;overflow:hidden;box-shadow:0 32px 80px oklch(.1 0 0 / .2)}
+.s-box input{width:100%;padding:18px 22px;font-size:17px;font-family:var(--sans);border:none;background:transparent;color:var(--ink);outline:none}
+.s-box .hint{padding:0 22px 14px;font-size:11px;color:var(--ink-3)}
+.s-box kbd{background:var(--bg-2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:10px}
+
+/* ─── MOBILE ─── */
+.mob{display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);flex-direction:column;overflow-y:auto}
+.mob.open{display:flex}
+.mob-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border)}
+.mob a{font-size:17px;font-weight:500;color:var(--ink);padding:14px 20px;border-bottom:1px solid var(--border);display:block}
+
+/* ─── SCROLL-TOP ─── */
+.top-btn{position:fixed;bottom:20px;right:20px;width:40px;height:40px;background:var(--surf);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:800;opacity:0;transform:translateY(8px);transition:.3s;pointer-events:none}
+.top-btn.show{opacity:1;transform:none;pointer-events:all}
+.top-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.top-btn svg{width:16px;height:16px;stroke:currentColor}
+
+/* ─── STAGGERED REVEAL (IO-based) ─── */
+.sr{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.sr.vis{opacity:1;transform:none}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .hero-bento{grid-template-columns:1fr;grid-template-rows:auto}
+  .hero-main{grid-row:auto;min-height:340px;padding:36px 28px}
+  .hero-stack{display:grid;grid-template-columns:repeat(3,1fr)}
+  .feed-wrap{grid-template-columns:1fr}
+  .feed-wrap .side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .bento,.tools-g{grid-template-columns:repeat(2,1fr)}
+  .nl-box{flex-direction:column;text-align:center;padding:40px 28px}
+  .f-grid{grid-template-columns:1fr 1fr;gap:24px}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .hero-stack{grid-template-columns:1fr}
+  .f-card{grid-template-columns:1fr}
+  .f-vis{width:100%;height:120px}
+  .bento,.tools-g{grid-template-columns:1fr}
+  .feed-wrap .side{grid-template-columns:1fr}
+  .f-grid{grid-template-columns:1fr}
+  .nl-f{flex-direction:column;width:100%}
+  .nl-f input{width:100%}
+}
+}
 </style>
 </head>
 <body>
 
-<div class="disc">This site contains affiliate links. We may earn a commission at no extra cost to you. <a href="/affiliate-disclosure.html">Learn more</a></div>
+<!-- READING PROGRESS -->
+<div class="progress"></div>
 
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-w">
-    <a class="logo" href="/">EcomNews<em>HQ</em></a>
-    <div class="cats">
-      <div class="cat">
-        <a href="/amazon-fba/">Amazon FBA <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5"/></svg></a>
-        <div class="dd">
-          <div class="dc"><h5>Get Started</h5><a href="#">FBA Beginner's Guide 2026</a><a href="#">Product Research</a><a href="#">Private Label vs Wholesale</a><a href="#">FBA Fee Calculator</a><a href="#">Inventory Management</a></div>
-          <div class="dc"><h5>Tools</h5><a href="#">Helium 10 Review</a><a href="#">Jungle Scout Review</a><a href="#">H10 vs Jungle Scout</a><a href="#">ZonGuru Review</a><a href="#">Best FBA Tools 2026</a></div>
-          <div class="dp"><div class="tag">🔥 Trending</div><h4>Amazon Fee Changes 2026 — Full Breakdown</h4><a href="#" class="rd">Read analysis →</a></div>
-        </div>
-      </div>
-      <div class="cat">
-        <a href="/shopify/">Shopify <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5"/></svg></a>
-        <div class="dd">
-          <div class="dc"><h5>Getting Started</h5><a href="#">Start a Shopify Store</a><a href="#">Best Shopify Themes 2026</a><a href="#">Shopify vs WooCommerce</a><a href="#">Shopify Pricing Guide</a></div>
-          <div class="dc"><h5>Apps & Tools</h5><a href="#">Best Shopify Apps</a><a href="#">Klaviyo for Shopify</a><a href="#">ShipBob Review</a><a href="#">Email Marketing Tools</a></div>
-          <div class="dp"><div class="tag">Latest Guide</div><h4>Best Shopify Apps for 7-Figure Stores in 2026</h4><a href="#" class="rd">Read guide →</a></div>
-        </div>
-      </div>
-      <div class="cat">
-        <a href="/tiktok-shop/">TikTok Shop <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5"/></svg></a>
-        <div class="dd">
-          <div class="dc"><h5>Seller Guides</h5><a href="#">TikTok Shop Setup 2026</a><a href="#">TikTok Shop vs Amazon</a><a href="#">Creator Affiliate Strategy</a><a href="#">Best Products to Sell</a></div>
-          <div class="dc"><h5>Strategy</h5><a href="#">TikTok Shop Fees Explained</a><a href="#">Creator Outreach Templates</a><a href="#">GMV Growth Tactics</a></div>
-          <div class="dp"><div class="tag">🚀 Trending</div><h4>$100K/Month on TikTok Shop — How Sellers Do It</h4><a href="#" class="rd">Read it →</a></div>
-        </div>
-      </div>
-      <div class="cat">
-        <a href="/tools/">Tools <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5"/></svg></a>
-        <div class="dd">
-          <div class="dc"><h5>By Category</h5><a href="#">Product Research</a><a href="#">Email Marketing</a><a href="#">Inventory & Logistics</a><a href="#">Analytics & Reporting</a><a href="#">Finance & Banking</a></div>
-          <div class="dc"><h5>Comparisons</h5><a href="#">Klaviyo vs Omnisend</a><a href="#">Helium 10 vs Jungle Scout</a><a href="#">Mercury vs Brex vs Relay</a><a href="#">ShipBob vs ShipMonk</a></div>
-          <div class="dp"><div class="tag">Best Value</div><h4>Top 10 Ecommerce Tools Under $50/month</h4><a href="#" class="rd">See the list →</a></div>
-        </div>
-      </div>
-      <div class="cat"><a href="/news/">News</a></div>
-      <div class="cat"><a href="/walmart/">Walmart</a></div>
+    <a class="logo" href="/">EcomNews<span>HQ</span></a>
+    <div class="nav-links">
+      <a href="/news/" class="on">News</a>
+      <a href="/amazon-fba/">Amazon FBA</a>
+      <a href="/shopify/">Shopify</a>
+      <a href="/tiktok-shop/">TikTok Shop</a>
+      <a href="/walmart/">Walmart</a>
+      <a href="/tools/">Tools</a>
     </div>
-    <div class="nr">
-      <button class="ni" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
-      <a class="nb" href="/newsletter/">Get Weekly Briefing</a>
+    <div class="nav-r">
+      <button class="nb" onclick="toggleSearch()" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+      <button class="nb" onclick="toggleTheme()" aria-label="Theme"><svg class="ic-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+      <button class="nb burger" onclick="toggleMob()" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+      <a class="mag" href="/newsletter/" id="magBtn">Subscribe</a>
     </div>
   </div>
 </nav>
 
-<!-- SPONSORED BANNER -->
-<div style="background:#f4f4f0;border-bottom:1px solid #e0e0e0;padding:10px 0;text-align:center;">
-  <a href="https://app.proxy-cheap.com/r/J94MSL" target="_blank" rel="noopener sponsored"
-     style="display:inline-flex;max-width:970px;width:100%;height:90px;text-decoration:none;overflow:hidden;border-radius:4px;border:1px solid #dde0e8;">
-    <!-- Left white side: logo -->
-    <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:0 28px;min-width:220px;gap:10px;flex-shrink:0;">
-      <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" fill="#1a56db"/>
-        <path d="M20 8C14 8 9 13 9 19c0 4 2.5 7.5 6 9.5L20 32l5-3.5c3.5-2 6-5.5 6-9.5 0-6-5-11-11-11zm0 16a5 5 0 110-10 5 5 0 010 10z" fill="#fff"/>
-      </svg>
-      <span style="font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:#1a1a2e;letter-spacing:-0.5px;">proxy-cheap</span>
-    </div>
-    <!-- Right dark blue side -->
-    <div style="background:linear-gradient(135deg,#0f2257 0%,#1a3a8f 100%);flex:1;display:flex;align-items:center;justify-content:center;gap:24px;padding:0 32px;">
-      <div style="color:#fff;font-family:Arial,sans-serif;font-size:15px;line-height:1.4;">
-        <span style="color:#b0c4ff;">Datacenter, Residential</span><br>
-        <span style="color:#fff;">and <strong>Mobile</strong> proxies start from</span>
-      </div>
-      <div style="color:#00e676;font-family:Arial,sans-serif;font-size:28px;font-weight:900;white-space:nowrap;">$1.99</div>
-      <div style="background:#1a56db;color:#fff;font-family:Arial,sans-serif;font-size:13px;font-weight:700;padding:10px 22px;border-radius:4px;white-space:nowrap;letter-spacing:0.5px;">BUY NOW</div>
-    </div>
-  </a>
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <div class="mob-hd"><a class="logo" href="/">EcomNews<span>HQ</span></a><button class="nb" onclick="toggleMob()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <a href="/news/">News</a><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a><a href="/tools/">Tools</a>
 </div>
 
-<!-- HERO -->
+<!-- SEARCH -->
+<div class="so" id="so" onclick="if(event.target===this)toggleSearch()">
+  <div class="s-box"><input type="text" placeholder="Search articles, tools, platforms..." id="sIn"><div class="hint"><kbd>ESC</kbd> close &middot; <kbd>Ctrl K</kbd> open</div></div>
+</div>
+
+<!-- HERO BENTO -->
 <section class="hero">
-  <div class="hc">
-    <div class="hbrow">Independent Ecommerce Intelligence</div>
-    <h1 class="hh1">Where serious<br>sellers come<br>to <em>stay ahead.</em></h1>
-    <p class="hsub">No hype. No paid placements. Data-driven analysis on Amazon FBA, Shopify, TikTok Shop and Walmart — from people who actually sell.</p>
-    <div class="hctas">
-      <a class="bw" href="/newsletter/">Get Weekly Briefing</a>
-      <a class="bg" href="/tools/">Browse Tools →</a>
-    </div>
-    <div class="hstats">
-      <div><div class="sn">47K+</div><div class="sl">Weekly readers</div></div>
-      <div><div class="sn">200+</div><div class="sl">Tools reviewed</div></div>
-      <div><div class="sn">$0</div><div class="sl">Paid placements</div></div>
-    </div>
-  </div>
-  <div class="hpanels">
-    <a class="hp" href="#">
-      <div class="hpi">📦</div>
-      <div class="pc">Amazon FBA</div>
-      <h3 class="ph3">Q2 2026 Amazon Fee Changes: The Full Breakdown</h3>
-      <div class="pm">12 min read · Mar 22, 2026</div>
-      <div class="pa"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+  <div class="hero-bento">
+    <a class="hero-main" href="/articles/tiktok-shop-vs-amazon-2026.html">
+      <div class="hero-mesh"></div>
+      <div class="cat tiktok">TikTok Shop</div>
+      <h2>TikTok Shop vs Amazon in 2026: The Platform War That Will <em>Define&nbsp;Ecommerce</em></h2>
+      <div class="h-sub">$50B in Q1 GMV. Commission rates half of Amazon's. Every seller needs to rethink their channel strategy now.</div>
+      <div class="h-meta">Apr 9, 2026 &middot; 12 min read</div>
+      <div class="h-arrow">Read analysis <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </a>
-    <a class="hp" href="#">
-      <div class="hpi">🎵</div>
-      <div class="pc">TikTok Shop</div>
-      <h3 class="ph3">TikTok Shop Opens Wholesale Program to U.S. Sellers</h3>
-      <div class="pm">8 min read · Mar 24, 2026</div>
-      <div class="pa"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-    </a>
+    <div class="hero-stack">
+      <a class="hero-card" href="/articles/helium-10-vs-jungle-scout-2026.html">
+        <div class="cat tools">Tools</div>
+        <h3>Helium 10 vs Jungle Scout 2026: We Tested Both for 90 Days Across 3&nbsp;Stores</h3>
+        <div class="meta">Apr 8 &middot; 14 min</div>
+      </a>
+      <a class="hero-card" href="/articles/best-shopify-apps-2026.html">
+        <div class="cat shopify">Shopify</div>
+        <h3>12 Shopify Apps That Actually Drive Revenue in 2026</h3>
+        <div class="meta">Apr 7 &middot; 10 min</div>
+      </a>
+      <a class="hero-card" href="/articles/mercury-bank-review-ecommerce-2026.html">
+        <div class="cat finance">Finance</div>
+        <h3>Mercury Bank for Ecommerce: Is It Still the Best in 2026?</h3>
+        <div class="meta">Apr 6 &middot; 8 min</div>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- PLATFORM BAR -->
-<div class="pb"><div class="pbi">
-  <span>Covering:</span>
-  <a class="pl active" href="#">📦 Amazon FBA</a>
-  <a class="pl" href="#">🟢 Shopify</a>
-  <a class="pl" href="#">🎵 TikTok Shop</a>
-  <a class="pl" href="#">🔵 Walmart</a>
-  <a class="pl" href="#">🔄 Dropshipping</a>
-  <a class="pl" href="#">🔧 Tools</a>
-</div></div>
+<!-- LATEST NEWS + SIDEBAR -->
+<div class="sec">
+  <div class="sec-h">
+    <h2 class="sec-t">Latest</h2>
+    <a class="sec-l" href="/news/">All articles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="sec-line"></div>
 
-<!-- FEATURE STRIP -->
-<div class="fs"><div class="fsi"><div class="fsg">
-  <div class="fc"><div class="fci">📊</div><div class="fcl">Platform Intel</div><div class="fct">Amazon vs TikTok Shop: Where to Sell in 2026</div><div class="fcd">Side-by-side fee structures, margin analysis, and growth trajectories.</div></div>
-  <div class="fc"><div class="fci">🔬</div><div class="fcl">Tool Review</div><div class="fct">Helium 10 Platinum: 90-Day Honest Review</div><div class="fcd">We tested every feature across 3 active FBA stores. Here's what actually works.</div></div>
-  <div class="fc"><div class="fci">💰</div><div class="fcl">Finance</div><div class="fct">Best Business Bank Accounts for Ecom Sellers</div><div class="fcd">Mercury vs Brex vs Relay — we compared 8 months of real usage.</div></div>
-  <div class="fc"><div class="fci">🚀</div><div class="fcl">Strategy</div><div class="fct">How to Launch a Shopify Store in 30 Days</div><div class="fcd">The exact playbook used by 6-figure DTC brands — step by step.</div></div>
-</div></div></div>
+  <div class="pills">
+    <button class="pill on" onclick="fil('all',this)">All</button>
+    <button class="pill" onclick="fil('amazon',this)">Amazon FBA</button>
+    <button class="pill" onclick="fil('shopify',this)">Shopify</button>
+    <button class="pill" onclick="fil('tiktok',this)">TikTok Shop</button>
+    <button class="pill" onclick="fil('walmart',this)">Walmart</button>
+    <button class="pill" onclick="fil('tools',this)">Tools</button>
+    <button class="pill" onclick="fil('finance',this)">Finance</button>
+  </div>
+
+  <div class="feed-wrap">
+    <div class="feed" id="feed">
+      <div class="f-date">Today</div>
+
+      <a class="f-card" href="#" data-cat="amazon">
+        <div>
+          <div class="cat amazon">Amazon FBA</div>
+          <h3>Amazon Raises Referral Fees on 12 High-Volume Categories</h3>
+          <div class="exc">Fee changes take effect June 1 — apparel, electronics, and home hit hardest. Here's how to protect your margins.</div>
+          <div class="meta">Apr 10 &middot; 6 min read</div>
+        </div>
+        <div class="f-vis amazon"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><line x1="20" y1="20" x2="180" y2="120"/><circle cx="150" cy="40" r="30"/><rect x="15" y="90" width="60" height="30" rx="4"/></svg></div>
+      </a>
+
+      <a class="f-card" href="#" data-cat="shopify">
+        <div>
+          <div class="cat shopify">Shopify</div>
+          <h3>Shopify's AI Checkout Personalization: Early Data Shows 18% CVR Lift</h3>
+          <div class="exc">ML-powered checkout personalizes payments, upsells, shipping in real-time. First merchant data is in.</div>
+          <div class="meta">Apr 10 &middot; 5 min read</div>
+        </div>
+        <div class="f-vis shopify"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><rect x="30" y="25" width="50" height="90" rx="6"/><circle cx="140" cy="70" r="35"/><line x1="90" y1="120" x2="190" y2="30"/></svg></div>
+      </a>
+
+      <div class="f-date">Yesterday</div>
+
+      <a class="f-card" href="#" data-cat="tiktok">
+        <div>
+          <div class="cat tiktok">TikTok Shop</div>
+          <h3>TikTok Shop GMV Hits $50B in Q1 — The Platform Sellers Can't Ignore</h3>
+          <div class="exc">Growing faster than any marketplace ever. Category-leadership windows closing in 24 months.</div>
+          <div class="meta">Apr 9 &middot; 4 min read</div>
+        </div>
+        <div class="f-vis tiktok"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><circle cx="100" cy="70" r="45"/><line x1="10" y1="10" x2="70" y2="70"/><rect x="130" y="10" width="50" height="50" rx="8"/></svg></div>
+      </a>
+
+      <a class="f-card" href="#" data-cat="walmart">
+        <div>
+          <div class="cat walmart">Walmart</div>
+          <h3>Walmart Marketplace Hits 150K Sellers — Opportunity Still Wide Open</h3>
+          <div class="exc">1.5% the sellers of Amazon, 22% ecommerce growth. The clearest alternative right now.</div>
+          <div class="meta">Apr 9 &middot; 7 min read</div>
+        </div>
+        <div class="f-vis walmart"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><rect x="20" y="30" width="70" height="60" rx="10"/><circle cx="155" cy="50" r="30"/><line x1="100" y1="110" x2="180" y2="40"/></svg></div>
+      </a>
+
+      <div class="f-date">This Week</div>
+
+      <a class="f-card" href="#" data-cat="finance">
+        <div>
+          <div class="cat finance">Finance</div>
+          <h3>Stripe vs Mercury vs Brex: The Stack 200 Seven-Figure Brands Use</h3>
+          <div class="exc">We surveyed 200 seven-figure ecommerce businesses. Results challenge conventional wisdom.</div>
+          <div class="meta">Apr 8 &middot; 10 min read</div>
+        </div>
+        <div class="f-vis finance"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><rect x="20" y="70" width="25" height="50" rx="3"/><rect x="55" y="50" width="25" height="70" rx="3"/><rect x="90" y="30" width="25" height="90" rx="3"/><rect x="125" y="55" width="25" height="65" rx="3"/><rect x="160" y="40" width="25" height="80" rx="3"/></svg></div>
+      </a>
+
+      <a class="f-card" href="#" data-cat="tools">
+        <div>
+          <div class="cat tools">Tools</div>
+          <h3>Best Product Research Tools 2026: Complete Comparison</h3>
+          <div class="exc">Tested every major tool across 3 active stores. What delivers ROI vs hype.</div>
+          <div class="meta">Apr 7 &middot; 15 min read</div>
+        </div>
+        <div class="f-vis tools"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><circle cx="60" cy="70" r="40"/><rect x="120" y="20" width="60" height="80" rx="10"/><line x1="20" y1="130" x2="180" y2="20"/></svg></div>
+      </a>
+    </div>
+
+    <aside class="side">
+      <div class="side-block">
+        <div class="side-h">Trending</div>
+        <a class="s-item" href="#"><div class="s-rank">01</div><div><div class="s-t">TikTok Shop opens wholesale program to US sellers</div><div class="s-m">TikTok Shop &middot; 4 min</div></div></a>
+        <a class="s-item" href="#"><div class="s-rank">02</div><div><div class="s-t">Amazon referral fee hike hits 12 categories</div><div class="s-m">Amazon FBA &middot; 6 min</div></div></a>
+        <a class="s-item" href="#"><div class="s-rank">03</div><div><div class="s-t">Helium 10 launches AI keyword tracker</div><div class="s-m">Tools &middot; 5 min</div></div></a>
+        <a class="s-item" href="#"><div class="s-rank">04</div><div><div class="s-t">Shopify vs WooCommerce 2026: final verdict</div><div class="s-m">Shopify &middot; 8 min</div></div></a>
+        <a class="s-item" href="#"><div class="s-rank">05</div><div><div class="s-t">Mercury adds multi-currency support</div><div class="s-m">Finance &middot; 3 min</div></div></a>
+      </div>
+
+      <div class="side-block">
+        <div class="side-nl">
+          <h4>Weekly Briefing</h4>
+          <p>Platform updates, tools, strategies. Every Tuesday. 47K+ readers.</p>
+          <form onsubmit="return false"><input type="email" placeholder="Your email"><button type="submit">Subscribe Free</button></form>
+          <div class="note">No spam. Unsubscribe anytime.</div>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <div class="side-h">Topics</div>
+        <div class="side-tags">
+          <a class="side-tag" href="#">Product Research</a><a class="side-tag" href="#">PPC Strategy</a><a class="side-tag" href="#">Email Marketing</a><a class="side-tag" href="#">Fulfillment</a><a class="side-tag" href="#">Listing Optimization</a><a class="side-tag" href="#">AI Tools</a><a class="side-tag" href="#">Analytics</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- PLATFORMS BENTO -->
+<div class="sec sr">
+  <div class="sec-h"><h2 class="sec-t">Platform Intelligence</h2><a class="sec-l" href="/news/">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+  <div class="bento">
+    <a class="bento-card amazon" href="/amazon-fba/">
+      <div class="b-color"></div><h3>Amazon FBA</h3>
+      <div class="b-desc">40% of US online retail. 9.7M active sellers globally.</div>
+      <div class="b-num" data-count="600">$0B</div><div class="b-label">US GMV (2025)</div>
+      <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+    </a>
+    <a class="bento-card shopify" href="/shopify/">
+      <div class="b-color"></div><h3>Shopify</h3>
+      <div class="b-desc">4.8M stores. 24% YoY growth. The DTC default.</div>
+      <div class="b-num" data-count="235">$0B</div><div class="b-label">GMV (2025)</div>
+      <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+    </a>
+    <a class="bento-card tiktok" href="/tiktok-shop/">
+      <div class="b-color"></div><h3>TikTok Shop</h3>
+      <div class="b-desc">Fastest-growing marketplace. 8% vs 15% Amazon.</div>
+      <div class="b-num" data-count="50">$0B</div><div class="b-label">Q1 2026 GMV</div>
+      <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+    </a>
+    <a class="bento-card walmart" href="/walmart/">
+      <div class="b-color"></div><h3>Walmart</h3>
+      <div class="b-desc">150K sellers. 22% growth. Less competition.</div>
+      <div class="b-num" data-count="82">$0B</div><div class="b-label">Revenue (2025)</div>
+      <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+    </a>
+  </div>
+</div>
 
 <!-- TOOLS -->
-<section class="ts">
-  <div class="sh">
-    <div><h2 class="st">Top-Rated Tools for 2026</h2><p class="ss">Reviewed by sellers, ranked by actual ROI</p></div>
-    <a class="sl2" href="/tools/">See all 200+ tools <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+<div class="sec sr">
+  <div class="sec-h"><h2 class="sec-t">Top-Rated Tools</h2><a class="sec-l" href="/tools/">All 200+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+  <div class="tools-g">
+    <div class="t-card dark"><span class="t-pip">Editor's Pick</span><div class="t-logo" style="background:#FF7A00">H10</div><div class="t-name">Helium 10</div><div class="t-d">Complete Amazon suite — research, keywords, PPC, listings.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="t-card"><div class="t-logo" style="background:#3B8B4A">JS</div><div class="t-name">Jungle Scout</div><div class="t-d">Product research, Supplier Database, Sales Analytics.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="t-card"><div class="t-logo" style="background:#1C0B23;color:#9BDD79">K</div><div class="t-name">Klaviyo</div><div class="t-d">Email & SMS for 7-figure Shopify brands.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="t-card"><div class="t-logo" style="background:#2B6CEB">SB</div><div class="t-name">ShipBob</div><div class="t-d">2-day shipping. 40+ fulfillment centers globally.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
   </div>
-  <div class="tg">
-    <div class="tc feat"><span class="tb">Editor's Pick</span><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#FF7A00"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="white" text-anchor="middle">H10</text></svg></span><h3>Helium 10</h3><p class="td">The most complete Amazon seller suite — product research, keyword tracking, listing optimization, and PPC in one place.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="tb">Top Rated</span><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#3B8B4A"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="white" text-anchor="middle">JS</text></svg></span><h3>Jungle Scout</h3><p class="td">Best-in-class product research with Supplier Database and Sales Analytics built for FBA sellers.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#1C0B23"/><text x="24" y="32" font-family="Arial Black,Arial" font-size="20" font-weight="900" fill="#9BDD79" text-anchor="middle">K</text></svg></span><h3>Klaviyo</h3><p class="td">The email & SMS platform used by the majority of 7-figure Shopify brands. Deep segmentation, predictive analytics.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#2B6CEB"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="11" font-weight="900" fill="white" text-anchor="middle">SB</text></svg></span><h3>ShipBob</h3><p class="td">2-day shipping for independent brands. 40+ fulfillment centers across US, Canada, UK, EU and Australia.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#0F0A1E"/><text x="24" y="32" font-family="Arial Black,Arial" font-size="18" font-weight="900" fill="#4ECDC4" text-anchor="middle">M</text></svg></span><h3>Mercury Bank</h3><p class="td">No-fee banking built for ecommerce startups. API access, team cards, clean integrations with Shopify and Amazon.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#F4370E"/><text x="24" y="32" font-family="Arial Black,Arial" font-size="16" font-weight="900" fill="white" text-anchor="middle">Brex</text></svg></span><h3>Brex</h3><p class="td">Corporate cards with 8x points on ecommerce spend. $500 welcome bonus for EcomNewsHQ readers. No personal guarantee.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#7D2AE8"/><text x="24" y="33" font-family="Arial Black,Arial" font-size="20" font-weight="900" fill="white" text-anchor="middle">C</text></svg></span><h3>Canva Pro</h3><p class="td">Product images, ad creatives, TikTok thumbnails — Canva's AI tools cut creative production time by 60%.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="tc"><span class="ticon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="10" fill="#1B4E9B"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="12" font-weight="900" fill="white" text-anchor="middle">ZG</text></svg></span><h3>ZonGuru</h3><p class="td">Affordable Helium 10 alternative with strong listing optimization and niche finder. Best for budget FBA sellers.</p><div class="tcta">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-  </div>
-</section>
-
-<!-- NEWS -->
-<section class="ns"><div class="nsi">
-  <div class="sh">
-    <div><h2 class="st">Latest News & Analysis</h2><p class="ss">Updated daily — no fluff, just what matters</p></div>
-    <a class="sl2" href="/news/">All articles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-  </div>
-  <div class="ng">
-    <a class="nb2" href="#"><div class="nbimg">💰</div>
-      <div class="nbb"><div class="ncat">Finance & Payments</div><h2>Stripe vs Mercury vs Brex: The Financial Stack 200 Seven-Figure Ecom Brands Use in 2026</h2><p>We surveyed 200 seven-figure ecommerce businesses about their banking and payments infrastructure. The results challenge conventional wisdom.</p><div class="nm"><span>Mar 15, 2026</span><span>·</span><span>10 min read</span></div></div>
-    </a>
-    <div class="nl2">
-      <a class="ni2" href="#"><div class="nin">01</div><div><div class="ncat">Amazon FBA</div><div class="nit">Amazon Raises Referral Fees on 12 High-Volume Categories — What Sellers Must Do Now</div><div class="nim">Mar 24, 2026 · 6 min</div></div></a>
-      <a class="ni2" href="#"><div class="nin">02</div><div><div class="ncat">Shopify</div><div class="nit">Shopify's New AI Checkout Personalization: Early Data Shows 18% Lift in CVR</div><div class="nim">Mar 23, 2026 · 5 min</div></div></a>
-      <a class="ni2" href="#"><div class="nin">03</div><div><div class="ncat">TikTok Shop</div><div class="nit">TikTok Shop GMV Hits $50B in Q1 2026 — The Platform Sellers Can't Ignore</div><div class="nim">Mar 22, 2026 · 4 min</div></div></a>
-      <a class="ni2" href="#"><div class="nin">04</div><div><div class="ncat">Walmart</div><div class="nit">Walmart Marketplace Hits 150K Sellers — Opportunity Is Still Wide Open</div><div class="nim">Mar 21, 2026 · 7 min</div></div></a>
-      <a class="ni2" href="#"><div class="nin">05</div><div><div class="ncat">Tools</div><div class="nit">Helium 10 vs Jungle Scout 2026: We Tested Both for 90 Days</div><div class="nim">Mar 20, 2026 · 12 min</div></div></a>
-    </div>
-  </div>
-</div></section>
-
-<!-- COMPARE -->
-<section class="cs"><div class="csi">
-  <div class="sh"><div><h2 class="st">Pick Your Amazon Research Tool</h2><p class="ss">Based on 90-day testing across 3 active stores</p></div></div>
-  <div class="cg">
-    <div class="cc"><span class="cico"><svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="10" fill="#3B8B4A"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="white" text-anchor="middle">JS</text></svg></span><h3>Jungle Scout</h3><p class="ctag">Best for beginners. Cleanest UI, fastest onboarding, strong supplier database.</p><div class="cprice">$49<span style="font-size:15px;font-weight:400">/mo</span></div><div class="cper">Basic plan · billed monthly</div><ul class="cfl"><li>Product & keyword research</li><li>Sales estimator</li><li>Supplier database</li><li>Review automation</li></ul><a href="#" class="bo">Try Jungle Scout →</a></div>
-    <div class="cc best"><div class="cbadge">⭐ Best Overall</div><span class="cico"><svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="10" fill="#FF7A00"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="white" text-anchor="middle">H10</text></svg></span><h3>Helium 10</h3><p class="ctag">Most powerful suite. Worth it if you're serious about scaling FBA.</p><div class="cprice">$79<span style="font-size:15px;font-weight:400;color:rgba(255,255,255,.4)">/mo</span></div><div class="cper">Platinum plan · billed monthly</div><ul class="cfl"><li>Full product research suite</li><li>Listing optimization (Scribbles)</li><li>PPC automation</li><li>Profits dashboard</li><li>Keyword tracker</li></ul><a href="#" class="bow">Try Helium 10 — 25% off →</a></div>
-    <div class="cc"><span class="cico"><svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="10" fill="#1B4E9B"/><text x="24" y="31" font-family="Arial Black,Arial" font-size="12" font-weight="900" fill="white" text-anchor="middle">ZG</text></svg></span><h3>ZonGuru</h3><p class="ctag">Best budget option. Solid core tools at half the price of H10.</p><div class="cprice">$29<span style="font-size:15px;font-weight:400">/mo</span></div><div class="cper">Researcher plan · billed monthly</div><ul class="cfl"><li>Niche finder tool</li><li>Keywords on Fire</li><li>Listing optimizer</li><li>Email automator</li></ul><a href="#" class="bo">Try ZonGuru →</a></div>
-  </div>
-</div></section>
-
-<!-- PLATFORM STATS -->
-<section class="pls"><div class="plsi">
-  <div class="sh" style="margin-bottom:0"><div><h2 class="st">Platform Intelligence</h2><p class="ss">Key stats for each marketplace, updated monthly</p></div></div>
-  <div class="ptabs">
-    <button class="pt active" onclick="sT('amazon',this)">📦 Amazon</button>
-    <button class="pt" onclick="sT('shopify',this)">🟢 Shopify</button>
-    <button class="pt" onclick="sT('tiktok',this)">🎵 TikTok Shop</button>
-    <button class="pt" onclick="sT('walmart',this)">🔵 Walmart</button>
-  </div>
-  <div class="pc2 active" id="t-amazon">
-    <div class="pst"><div class="psn">$<span>600</span>B</div><div class="psl">US Gross Merchandise Volume (2025)</div><div class="psd">Amazon represents ~40% of all US online retail. The dominant force by far.</div></div>
-    <div class="pst"><div class="psn"><span>9.7</span>M</div><div class="psl">Active Marketplace Sellers Globally</div><div class="psd">60% of Amazon sales now come from third-party sellers — the opportunity is massive.</div></div>
-    <div class="pst"><div class="psn"><span>15</span>%</div><div class="psl">Average Net Margin for FBA Sellers</div><div class="psd">After FBA fees, referral fees, and advertising, median profitable seller earns 15-20% net.</div></div>
-  </div>
-  <div class="pc2" id="t-shopify">
-    <div class="pst"><div class="psn">$<span>235</span>B</div><div class="psl">Shopify GMV (2025)</div><div class="psd">Processed $235B in gross merchandise volume in 2025, up 24% year-over-year.</div></div>
-    <div class="pst"><div class="psn"><span>4.8</span>M</div><div class="psl">Active Shopify Stores</div><div class="psd">Over 4.8 million merchants globally, from solo operators to enterprise brands.</div></div>
-    <div class="pst"><div class="psn"><span>2.5</span>%</div><div class="psl">Average Conversion Rate</div><div class="psd">Top-performing stores convert at 3-5%. Small CRO gains generate massive revenue.</div></div>
-  </div>
-  <div class="pc2" id="t-tiktok">
-    <div class="pst"><div class="psn">$<span>50</span>B</div><div class="psl">TikTok Shop GMV (Q1 2026)</div><div class="psd">Growing faster than any marketplace in history. Q1 2026 alone hit $50B globally.</div></div>
-    <div class="pst"><div class="psn"><span>500</span>K+</div><div class="psl">Active US TikTok Shop Sellers</div><div class="psd">Still early. Category-leadership opportunities that won't exist in 24 months.</div></div>
-    <div class="pst"><div class="psn"><span>8</span>%</div><div class="psl">Commission Rate (vs 15% Amazon)</div><div class="psd">Lower take rate means significantly better margins for sellers moving units at volume.</div></div>
-  </div>
-  <div class="pc2" id="t-walmart">
-    <div class="pst"><div class="psn"><span>150</span>K</div><div class="psl">Walmart Marketplace Sellers</div><div class="psd">Just 1.5% the sellers of Amazon — far less competition for top product positions.</div></div>
-    <div class="pst"><div class="psn">$<span>82</span>B</div><div class="psl">Walmart eCommerce Revenue (2025)</div><div class="psd">Grew 22% in FY2025. The clearest Amazon alternative available right now.</div></div>
-    <div class="pst"><div class="psn"><span>12</span>%</div><div class="psl">Average Referral Fee</div><div class="psd">Lower fee structure plus free 2-day shipping via WFS makes unit economics more favorable.</div></div>
-  </div>
-</div></section>
+</div>
 
 <!-- NEWSLETTER -->
-<section class="nls">
-  <h2>Get the Weekly Ecom Briefing</h2>
-  <p>Platform updates, tool reviews, and seller strategies — every Tuesday. 47,000+ readers.</p>
-  <form class="nlf" onsubmit="return false"><input type="email" placeholder="Your email address"><button type="submit">Subscribe Free →</button></form>
-  <p class="nln">No spam. Unsubscribe any time. <a href="/affiliate-disclosure.html" style="color:rgba(255,255,255,.7)">Affiliate disclosure</a>.</p>
-</section>
+<div class="nl-sec sr">
+  <div class="nl-box">
+    <div><h2>Get the Weekly Briefing</h2><p>Platform updates, tool reviews, seller strategies. Every Tuesday. 47,000+ readers.</p></div>
+    <form class="nl-f" onsubmit="return false"><input type="email" placeholder="Your email address"><button type="submit">Subscribe Free</button></form>
+  </div>
+</div>
 
 <!-- FOOTER -->
-<footer><div class="fi">
-  <div class="ft">
-    <div class="fb"><div class="flo">EcomNews<em>HQ</em></div><p>Independent ecommerce media covering Amazon FBA, Shopify, TikTok Shop and Walmart Marketplace. No paid placements. Ever.</p></div>
-    <div class="fcol"><h5>Platforms</h5><a href="#">Amazon FBA</a><a href="#">Shopify</a><a href="#">TikTok Shop</a><a href="#">Walmart</a><a href="#">Dropshipping</a></div>
-    <div class="fcol"><h5>Tools</h5><a href="#">Helium 10</a><a href="#">Jungle Scout</a><a href="#">Klaviyo</a><a href="#">ShipBob</a><a href="#">All Tools →</a></div>
-    <div class="fcol"><h5>Learn</h5><a href="#">FBA Beginner Guide</a><a href="#">Shopify Guide</a><a href="#">Product Research</a><a href="#">Email Marketing</a><a href="#">News</a></div>
-    <div class="fcol"><h5>Company</h5><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/affiliate-disclosure.html">Affiliate Disclosure</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></div>
+<footer>
+<div class="f-inner">
+  <div class="f-grid">
+    <div><div class="f-brand">EcomNews<span>HQ</span></div><p class="f-about">Independent ecommerce media. No paid placements. Ever.</p></div>
+    <div class="f-col"><h5>Platforms</h5><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a></div>
+    <div class="f-col"><h5>Tools</h5><a href="/tools/">Helium 10</a><a href="/tools/">Jungle Scout</a><a href="/tools/">Klaviyo</a><a href="/tools/">All Tools</a></div>
+    <div class="f-col"><h5>Learn</h5><a href="/articles/how-to-start-amazon-fba-2026.html">FBA Guide</a><a href="/articles/best-shopify-apps-2026.html">Shopify Apps</a><a href="/news/">News</a></div>
+    <div class="f-col"><h5>Company</h5><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/affiliate-disclosure.html">Affiliates</a><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a></div>
   </div>
-  <div class="fbot">
-    <p>© 2026 EcomNewsHQ. All rights reserved. <a href="/affiliate-disclosure.html" style="color:rgba(255,255,255,.3)">Amazon Associates Disclosure</a></p>
-    <div class="fleg"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/affiliate-disclosure.html">Affiliates</a><a href="/sitemap.html">Sitemap</a></div>
-  </div>
-</div></footer>
+  <div class="f-bot"><span>&copy; 2026 EcomNewsHQ</span><div class="f-leg"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/affiliate-disclosure.html">Affiliates</a></div></div>
+</div>
+</footer>
+
+<button class="top-btn" id="topBtn" onclick="window.scrollTo({top:0})"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <script>
-function sT(n,b){
-  document.querySelectorAll('.pt').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.pc2').forEach(c=>c.classList.remove('active'));
-  b.classList.add('active');
-  document.getElementById('t-'+n).classList.add('active');
+/* ═══ THEME ═══ */
+function toggleTheme(){
+  const d=document.documentElement,dark=d.getAttribute('data-t')==='dark';
+  d.setAttribute('data-t',dark?'light':'dark');
+  document.querySelector('.ic-s').style.display=dark?'':'none';
+  document.querySelector('.ic-m').style.display=dark?'none':'';
+  localStorage.setItem('t',dark?'light':'dark');
 }
-document.querySelectorAll('.pl').forEach(p=>{
-  p.addEventListener('click',function(e){e.preventDefault();document.querySelectorAll('.pl').forEach(x=>x.classList.remove('active'));this.classList.add('active')});
+(()=>{const s=localStorage.getItem('t');
+  if(s==='dark'||(!s&&matchMedia('(prefers-color-scheme:dark)').matches)){
+    document.documentElement.setAttribute('data-t','dark');
+    document.querySelector('.ic-s').style.display='none';
+    document.querySelector('.ic-m').style.display='';
+  }
+})();
+
+/* ═══ SEARCH ═══ */
+function toggleSearch(){const o=document.getElementById('so');o.classList.toggle('open');if(o.classList.contains('open'))setTimeout(()=>document.getElementById('sIn').focus(),50)}
+function toggleMob(){document.getElementById('mob').classList.toggle('open')}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){document.getElementById('so').classList.remove('open');document.getElementById('mob').classList.remove('open')}
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();toggleSearch()}
 });
+
+/* ═══ FILTER ═══ */
+function fil(c,btn){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#feed .f-card').forEach(el=>{el.style.display=(c==='all'||el.dataset.cat===c)?'':'none'});
+  document.querySelectorAll('#feed .f-date').forEach(d=>{
+    if(c==='all'){d.style.display='';return}
+    let n=d.nextElementSibling,v=false;
+    while(n&&!n.classList.contains('f-date')){if(n.classList.contains('f-card')&&n.style.display!=='none')v=true;n=n.nextElementSibling}
+    d.style.display=v?'':'none';
+  });
+}
+
+/* ═══ ANIMATED COUNTERS ═══ */
+const counters=document.querySelectorAll('.b-num[data-count]');
+const cIO=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,target=+el.dataset.count;
+  let current=0;const step=Math.ceil(target/40);
+  const timer=setInterval(()=>{current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent='$'+current+'B'},25);
+  cIO.unobserve(el);
+})},{threshold:.5});
+counters.forEach(c=>cIO.observe(c));
+
+/* ═══ MAGNETIC BUTTON ═══ */
+const mag=document.getElementById('magBtn');
+if(mag&&window.innerWidth>768){
+  mag.addEventListener('mousemove',e=>{
+    const r=mag.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)*.2;
+    const y=(e.clientY-r.top-r.height/2)*.2;
+    mag.style.transform=`translate(${x}px,${y}px)`;
+  });
+  mag.addEventListener('mouseleave',()=>{mag.style.transform=''});
+}
+
+/* ═══ 3D TILT on feed cards ═══ */
+document.querySelectorAll('.f-vis').forEach(el=>{
+  el.parentElement.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`rotateY(${x*8}deg) rotateX(${-y*8}deg) scale(1.02)`;
+  });
+  el.parentElement.addEventListener('mouseleave',()=>{el.style.transform=''});
+});
+
+/* ═══ SCROLL TOP + PROGRESS ═══ */
+addEventListener('scroll',()=>{
+  document.getElementById('topBtn').classList.toggle('show',scrollY>500);
+  const h=document.documentElement.scrollHeight-innerHeight;
+  document.querySelector('.progress').style.width=(scrollY/h*100)+'%';
+},{passive:true});
+
+/* ═══ REVEAL OBSERVER ═══ */
+const rIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');e.target.style.opacity='1';e.target.style.transform='none';rIO.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.sr,.bento-card,.t-card').forEach(el=>rIO.observe(el));
 </script>
 </body>
 </html>
