@@ -1,27 +1,216 @@
-<!DOCTYPE html>
+<\!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon FBA — News, Guides & Case Studies | EcomNewsHQ</title>
+<meta name="description" content="Expert Amazon FBA coverage: suspension recovery case studies, verification guides, Buy Box strategies, and seller tools. Independent reporting for serious sellers.">
+<link rel="canonical" href="https://ecomnewshq.com/amazon-fba/">
+<meta property="og:title" content="Amazon FBA — EcomNewsHQ">
+<meta property="og:description" content="Expert Amazon FBA coverage: suspension recovery, verification guides, Buy Box strategies, and seller tools.">
+<meta property="og:url" content="https://ecomnewshq.com/amazon-fba/">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f4f0;display:flex;align-items:center;justify-content:center;min-height:100vh;color:#1a1a1a}
-.wrap{text-align:center;padding:48px 24px}
-.logo{font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin-bottom:32px}
-.logo em{color:#e8500a;font-style:normal}
-h1{font-family:'Fraunces',serif;font-size:36px;margin-bottom:12px}
-p{font-size:16px;color:#666;margin-bottom:28px}
-a.btn{display:inline-block;background:#e8500a;color:#fff;padding:13px 28px;font-weight:700;font-size:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;font-optical-sizing:auto;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:oklch(.75 .15 45 / .3)}
+:root{
+  --accent:oklch(.62 .22 38);--accent-h:oklch(.55 .22 38);
+  --ink:oklch(.15 .01 60);--ink-2:oklch(.45 .01 60);--ink-3:oklch(.65 .01 60);
+  --bg:oklch(.985 .005 80);--bg-2:oklch(.96 .008 80);--bg-3:oklch(.93 .01 80);
+  --surf:oklch(1 0 0);--surf-h:oklch(.98 .005 80);
+  --border:oklch(.91 .008 80);--border-2:oklch(.85 .01 80);
+  --c-amazon:oklch(.72 .17 70);
+  --serif:'Instrument Serif',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+  --max:1280px;--nav-h:56px;--r:10px;
+}
+[data-t="dark"]{
+  --ink:oklch(.92 .01 80);--ink-2:oklch(.65 .01 80);--ink-3:oklch(.45 .01 60);
+  --bg:oklch(.1 .01 60);--bg-2:oklch(.13 .01 60);--bg-3:oklch(.17 .01 60);
+  --surf:oklch(.14 .01 60);--surf-h:oklch(.17 .01 60);
+  --border:oklch(.2 .01 60);--border-2:oklch(.25 .01 60);
+}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:900;background:color-mix(in oklch,var(--bg) 85%,transparent);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.4) blur(20px);-webkit-backdrop-filter:saturate(1.4) blur(20px)}
+.nav-w{max-width:var(--max);margin:0 auto;padding:0 20px;height:var(--nav-h);display:flex;align-items:center}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:-.03em;flex-shrink:0}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2px;margin-left:28px;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ink-2);padding:6px 12px;border-radius:8px;white-space:nowrap;transition:.2s}
+.nav-links a:hover{color:var(--ink);background:var(--bg-2)}
+.nav-links a.on{color:var(--accent)}
+.nav-r{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0}
+.nb{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--ink-3);transition:.25s}
+.nb:hover{background:var(--bg-2);color:var(--ink)}
+.nb svg{width:17px;height:17px}
+.mag{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;margin-left:6px;transition:background .2s}
+.mag:hover{background:var(--accent-h)}
+.burger{display:none}
+
+/* HEADER */
+.cat-header{max-width:var(--max);margin:0 auto;padding:48px 20px 0}
+.breadcrumb{font-size:12px;color:var(--ink-3);margin-bottom:16px}
+.breadcrumb a{color:var(--ink-2);transition:.15s}
+.breadcrumb a:hover{color:var(--accent)}
+.cat-header h1{font-family:var(--serif);font-size:clamp(36px,5vw,52px);font-weight:400;letter-spacing:-.04em;margin-bottom:12px}
+.cat-header h1 em{font-style:italic;color:var(--accent)}
+.cat-desc{font-size:16px;color:var(--ink-2);line-height:1.65;max-width:620px;margin-bottom:8px}
+.cat-stats{display:flex;gap:24px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.cat-stat{font-size:12px;color:var(--ink-3)}
+.cat-stat strong{font-size:20px;font-family:var(--serif);color:var(--ink);display:block;margin-bottom:2px}
+
+/* ARTICLES GRID */
+.articles-sec{max-width:var(--max);margin:0 auto;padding:48px 20px}
+.articles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.art-card{background:var(--surf);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.3s;cursor:pointer}
+.art-card:hover{border-color:var(--border-2);box-shadow:0 8px 32px oklch(.1 0 0 / .08)}
+.art-card:hover h3{color:var(--accent)}
+.art-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.art-body{padding:24px}
+.art-cat{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-amazon);margin-bottom:10px}
+.art-cat::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--c-amazon)}
+.art-body h3{font-family:var(--serif);font-size:22px;font-weight:400;line-height:1.22;letter-spacing:-.025em;color:var(--ink);margin-bottom:8px;transition:.25s}
+.art-exc{font-size:13px;color:var(--ink-2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px}
+.art-meta{font-size:11px;color:var(--ink-3)}
+
+/* FOOTER */
+footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px;color:var(--ink-3)}
+.f-inner{max-width:var(--max);margin:0 auto}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.f-brand{font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:10px}.f-brand span{color:var(--accent)}
+.f-about{font-size:13px;line-height:1.65;max-width:230px}
+.f-col h5{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:12px}
+.f-col a{display:block;font-size:13px;color:var(--ink-3);padding:3px 0;transition:.15s}
+.f-col a:hover{color:var(--ink);padding-left:3px}
+.f-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:20px;border-top:1px solid var(--border);font-size:12px}
+.f-leg{display:flex;gap:16px}
+.f-leg a{color:var(--ink-3);transition:.15s}
+.f-leg a:hover{color:var(--ink)}
+
+/* MOBILE */
+.mob{display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);flex-direction:column;overflow-y:auto}
+.mob.open{display:flex}
+.mob-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border)}
+.mob a{font-size:17px;font-weight:500;color:var(--ink);padding:14px 20px;border-bottom:1px solid var(--border);display:block}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .articles-grid{grid-template-columns:1fr}
+  .f-grid{grid-template-columns:1fr}
+  .cat-stats{flex-wrap:wrap;gap:16px}
+}
+@media(max-width:1024px){
+  .f-grid{grid-template-columns:1fr 1fr;gap:24px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="logo"><a href="/" style="color:inherit;text-decoration:none">EcomNews<em>HQ</em></a></div>
-  <h1>Coming Soon</h1>
-  <p>We're building dedicated coverage for this section.<br>Check back soon — or browse all our content below.</p>
-  <a href="/" class="btn">← Back to Homepage</a>
+
+<nav class="nav">
+  <div class="nav-w">
+    <a class="logo" href="/">EcomNews<span>HQ</span></a>
+    <div class="nav-links">
+      <a href="/news/">News</a>
+      <a href="/amazon-fba/" class="on">Amazon FBA</a>
+      <a href="/shopify/">Shopify</a>
+      <a href="/tiktok-shop/">TikTok Shop</a>
+      <a href="/walmart/">Walmart</a>
+      <a href="/tools/">Tools</a>
+    </div>
+    <div class="nav-r">
+      <button class="nb burger" onclick="toggleMob()" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+      <a class="mag" href="/newsletter/">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<div class="mob" id="mob">
+  <div class="mob-hd"><a class="logo" href="/">EcomNews<span>HQ</span></a><button class="nb" onclick="toggleMob()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <a href="/news/">News</a><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a><a href="/tools/">Tools</a>
 </div>
+
+<section class="cat-header">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Amazon FBA</div>
+  <h1>Amazon <em>FBA</em></h1>
+  <p class="cat-desc">Suspension recovery case studies, verification guides, Buy Box strategies, and the tools serious sellers actually use. Independent reporting — no paid placements.</p>
+  <div class="cat-stats">
+    <div class="cat-stat"><strong>4</strong>Articles</div>
+    <div class="cat-stat"><strong>48 min</strong>Total read time</div>
+    <div class="cat-stat"><strong>Apr 2026</strong>Last updated</div>
+  </div>
+</section>
+
+<section class="articles-sec">
+  <div class="articles-grid">
+
+    <a class="art-card" href="/articles/amazon-review-policy-violation-recovery.html">
+      <img class="art-thumb" src="/images/amazon-review-policy-violation-recovery.png" alt="Amazon review policy violation recovery" width="640" height="360" loading="lazy">
+      <div class="art-body">
+        <div class="art-cat">Case Study</div>
+        <h3>Amazon Review Policy Violation: How I Saved a $50K/Month Account from Permanent Suspension</h3>
+        <p class="art-exc">One seller's 47-day journey from suspension to full reinstatement. The exact Plan of Action structure that worked.</p>
+        <div class="art-meta">Apr 10, 2026 &middot; 12 min read</div>
+      </div>
+    </a>
+
+    <a class="art-card" href="/articles/amazon-video-verification-guide-2026.html">
+      <img class="art-thumb" src="/images/amazon-video-verification-guide-2026.png" alt="Amazon video verification guide 2026" width="640" height="360" loading="lazy">
+      <div class="art-body">
+        <div class="art-cat">Guide</div>
+        <h3>Amazon Video Verification 2026: Complete Guide to Passing on the First Attempt</h3>
+        <p class="art-exc">Step-by-step walkthrough of Amazon's identity verification video call. Documents, setup, and what to expect.</p>
+        <div class="art-meta">Apr 10, 2026 &middot; 11 min read</div>
+      </div>
+    </a>
+
+    <a class="art-card" href="/articles/amazon-counterfeit-suspension-recovery-case.html">
+      <img class="art-thumb" src="/images/amazon-counterfeit-suspension-recovery-case.png" alt="Amazon counterfeit suspension recovery" width="640" height="360" loading="lazy">
+      <div class="art-body">
+        <div class="art-cat">Case Study</div>
+        <h3>Counterfeit Complaint Suspension: How a 7-Figure Seller Beat a False IP Claim</h3>
+        <p class="art-exc">A brand owner's account was shut down over a false counterfeit complaint. The evidence strategy that got it reinstated.</p>
+        <div class="art-meta">Apr 9, 2026 &middot; 13 min read</div>
+      </div>
+    </a>
+
+    <a class="art-card" href="/articles/amazon-buy-box-loss-300k-case-study.html">
+      <img class="art-thumb" src="/images/amazon-buy-box-loss-300k-case-study.png" alt="Amazon Buy Box loss case study" width="640" height="360" loading="lazy">
+      <div class="art-body">
+        <div class="art-cat">Case Study</div>
+        <h3>Buy Box Suppression Cost This Seller $300K — Here's What Went Wrong</h3>
+        <p class="art-exc">An investigation into how pricing algorithm changes silently killed a profitable Amazon business over 90 days.</p>
+        <div class="art-meta">Apr 8, 2026 &middot; 12 min read</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+<div class="f-inner">
+  <div class="f-grid">
+    <div><div class="f-brand">EcomNews<span>HQ</span></div><p class="f-about">Independent ecommerce media. No paid placements. Ever.</p></div>
+    <div class="f-col"><h5>Platforms</h5><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a></div>
+    <div class="f-col"><h5>Tools</h5><a href="/tools/">Helium 10</a><a href="/tools/">Jungle Scout</a><a href="/tools/">Klaviyo</a><a href="/tools/">All Tools</a></div>
+    <div class="f-col"><h5>Learn</h5><a href="/articles/how-to-start-amazon-fba-2026.html">FBA Guide</a><a href="/articles/best-shopify-apps-2026.html">Shopify Apps</a><a href="/news/">News</a></div>
+    <div class="f-col"><h5>Company</h5><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/affiliate-disclosure.html">Affiliates</a><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+  </div>
+  <div class="f-bot"><span>&copy; 2026 EcomNewsHQ</span><div class="f-leg"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/affiliate-disclosure.html">Affiliates</a></div></div>
+</div>
+</footer>
+
+<script>
+function toggleMob(){document.getElementById('mob').classList.toggle('open')}
+(()=>{const s=localStorage.getItem('t');if(s==='dark'||(\!s&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-t','dark')})();
+</script>
 </body>
 </html>
