@@ -13,337 +13,466 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"EcomNewsHQ","url":"https://ecomnewshq.com"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@layer base, theme, layout, components, utils;
-
 /* ═══════════════════════════════════════════
-   2026 TECHNIQUES:
-   - scroll-driven animations (animation-timeline)
-   - container queries
-   - oklch color space + color-mix
-   - bento grid layout
-   - 3D tilt cards (perspective)
-   - noise texture overlay
-   - mesh gradient hero
-   - magnetic buttons (JS)
-   - animated counters (JS + CSS)
-   - staggered scroll reveals
-   - reading progress bar
+   ECOMNEWSHQ — Editorial Redesign
+   Same brand stack (Instrument + Inter + orange oklch).
+   New visual system: newsroom-grade hierarchy, hairline
+   rules, live ticker, AI briefing, commerce terminal.
    ═══════════════════════════════════════════ */
-
-@layer base {
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;--scroll:0}
+html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;font-optical-sizing:auto;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-::selection{background:oklch(.75 .15 45 / .3)}
-}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:oklch(.62 .22 38 / .25)}
 
-@layer theme {
 :root{
-  /* oklch palette */
-  --accent:oklch(.62 .22 38);--accent-h:oklch(.55 .22 38);
-  --ink:oklch(.15 .01 60);--ink-2:oklch(.45 .01 60);--ink-3:oklch(.65 .01 60);
-  --bg:oklch(.985 .005 80);--bg-2:oklch(.96 .008 80);--bg-3:oklch(.93 .01 80);
-  --surf:oklch(1 0 0);--surf-h:oklch(.98 .005 80);
-  --border:oklch(.91 .008 80);--border-2:oklch(.85 .01 80);
-  /* category colors in oklch */
-  --c-amazon:oklch(.72 .17 70);--c-shopify:oklch(.55 .18 150);
-  --c-tiktok:oklch(.6 .25 320);--c-walmart:oklch(.5 .18 260);
-  --c-tools:oklch(.5 .08 50);--c-finance:oklch(.58 .14 180);
-  /* layout */
-  --serif:'Instrument Serif',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
-  --max:1280px;--nav-h:56px;--r:10px;
+  --accent:oklch(.62 .22 38);
+  --accent-h:oklch(.55 .22 38);
+  --accent-soft:oklch(.62 .22 38 / .08);
+  --ink:oklch(.15 .01 60);
+  --ink-2:oklch(.42 .01 60);
+  --ink-3:oklch(.62 .01 60);
+  --ink-4:oklch(.78 .008 60);
+  --bg:oklch(.985 .005 80);
+  --bg-2:oklch(.965 .008 80);
+  --bg-3:oklch(.94 .01 80);
+  --surf:oklch(1 0 0);
+  --surf-h:oklch(.98 .005 80);
+  --border:oklch(.91 .008 80);
+  --border-2:oklch(.84 .01 80);
+  --rule:oklch(.88 .01 70);
+  --terminal:oklch(.13 .015 60);
+  --terminal-2:oklch(.17 .015 60);
+  --terminal-ink:oklch(.92 .01 80);
+  --terminal-ink-2:oklch(.62 .01 60);
+  --terminal-rule:oklch(.25 .01 60);
+  --pos:oklch(.62 .16 150);
+  --neg:oklch(.58 .19 25);
+  --c-amazon:oklch(.72 .17 70);
+  --c-shopify:oklch(.55 .18 150);
+  --c-tiktok:oklch(.6 .25 320);
+  --c-walmart:oklch(.5 .18 260);
+  --c-tools:oklch(.5 .08 50);
+  --c-finance:oklch(.58 .14 180);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --max:1280px;
+  --nav-h:60px;
 }
 [data-t="dark"]{
-  --ink:oklch(.92 .01 80);--ink-2:oklch(.65 .01 80);--ink-3:oklch(.45 .01 60);
-  --bg:oklch(.1 .01 60);--bg-2:oklch(.13 .01 60);--bg-3:oklch(.17 .01 60);
-  --surf:oklch(.14 .01 60);--surf-h:oklch(.17 .01 60);
-  --border:oklch(.2 .01 60);--border-2:oklch(.25 .01 60);
+  --ink:oklch(.94 .01 80);
+  --ink-2:oklch(.7 .01 80);
+  --ink-3:oklch(.5 .01 70);
+  --ink-4:oklch(.35 .01 60);
+  --bg:oklch(.11 .01 60);
+  --bg-2:oklch(.14 .01 60);
+  --bg-3:oklch(.18 .01 60);
+  --surf:oklch(.15 .01 60);
+  --surf-h:oklch(.19 .01 60);
+  --border:oklch(.22 .01 60);
+  --border-2:oklch(.28 .01 60);
+  --rule:oklch(.26 .01 60);
+  --terminal:oklch(.08 .01 60);
+  --terminal-2:oklch(.11 .01 60);
+  --terminal-ink:oklch(.94 .01 80);
+  --terminal-rule:oklch(.22 .01 60);
+  --accent-soft:oklch(.62 .22 38 / .15);
 }
-}
 
-@layer layout {
+/* ─── PROGRESS BAR ─── */
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:999;width:0%;transition:width .1s;pointer-events:none}
 
-/* ─── READING PROGRESS BAR (JS-driven fallback) ─── */
-.progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:999;width:0%;transition:width .1s;pointer-events:none}
+/* ─── DATE/ISSUE RIBBON ─── */
+.ribbon{border-bottom:1px solid var(--rule);background:var(--bg);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3)}
+.ribbon-w{max-width:var(--max);margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:24px;text-transform:uppercase}
+.ribbon-w .dot{width:6px;height:6px;border-radius:50%;background:var(--pos);box-shadow:0 0 0 3px oklch(.62 .16 150 / .15);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px oklch(.62 .16 150 / 0)}}
+.ribbon-r{margin-left:auto;display:flex;gap:18px}
+.ribbon a:hover{color:var(--ink)}
+@media(max-width:768px){.ribbon-r{display:none}}
 
-/* grain removed for perf */
-
-/* ─── NAV ─── */
-.nav{position:sticky;top:0;z-index:900;background:color-mix(in oklch,var(--bg) 85%,transparent);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.4) blur(20px);-webkit-backdrop-filter:saturate(1.4) blur(20px)}
+/* ─── NAV (MASTHEAD) ─── */
+.nav{position:sticky;top:0;z-index:900;background:color-mix(in oklch,var(--bg) 88%,transparent);border-bottom:1px solid var(--rule);backdrop-filter:saturate(1.4) blur(20px);-webkit-backdrop-filter:saturate(1.4) blur(20px)}
 .nav-w{max-width:var(--max);margin:0 auto;padding:0 20px;height:var(--nav-h);display:flex;align-items:center}
-.logo{font-family:var(--serif);font-size:24px;letter-spacing:-.03em;flex-shrink:0}
-.logo span{color:var(--accent)}
-.nav-links{display:flex;gap:2px;margin-left:28px;flex:1;overflow-x:auto;scrollbar-width:none}
+.logo{font-family:var(--serif);font-size:28px;letter-spacing:-.035em;font-weight:400;line-height:1;flex-shrink:0}
+.logo span{color:var(--accent);font-style:italic}
+.nav-links{display:flex;gap:0;margin-left:32px;flex:1;overflow-x:auto;scrollbar-width:none}
 .nav-links::-webkit-scrollbar{display:none}
-.nav-links a{font-size:13px;font-weight:500;color:var(--ink-2);padding:6px 12px;border-radius:8px;white-space:nowrap;transition:.2s}
-.nav-links a:hover{color:var(--ink);background:var(--bg-2)}
-.nav-links a.on{color:var(--accent)}
-.nav-r{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0}
-.nb{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--ink-3);transition:.25s}
+.nav-links a{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-2);padding:8px 14px;white-space:nowrap;transition:color .2s;position:relative}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--ink)}
+.nav-links a.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--accent)}
+.nav-r{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0}
+.nb{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:var(--ink-3);transition:.2s}
 .nb:hover{background:var(--bg-2);color:var(--ink)}
 .nb svg{width:17px;height:17px}
-/* magnetic button */
-.mag{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;margin-left:6px;transition:transform .3s cubic-bezier(.2,1,.3,1),background .2s;will-change:transform}
-.mag:hover{background:var(--accent-h)}
+.mag{background:var(--ink);color:var(--bg);font-family:var(--sans);font-size:12px;font-weight:600;padding:9px 18px;border-radius:6px;margin-left:8px;letter-spacing:.01em;transition:transform .3s cubic-bezier(.2,1,.3,1),background .2s;will-change:transform}
+.mag:hover{background:var(--accent)}
 .burger{display:none}
 
-/* ─── MESH GRADIENT HERO ─── */
-.hero{max-width:var(--max);margin:0 auto;padding:20px 20px 0}
-.hero-bento{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:auto auto;gap:2px;border-radius:16px;overflow:hidden}
-.hero-main{grid-row:1/3;position:relative;background:var(--surf);padding:48px 44px;display:flex;flex-direction:column;justify-content:flex-end;min-height:480px;cursor:pointer;overflow:hidden;transition:background .3s}
-.hero-main:hover{background:var(--surf-h)}
-/* mesh gradient via layered radial-gradients (no blur filter) */
-.hero-mesh{position:absolute;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 60% 60% at 85% 15%,oklch(.7 .2 320 / .1),transparent),
-    radial-gradient(ellipse 50% 50% at 15% 85%,oklch(.65 .2 38 / .1),transparent),
-    radial-gradient(ellipse 40% 40% at 55% 55%,oklch(.6 .15 260 / .06),transparent);
-  animation:mesh-shift 16s ease-in-out infinite alternate}
-[data-t="dark"] .hero-mesh{
-  background:
-    radial-gradient(ellipse 60% 60% at 85% 15%,oklch(.5 .2 320 / .08),transparent),
-    radial-gradient(ellipse 50% 50% at 15% 85%,oklch(.5 .2 38 / .08),transparent),
-    radial-gradient(ellipse 40% 40% at 55% 55%,oklch(.4 .15 260 / .05),transparent)}
-@keyframes mesh-shift{0%{background-position:0 0,0 0,0 0}100%{background-position:5% -3%,-3% 5%,4% -4%}}
-.hero-main>*:not(.hero-mesh){position:relative;z-index:1}
-.hero-main:hover .h-arrow{opacity:1;transform:translateX(0)}
-.hero-main h2{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.08;letter-spacing:-.04em;color:var(--ink);margin-bottom:16px}
-.hero-main h2 em{font-style:italic;color:var(--accent)}
-.h-sub{font-size:15px;color:var(--ink-2);line-height:1.65;max-width:440px;margin-bottom:20px}
-.h-meta{font-size:12px;color:var(--ink-3);margin-bottom:6px}
-.h-arrow{font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:6px;opacity:0;transform:translateX(-8px);transition:.35s cubic-bezier(.2,1,.3,1)}
+/* ─── LIVE TICKER ─── */
+.ticker{border-bottom:1px solid var(--rule);background:var(--bg-2);overflow:hidden;font-family:var(--mono);font-size:12px;letter-spacing:.01em}
+.ticker-w{display:flex;align-items:center;height:36px}
+.ticker-tag{flex-shrink:0;background:var(--terminal);color:var(--terminal-ink);padding:0 16px;height:100%;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.ticker-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--neg);animation:pulse-red 1.4s infinite}
+@keyframes pulse-red{50%{opacity:.4}}
+.ticker-track{flex:1;overflow:hidden;position:relative;height:100%}
+.ticker-run{display:flex;gap:32px;align-items:center;height:100%;white-space:nowrap;animation:ticker-roll 60s linear infinite;padding-left:24px}
+.ticker:hover .ticker-run{animation-play-state:paused}
+@keyframes ticker-roll{to{transform:translateX(-50%)}}
+.tk{display:inline-flex;gap:8px;align-items:center}
+.tk-l{color:var(--ink-2);font-weight:500}
+.tk-v{color:var(--ink);font-weight:600}
+.tk-d{font-weight:600}
+.tk-d.up{color:var(--pos)}
+.tk-d.down{color:var(--neg)}
 
-.hero-card{background:var(--surf);padding:24px 28px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:.3s;container-type:inline-size}
-.hero-card:hover{background:var(--surf-h)}
-.hero-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:2px;background:transparent;transition:.3s}
-.hero-card:hover::before{background:var(--accent)}
-.hero-card:hover h3{color:var(--accent)}
-.hero-card h3{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.28;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;transition:.2s}
-/* container query: smaller text when card is narrow */
-@container (max-width: 400px){.hero-card h3{font-size:16px}}
-.hero-card .meta{font-size:11px;color:var(--ink-3)}
+/* ─── CONTAINERS ─── */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.sec{max-width:var(--max);margin:0 auto;padding:64px 20px 0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;gap:24px}
+.sec-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.sec-t{font-family:var(--serif);font-size:38px;font-weight:400;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.sec-sub{font-size:14px;color:var(--ink-3);margin-top:6px;max-width:520px;line-height:1.5}
+.sec-l{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid var(--ink);padding-bottom:2px;transition:gap .25s,color .2s,border-color .2s}
+.sec-l:hover{gap:10px;color:var(--accent);border-color:var(--accent)}
+.sec-l svg{width:13px;height:13px}
+.sec-line{height:1px;background:var(--rule);margin-top:18px;margin-bottom:28px}
+.sec-line.double{height:3px;background:linear-gradient(var(--rule),var(--rule)) top/100% 1px no-repeat,linear-gradient(var(--rule),var(--rule)) bottom/100% 1px no-repeat;background-color:transparent}
 
-/* ─── CATEGORY ─── */
-.cat{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
-.cat::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* ─── HERO ─── */
+.hero-wrap{max-width:var(--max);margin:0 auto;padding:28px 20px 0}
+.hero{display:grid;grid-template-columns:1.55fr 1fr;gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule)}
+.hero-main{padding:36px 36px 32px 0;border-right:1px solid var(--rule);position:relative;cursor:pointer;display:flex;flex-direction:column;min-height:460px}
+.hero-main:hover h1{color:var(--accent)}
+.hero-main .img{flex:1;background:var(--bg-2);border-radius:2px;margin-bottom:24px;position:relative;overflow:hidden;min-height:200px}
+.hero-main .img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,1,.3,1)}
+.hero-main:hover .img img{transform:scale(1.025)}
+.hero-main .img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,oklch(.15 .01 60 / .15));pointer-events:none}
+.cat{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+.cat::before{content:'';width:18px;height:2px;flex-shrink:0;background:var(--ink-3)}
 .cat.amazon{color:var(--c-amazon)}.cat.amazon::before{background:var(--c-amazon)}
 .cat.shopify{color:var(--c-shopify)}.cat.shopify::before{background:var(--c-shopify)}
 .cat.tiktok{color:var(--c-tiktok)}.cat.tiktok::before{background:var(--c-tiktok)}
 .cat.walmart{color:var(--c-walmart)}.cat.walmart::before{background:var(--c-walmart)}
 .cat.tools{color:var(--c-tools)}.cat.tools::before{background:var(--c-tools)}
 .cat.finance{color:var(--c-finance)}.cat.finance::before{background:var(--c-finance)}
+.cat.ai{color:var(--accent)}.cat.ai::before{background:var(--accent)}
+.hero-main h1{font-family:var(--serif);font-size:clamp(36px,5vw,68px);font-weight:400;line-height:.98;letter-spacing:-.035em;color:var(--ink);margin:18px 0 14px;transition:color .25s}
+.hero-main h1 em{font-style:italic;color:var(--accent);font-weight:400}
+.hero-lede{font-family:var(--serif);font-size:20px;line-height:1.4;color:var(--ink-2);letter-spacing:-.005em;max-width:560px;margin-bottom:18px}
+.hero-byline{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;display:flex;gap:12px;align-items:center;margin-top:auto}
+.hero-byline .dot{width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+.hero-byline b{color:var(--ink);font-weight:600}
 
-/* ─── SPONSOR STRIP ─── */
-.sponsor{max-width:var(--max);margin:20px auto 0;padding:0 20px}
-.sponsor-inner{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:border-color .25s,box-shadow .25s;position:relative}
-.sponsor-inner:hover{border-color:oklch(.6 .2 290);box-shadow:0 4px 24px oklch(.5 .2 290 / .1)}
-.sponsor-tag{position:absolute;top:8px;left:10px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);opacity:.6;z-index:1}
-.sponsor-brand{background:var(--surf);display:flex;align-items:center;gap:10px;padding:0 24px;min-width:200px;flex-shrink:0}
-.sponsor-logo{display:flex;align-items:center;gap:8px}
-.sponsor-logo svg{width:28px;height:28px;flex-shrink:0}
-.sponsor-logo span{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
-.sponsor-body{background:linear-gradient(135deg,#1a1130 0%,#2d1b5e 40%,#4a2a8a 100%);flex:1;display:flex;align-items:center;justify-content:center;gap:24px;padding:16px 28px;min-height:64px}
-.sponsor-text{color:rgba(255,255,255,.85);font-size:13px;line-height:1.35}
-.sponsor-text strong{color:#fff;font-weight:600}
-.sponsor-cta{background:linear-gradient(135deg,#8055fa,#c647ae);color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:6px;white-space:nowrap;flex-shrink:0;transition:opacity .2s}
-.sponsor-inner:hover .sponsor-cta{opacity:.9}
-@media(max-width:768px){.sponsor-brand{min-width:auto;padding:0 16px}.sponsor-body{gap:12px;padding:12px 16px;flex-wrap:wrap}.sponsor-text{font-size:12px}}
+.hero-side{display:flex;flex-direction:column}
+.hero-ai{padding:24px 0 24px 32px;border-bottom:1px solid var(--rule);position:relative}
+.hero-ai .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:3px;margin-bottom:14px}
+.hero-ai .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse-red 1.6s infinite}
+.hero-ai h3{font-family:var(--serif);font-size:22px;font-weight:400;line-height:1.2;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.hero-ai ul{list-style:none;padding:0;margin:0}
+.hero-ai li{padding:9px 0;border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--ink-2);line-height:1.5;display:flex;gap:10px}
+.hero-ai li:last-child{border:0}
+.hero-ai li .num{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.06em;padding-top:3px;flex-shrink:0;min-width:18px}
+.hero-ai .foot{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:14px}
 
-/* ─── SECTION ─── */
-.sec{max-width:var(--max);margin:0 auto;padding:56px 20px 0}
-.sec-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px}
-.sec-t{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:-.04em;color:var(--ink)}
-.sec-l{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:4px;transition:gap .25s}
-.sec-l:hover{gap:8px}
-.sec-l svg{width:14px;height:14px}
-.sec-line{height:1px;background:var(--border);margin-bottom:24px}
+.hero-pulse{padding:24px 0 0 32px;flex:1}
+.hero-pulse .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.pulse-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--rule)}
+.pulse-cell{padding:14px 0;border-bottom:1px solid var(--rule)}
+.pulse-cell:nth-child(odd){padding-right:16px;border-right:1px solid var(--rule)}
+.pulse-cell:nth-child(even){padding-left:16px}
+.pulse-l{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.pulse-v{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pulse-d{font-family:var(--mono);font-size:11px;font-weight:600;margin-top:3px}
+.pulse-d.up{color:var(--pos)}.pulse-d.down{color:var(--neg)}
 
-/* ─── PILLS (container-query aware) ─── */
-.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;container-type:inline-size}
-.pill{padding:7px 16px;font-size:12px;font-weight:500;color:var(--ink-2);background:var(--surf);border:1px solid var(--border);border-radius:100px;transition:.25s}
-.pill:hover{border-color:var(--accent);color:var(--accent)}
-.pill.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-@container (max-width: 500px){.pill{padding:5px 10px;font-size:11px}}
+/* ─── SPONSOR (kept, restyled editorial) ─── */
+.sponsor{max-width:var(--max);margin:32px auto 0;padding:0 20px}
+.sponsor-inner{display:flex;border:1px solid var(--rule);background:var(--surf);transition:border-color .2s;position:relative}
+.sponsor-inner:hover{border-color:var(--ink-3)}
+.sponsor-tag{position:absolute;top:8px;left:12px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.sponsor-brand{display:flex;align-items:center;gap:10px;padding:18px 24px 18px 24px;min-width:200px;flex-shrink:0;border-right:1px solid var(--rule)}
+.sponsor-logo{display:flex;align-items:center;gap:10px}
+.sponsor-logo svg,.sponsor-logo img{width:28px;height:28px;flex-shrink:0;border-radius:5px}
+.sponsor-logo span{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink);white-space:nowrap}
+.sponsor-body{flex:1;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 24px}
+.sponsor-text{font-family:var(--serif);font-size:17px;line-height:1.35;color:var(--ink);letter-spacing:-.005em}
+.sponsor-text strong{font-style:italic;color:var(--accent);font-weight:400}
+.sponsor-cta{background:var(--ink);color:var(--bg);font-family:var(--sans);font-size:12px;font-weight:600;padding:9px 18px;white-space:nowrap;flex-shrink:0;transition:background .2s;border-radius:3px}
+.sponsor-inner:hover .sponsor-cta{background:var(--accent)}
+@media(max-width:768px){.sponsor-brand{min-width:auto;padding:14px 16px}.sponsor-body{gap:12px;padding:12px 16px;flex-wrap:wrap}.sponsor-text{font-size:14px}}
 
-/* ─── FEED LAYOUT ─── */
-.feed-wrap{display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start}
+/* ─── FEED (LATEST) ─── */
+.feed-wrap{display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:start}
 .feed-wrap .side{position:sticky;top:calc(var(--nav-h) + 20px)}
 
-.feed .f-date{font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;padding:18px 0 10px;border-bottom:1px solid var(--border)}
-.feed .f-date:first-child{padding-top:0}
+.pills{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.pill{padding:6px 14px;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-2);background:transparent;border:1px solid transparent;transition:.2s;border-radius:3px}
+.pill:hover{color:var(--ink)}
+.pill.on{background:var(--ink);color:var(--bg)}
 
-/* ─── 3D TILT CARDS ─── */
-.f-card{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .2s;perspective:800px}
+/* Featured large + medium grid */
+.feed-feat{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;padding-bottom:32px;margin-bottom:0;border-bottom:1px solid var(--rule)}
+.feat-l{cursor:pointer}
+.feat-l .img{aspect-ratio:16/10;background:var(--bg-2);overflow:hidden;margin-bottom:18px;position:relative}
+.feat-l .img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,1,.3,1)}
+.feat-l:hover .img img{transform:scale(1.03)}
+.feat-l:hover h3{color:var(--accent)}
+.feat-l h3{font-family:var(--serif);font-size:32px;font-weight:400;line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin:14px 0 10px;transition:color .2s}
+.feat-l .exc{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;max-width:540px}
+.feat-l .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+
+.feat-r{display:flex;flex-direction:column;gap:0}
+.feat-sm{padding:20px 0;border-bottom:1px solid var(--rule);cursor:pointer;display:grid;grid-template-columns:1fr 90px;gap:16px;align-items:start}
+.feat-sm:first-child{padding-top:0}
+.feat-sm:last-child{border-bottom:0;padding-bottom:0}
+.feat-sm:hover h4{color:var(--accent)}
+.feat-sm h4{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.22;letter-spacing:-.015em;color:var(--ink);margin:8px 0 6px;transition:color .2s}
+.feat-sm .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.feat-sm .img-sm{aspect-ratio:1;background:var(--bg-2);overflow:hidden}
+.feat-sm .img-sm img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,1,.3,1)}
+.feat-sm:hover .img-sm img{transform:scale(1.05)}
+
+/* List rows under featured */
+.feed{display:flex;flex-direction:column}
+.f-date{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;padding:28px 0 10px;display:flex;align-items:center;gap:12px}
+.f-date::after{content:'';flex:1;height:1px;background:var(--rule)}
+
+.f-card{display:grid;grid-template-columns:1fr 220px;gap:32px;align-items:center;padding:22px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:padding .25s}
+.f-card:hover{padding-left:8px}
 .f-card:hover h3{color:var(--accent)}
-.f-card:hover .f-vis{transform:rotateY(-4deg) rotateX(2deg) scale(1.02)}
-.f-card h3{font-family:var(--serif);font-size:22px;font-weight:400;line-height:1.22;letter-spacing:-.025em;color:var(--ink);transition:.25s}
-.f-card .exc{font-size:13px;color:var(--ink-2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:6px 0 8px}
-.f-card .meta{font-size:11px;color:var(--ink-3)}
-
-/* 3D visual block with mesh gradient */
-.f-vis{width:200px;height:140px;border-radius:var(--r);flex-shrink:0;position:relative;overflow:hidden;transition:transform .5s cubic-bezier(.2,1,.3,1);transform-style:preserve-3d;will-change:transform}
-.f-vis .mesh{position:absolute;inset:0}
-.f-vis .mesh{position:absolute;inset:0}
-.f-vis.amazon .mesh{background:radial-gradient(ellipse at 80% 20%,oklch(.82 .14 70),oklch(.94 .04 70))}
-[data-t="dark"] .f-vis.amazon .mesh{background:radial-gradient(ellipse at 80% 20%,oklch(.3 .1 70),oklch(.16 .03 70))}
-.f-vis.shopify .mesh{background:radial-gradient(ellipse at 20% 30%,oklch(.75 .16 150),oklch(.94 .04 150))}
-[data-t="dark"] .f-vis.shopify .mesh{background:radial-gradient(ellipse at 20% 30%,oklch(.28 .1 150),oklch(.15 .03 150))}
-.f-vis.tiktok .mesh{background:radial-gradient(ellipse at 70% 30%,oklch(.7 .2 320),oklch(.94 .05 320))}
-[data-t="dark"] .f-vis.tiktok .mesh{background:radial-gradient(ellipse at 70% 30%,oklch(.3 .15 320),oklch(.15 .04 320))}
-.f-vis.walmart .mesh{background:radial-gradient(ellipse at 30% 70%,oklch(.65 .15 260),oklch(.94 .04 260))}
-[data-t="dark"] .f-vis.walmart .mesh{background:radial-gradient(ellipse at 30% 70%,oklch(.28 .1 260),oklch(.15 .03 260))}
-.f-vis.finance .mesh{background:radial-gradient(ellipse at 60% 40%,oklch(.7 .13 180),oklch(.94 .04 180))}
-[data-t="dark"] .f-vis.finance .mesh{background:radial-gradient(ellipse at 60% 40%,oklch(.3 .1 180),oklch(.15 .03 180))}
-.f-vis.tools .mesh{background:radial-gradient(ellipse at 50% 50%,oklch(.75 .07 50),oklch(.94 .03 50))}
-[data-t="dark"] .f-vis.tools .mesh{background:radial-gradient(ellipse at 50% 50%,oklch(.28 .05 50),oklch(.15 .02 50))}
-/* geometric deco inside visual */
-.f-vis .geo{position:absolute;inset:0;z-index:1}
-.f-vis .geo line,.f-vis .geo circle,.f-vis .geo rect{stroke:oklch(.3 0 0 / .08);fill:none;stroke-width:1}
-[data-t="dark"] .f-vis .geo line,[data-t="dark"] .f-vis .geo circle,[data-t="dark"] .f-vis .geo rect{stroke:oklch(.9 0 0 / .1)}
+.f-card h3{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.18;letter-spacing:-.02em;color:var(--ink);margin:8px 0 8px;transition:color .25s}
+.f-card .exc{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+.f-card .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.f-vis{width:220px;height:140px;background:var(--bg-2);overflow:hidden;flex-shrink:0;position:relative}
+.f-vis img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,1,.3,1)}
+.f-card:hover .f-vis img{transform:scale(1.06)}
 
 /* ─── SIDEBAR ─── */
-.side-block{margin-bottom:24px}
-.side-h{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.s-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);transition:.2s}
+.side-block{margin-bottom:36px}
+.side-h{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.s-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule);transition:.2s}
 .s-item:last-child{border:none}
-.s-item:hover .s-rank{color:var(--accent)}
 .s-item:hover .s-t{color:var(--accent)}
-.s-rank{font-family:var(--serif);font-size:20px;color:var(--border-2);min-width:24px;line-height:1;transition:.2s}
-.s-t{font-size:13px;font-weight:500;color:var(--ink);line-height:1.35;transition:.2s}
-.s-m{font-size:11px;color:var(--ink-3);margin-top:3px}
+.s-rank{font-family:var(--serif);font-size:24px;color:var(--ink-4);min-width:28px;line-height:1;font-style:italic;transition:.2s;flex-shrink:0}
+.s-item:hover .s-rank{color:var(--accent)}
+.s-t{font-family:var(--serif);font-size:15px;font-weight:400;color:var(--ink);line-height:1.3;transition:.2s}
+.s-m{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
 
-.side-nl{background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:24px;overflow:hidden;position:relative}
-.side-nl::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,color-mix(in oklch,var(--accent) 6%,transparent),transparent 70%);pointer-events:none}
-.side-nl>*{position:relative}
-.side-nl h4{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px}
-.side-nl p{font-size:13px;color:var(--ink-2);margin-bottom:14px;line-height:1.55}
-.side-nl input{width:100%;padding:10px 12px;font-size:13px;font-family:var(--sans);border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:8px;margin-bottom:8px;outline:none;transition:.2s}
-.side-nl input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--accent) 12%,transparent)}
-.side-nl button{width:100%;padding:10px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;border-radius:8px;transition:.2s}
-.side-nl button:hover{background:var(--accent-h)}
-.side-nl .note{font-size:11px;color:var(--ink-3);margin-top:8px;text-align:center}
+.side-nl{background:var(--ink);color:var(--bg);padding:28px;border-radius:2px;position:relative;overflow:hidden}
+.side-nl .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:oklch(.62 .22 38);margin-bottom:14px}
+.side-nl .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:oklch(.62 .22 38);animation:pulse-red 1.6s infinite}
+.side-nl h4{font-family:var(--serif);font-size:26px;font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:8px;color:oklch(.96 .005 80)}
+.side-nl h4 em{font-style:italic;color:oklch(.78 .15 38)}
+.side-nl p{font-family:var(--sans);font-size:13px;color:oklch(.7 .01 60);margin-bottom:16px;line-height:1.55}
+.side-nl input{width:100%;padding:11px 12px;font-size:13px;font-family:var(--sans);border:1px solid oklch(.3 .01 60);background:oklch(.18 .01 60);color:oklch(.96 .005 80);border-radius:3px;margin-bottom:8px;outline:none;transition:.2s}
+.side-nl input::placeholder{color:oklch(.5 .01 60)}
+.side-nl input:focus{border-color:oklch(.62 .22 38)}
+.side-nl button{width:100%;padding:11px;background:oklch(.62 .22 38);color:#fff;font-family:var(--sans);font-size:13px;font-weight:600;border-radius:3px;transition:.2s}
+.side-nl button:hover{background:oklch(.55 .22 38)}
+.side-nl .note{font-family:var(--mono);font-size:10px;color:oklch(.55 .01 60);margin-top:10px;text-align:center;letter-spacing:.04em;text-transform:uppercase}
 
-.side-tags{display:flex;flex-wrap:wrap;gap:5px}
-.side-tag{padding:5px 11px;background:var(--bg-2);border-radius:6px;font-size:11px;font-weight:500;color:var(--ink-2);transition:.2s}
-.side-tag:hover{color:var(--accent);background:color-mix(in oklch,var(--accent) 8%,var(--bg-2))}
+.side-tags{display:flex;flex-wrap:wrap;gap:4px}
+.side-tag{padding:6px 11px;background:transparent;border:1px solid var(--rule);font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--ink-2);letter-spacing:.02em;transition:.2s}
+.side-tag:hover{border-color:var(--ink);color:var(--ink);background:var(--bg-2)}
 
-/* ─── BENTO PLATFORMS ─── */
-.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:2px;border-radius:14px;overflow:hidden;margin-top:24px}
-.bento-card{background:var(--surf);padding:32px 28px;cursor:pointer;transition:.35s;position:relative;overflow:hidden;container-type:inline-size}
-.bento-card:hover{background:var(--surf-h)}
+/* ─── COMMERCE TERMINAL ─── */
+.terminal-sec{margin-top:80px;background:var(--terminal);color:var(--terminal-ink);padding:64px 0 56px;position:relative;overflow:hidden}
+.terminal-sec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.term-w{max-width:var(--max);margin:0 auto;padding:0 20px}
+.term-head{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--terminal-rule)}
+.term-k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:8px}
+.term-k::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--pos);animation:pulse-red 1.6s infinite}
+.term-t{font-family:var(--serif);font-size:42px;font-weight:400;letter-spacing:-.03em;line-height:1.02;margin-top:10px}
+.term-t em{font-style:italic;color:oklch(.78 .15 38)}
+.term-m{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--terminal-ink-2)}
+.term-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--terminal-rule)}
+.term-card{padding:20px 22px;border-right:1px solid var(--terminal-rule);border-bottom:1px solid var(--terminal-rule)}
+.term-card:nth-child(3n){border-right:none}
+.term-card:nth-last-child(-n+3){border-bottom:none}
+.term-card .l{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--terminal-ink-2);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.term-card .l .badge{font-size:9px;padding:2px 6px;background:oklch(.62 .16 150 / .15);color:var(--pos);border-radius:2px;letter-spacing:.08em}
+.term-card .l .badge.dn{background:oklch(.58 .19 25 / .15);color:var(--neg)}
+.term-card .v{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:-.025em;line-height:1;color:var(--terminal-ink);font-variant-numeric:tabular-nums}
+.term-card .d{font-family:var(--mono);font-size:11px;font-weight:600;margin-top:6px}
+.term-card .d.up{color:var(--pos)}.term-card .d.dn{color:var(--neg)}
+.term-card .spark{margin-top:14px;height:32px;width:100%}
+.term-card .spark path{fill:none;stroke-width:1.5}
+.term-card .spark .up{stroke:var(--pos)}
+.term-card .spark .dn{stroke:var(--neg)}
+.term-card .ctx{font-family:var(--sans);font-size:12px;color:var(--terminal-ink-2);margin-top:10px;line-height:1.5}
+
+.term-feed{margin-top:32px;border:1px solid var(--terminal-rule);background:var(--terminal-2)}
+.term-feed-h{padding:12px 20px;border-bottom:1px solid var(--terminal-rule);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--terminal-ink-2);display:flex;justify-content:space-between}
+.term-row{display:grid;grid-template-columns:90px 1fr 120px 80px;gap:20px;padding:11px 20px;border-bottom:1px solid var(--terminal-rule);font-family:var(--mono);font-size:12px;align-items:center}
+.term-row:last-child{border:none}
+.term-row .ts{color:var(--terminal-ink-2);font-size:10.5px}
+.term-row .msg{color:var(--terminal-ink);font-family:var(--sans);font-size:13px;line-height:1.4}
+.term-row .msg b{color:oklch(.78 .15 38);font-weight:600}
+.term-row .pl{color:var(--terminal-ink-2);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+.term-row .dt{text-align:right;font-weight:600}
+.term-row .dt.up{color:var(--pos)}.term-row .dt.dn{color:var(--neg)}
+
+/* ─── PLATFORMS ─── */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule);border-top:2px solid var(--ink)}
+.bento-card{background:var(--surf);padding:32px 26px;cursor:pointer;transition:background .3s;position:relative;border-right:1px solid var(--rule)}
+.bento-card:last-child{border-right:0}
+.bento-card:hover{background:var(--bg-2)}
 .bento-card:hover .b-arrow{opacity:1;transform:translate(0,0)}
-/* scroll-driven entrance: cards animate as they scroll into view */
-.bento-card{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
-@keyframes bento-in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.b-color{width:100%;height:4px;border-radius:2px;margin-bottom:18px}
+.bento-card:hover h3{color:var(--accent)}
+.b-color{width:36px;height:3px;margin-bottom:24px}
 .bento-card.amazon .b-color{background:var(--c-amazon)}
 .bento-card.shopify .b-color{background:var(--c-shopify)}
 .bento-card.tiktok .b-color{background:var(--c-tiktok)}
 .bento-card.walmart .b-color{background:var(--c-walmart)}
-.bento-card h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px}
-@container (max-width: 280px){.bento-card h3{font-size:18px}}
-.b-desc{font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:18px}
-/* animated counter */
-.b-num{font-family:var(--serif);font-size:36px;font-weight:400;letter-spacing:-.04em;color:var(--ink)}
-.b-label{font-size:11px;color:var(--ink-3);margin-top:2px}
-.b-arrow{position:absolute;top:20px;right:20px;color:var(--ink-3);opacity:0;transform:translate(-4px,4px);transition:.3s}
+.bento-card h3{font-family:var(--serif);font-size:26px;font-weight:400;line-height:1;letter-spacing:-.02em;margin-bottom:8px;transition:color .2s}
+.b-desc{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.55;margin-bottom:24px;min-height:42px}
+.b-num{font-family:var(--serif);font-size:42px;font-weight:400;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+.b-label{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px;letter-spacing:.1em;text-transform:uppercase}
+.b-arrow{position:absolute;top:22px;right:22px;color:var(--ink-3);opacity:0;transform:translate(-4px,4px);transition:.3s}
 .b-arrow svg{width:16px;height:16px}
 
 /* ─── TOOLS ─── */
-.tools-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:14px;overflow:hidden;margin-top:24px}
-.t-card{background:var(--surf);padding:28px 24px;cursor:pointer;transition:.35s;position:relative;container-type:inline-size;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
-.t-card:hover{background:var(--surf-h)}
+.tools-g{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule);border-top:2px solid var(--ink)}
+.t-card{background:var(--surf);padding:28px 22px;cursor:pointer;transition:.3s;position:relative;border-right:1px solid var(--rule)}
+.t-card:last-child{border-right:0}
+.t-card:hover{background:var(--bg-2)}
 .t-card:hover .t-name{color:var(--accent)}
-.t-card.dark{background:var(--ink);color:var(--bg)}
-.t-card.dark:hover{background:oklch(.18 .01 60)}
-.t-pip{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:color-mix(in oklch,var(--accent) 10%,transparent);padding:3px 8px;border-radius:5px}
-.t-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-weight:800;font-size:13px;color:#fff}
-.t-name{font-family:var(--serif);font-size:20px;font-weight:400;margin-bottom:6px;transition:.2s}
-.t-card.dark .t-name{color:#fff}
-.t-d{font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:16px}
-.t-card.dark .t-d{color:oklch(.65 .01 60)}
-.t-link{font-size:12px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:4px}
-.t-link svg{width:14px;height:14px;transition:transform .25s}
-.t-card:hover .t-link svg{transform:translateX(4px)}
+.t-pip{position:absolute;top:16px;right:16px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 7px;border-radius:2px}
+.t-logo{width:42px;height:42px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-family:var(--sans);font-weight:800;font-size:13px;color:#fff;letter-spacing:-.02em}
+.t-name{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:-.015em;margin-bottom:6px;transition:.2s}
+.t-meta{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:flex;gap:10px;align-items:center}
+.t-meta .star{color:var(--accent);letter-spacing:.06em}
+.t-d{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.55;margin-bottom:18px;min-height:60px}
+.t-link{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:6px;letter-spacing:.04em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:2px;transition:.2s}
+.t-link svg{width:13px;height:13px;transition:transform .25s}
+.t-card:hover .t-link{color:var(--accent);border-color:var(--accent)}
+.t-card:hover .t-link svg{transform:translateX(3px)}
+
+/* ─── COMMUNITY ─── */
+.community{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule);border-top:2px solid var(--ink)}
+.thread{padding:24px 22px;border-right:1px solid var(--rule);cursor:pointer;transition:background .3s;display:flex;flex-direction:column}
+.thread:last-child{border-right:0}
+.thread:hover{background:var(--bg-2)}
+.thread:hover .thread-t{color:var(--accent)}
+.thread-meta{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.thread-av{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:-.02em;flex-shrink:0}
+.thread-who{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink);line-height:1.2}
+.thread-role{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.04em;margin-top:1px}
+.thread-t{font-family:var(--serif);font-size:19px;font-weight:400;line-height:1.25;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px;transition:.2s}
+.thread-body{font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink-2);margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.thread-stats{margin-top:auto;display:flex;gap:18px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;padding-top:14px;border-top:1px solid var(--rule)}
+.thread-stats span{display:inline-flex;align-items:center;gap:5px}
+.thread-stats b{color:var(--ink);font-weight:600}
 
 /* ─── NEWSLETTER BANNER ─── */
-.nl-sec{max-width:var(--max);margin:56px auto 0;padding:0 20px}
-.nl-box{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:56px 52px;display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden}
-.nl-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at bottom left,color-mix(in oklch,var(--accent) 5%,transparent),transparent 60%);pointer-events:none}
-.nl-box>*{position:relative}
-.nl-box h2{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:-.04em;margin-bottom:8px}
-.nl-box p{font-size:14px;color:var(--ink-2);line-height:1.6}
-.nl-f{display:flex;gap:8px}
-.nl-f input{padding:13px 18px;font-size:14px;font-family:var(--sans);border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:10px;width:260px;outline:none;transition:.2s}
-.nl-f input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--accent) 12%,transparent)}
-.nl-f button{padding:13px 26px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;border-radius:10px;white-space:nowrap;transition:.25s}
-.nl-f button:hover{background:var(--accent-h)}
+.nl-sec{max-width:var(--max);margin:80px auto 0;padding:0 20px}
+.nl-box{background:var(--ink);color:var(--bg);padding:64px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;position:relative;overflow:hidden;border-radius:2px}
+.nl-box::before{content:'';position:absolute;top:-40%;right:-10%;width:60%;height:180%;background:radial-gradient(ellipse at center,oklch(.62 .22 38 / .18),transparent 60%);pointer-events:none}
+.nl-box>*{position:relative;z-index:1}
+.nl-box .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:oklch(.78 .15 38);margin-bottom:18px}
+.nl-box .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:oklch(.78 .15 38);animation:pulse-red 1.6s infinite}
+.nl-box h2{font-family:var(--serif);font-size:48px;font-weight:400;letter-spacing:-.03em;line-height:1;margin-bottom:14px;color:oklch(.96 .005 80)}
+.nl-box h2 em{font-style:italic;color:oklch(.78 .15 38)}
+.nl-box p{font-family:var(--sans);font-size:15px;color:oklch(.72 .01 60);line-height:1.55;max-width:440px}
+.nl-meta{display:flex;gap:28px;margin-top:24px}
+.nl-meta .m{font-family:var(--mono);font-size:10.5px;color:oklch(.55 .01 60);letter-spacing:.08em;text-transform:uppercase}
+.nl-meta .m b{display:block;font-family:var(--serif);font-size:30px;font-weight:400;color:oklch(.96 .005 80);letter-spacing:-.02em;margin-bottom:2px;text-transform:none}
+.nl-f{display:flex;flex-direction:column;gap:10px}
+.nl-f input{padding:14px 16px;font-family:var(--sans);font-size:14px;border:1px solid oklch(.3 .01 60);background:oklch(.18 .01 60);color:oklch(.96 .005 80);outline:none;border-radius:3px;transition:.2s}
+.nl-f input::placeholder{color:oklch(.5 .01 60)}
+.nl-f input:focus{border-color:oklch(.62 .22 38)}
+.nl-f button{padding:14px 26px;background:oklch(.62 .22 38);color:#fff;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:3px;transition:.25s}
+.nl-f button:hover{background:oklch(.55 .22 38)}
+.nl-fine{font-family:var(--mono);font-size:10.5px;color:oklch(.55 .01 60);letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
 
-/* ─── FOOTER ─── */
-footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px;color:var(--ink-3)}
+/* ─── FOOTER COLOPHON ─── */
+footer{margin-top:80px;background:var(--terminal);color:var(--terminal-ink);padding:64px 20px 24px}
 .f-inner{max-width:var(--max);margin:0 auto}
-.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
-.f-brand{font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:10px}.f-brand span{color:var(--accent)}
-.f-about{font-size:13px;line-height:1.65;max-width:230px}
-.f-col h5{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:12px}
-.f-col a{display:block;font-size:13px;color:var(--ink-3);padding:3px 0;transition:.15s}
-.f-col a:hover{color:var(--ink);padding-left:3px}
-.f-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:20px;border-top:1px solid var(--border);font-size:12px}
-.f-leg{display:flex;gap:16px}
-.f-leg a{color:var(--ink-3);transition:.15s}
-.f-leg a:hover{color:var(--ink)}
+.f-mast{display:flex;justify-content:space-between;align-items:end;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--terminal-rule);gap:32px;flex-wrap:wrap}
+.f-mast-l .f-brand{font-family:var(--serif);font-size:56px;font-weight:400;line-height:.95;letter-spacing:-.035em;color:var(--terminal-ink);margin-bottom:10px}
+.f-mast-l .f-brand span{color:oklch(.78 .15 38);font-style:italic}
+.f-mast-l p{font-family:var(--sans);font-size:14px;color:var(--terminal-ink-2);max-width:380px;line-height:1.55}
+.f-mast-r{font-family:var(--mono);font-size:10.5px;color:var(--terminal-ink-2);letter-spacing:.08em;text-transform:uppercase;text-align:right;line-height:1.8}
+.f-mast-r b{display:block;color:var(--terminal-ink);font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:-.01em;font-style:italic;text-transform:none;margin-bottom:6px}
+.f-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:32px;margin-bottom:48px}
+.f-col h5{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:oklch(.78 .15 38);margin-bottom:14px}
+.f-col a{display:block;font-family:var(--sans);font-size:13.5px;color:var(--terminal-ink-2);padding:4px 0;transition:.15s}
+.f-col a:hover{color:var(--terminal-ink);padding-left:4px}
+.f-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:24px;border-top:1px solid var(--terminal-rule);font-family:var(--mono);font-size:10.5px;color:var(--terminal-ink-2);letter-spacing:.04em}
+.f-leg{display:flex;gap:18px}
+.f-leg a{color:var(--terminal-ink-2);transition:.15s}
+.f-leg a:hover{color:var(--terminal-ink)}
 
 /* ─── SEARCH ─── */
-.so{display:none;position:fixed;inset:0;z-index:1100;background:oklch(.1 0 0 / .45);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;padding-top:18vh}
+.so{display:none;position:fixed;inset:0;z-index:1100;background:oklch(.1 0 0 / .6);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;padding-top:14vh}
 .so.open{display:flex}
-.s-box{background:var(--surf);border:1px solid var(--border);border-radius:16px;width:90%;max-width:520px;overflow:hidden;box-shadow:0 32px 80px oklch(.1 0 0 / .2)}
-.s-box input{width:100%;padding:18px 22px;font-size:17px;font-family:var(--sans);border:none;background:transparent;color:var(--ink);outline:none}
-.s-box .hint{padding:0 22px 14px;font-size:11px;color:var(--ink-3)}
-.s-box kbd{background:var(--bg-2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:10px}
+.s-box{background:var(--surf);border:1px solid var(--border);width:90%;max-width:560px;overflow:hidden;box-shadow:0 32px 80px oklch(.1 0 0 / .3);border-radius:2px}
+.s-box input{width:100%;padding:20px 24px;font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.01em;border:none;background:transparent;color:var(--ink);outline:none}
+.s-box .hint{padding:0 24px 16px;font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
+.s-box kbd{background:var(--bg-2);border:1px solid var(--border);border-radius:2px;padding:2px 6px;font-size:10px;font-family:var(--mono);margin-right:4px}
 
 /* ─── MOBILE ─── */
 .mob{display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);flex-direction:column;overflow-y:auto}
 .mob.open{display:flex}
-.mob-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border)}
-.mob a{font-size:17px;font-weight:500;color:var(--ink);padding:14px 20px;border-bottom:1px solid var(--border);display:block}
+.mob-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--rule)}
+.mob a{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.02em;color:var(--ink);padding:18px 20px;border-bottom:1px solid var(--rule);display:block}
 
 /* ─── SCROLL-TOP ─── */
-.top-btn{position:fixed;bottom:20px;right:20px;width:40px;height:40px;background:var(--surf);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:800;opacity:0;transform:translateY(8px);transition:.3s;pointer-events:none}
+.top-btn{position:fixed;bottom:20px;right:20px;width:40px;height:40px;background:var(--ink);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:800;opacity:0;transform:translateY(8px);transition:.3s;pointer-events:none;border:none}
 .top-btn.show{opacity:1;transform:none;pointer-events:all}
-.top-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.top-btn:hover{background:var(--accent)}
 .top-btn svg{width:16px;height:16px;stroke:currentColor}
 
-/* ─── STAGGERED REVEAL (IO-based) ─── */
+/* ─── STAGGERED REVEAL ─── */
 .sr{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
 .sr.vis{opacity:1;transform:none}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:1024px){
-  .hero-bento{grid-template-columns:1fr;grid-template-rows:auto}
-  .hero-main{grid-row:auto;min-height:340px;padding:36px 28px}
-  .hero-stack{display:grid;grid-template-columns:repeat(3,1fr)}
-  .feed-wrap{grid-template-columns:1fr}
-  .feed-wrap .side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .bento,.tools-g{grid-template-columns:repeat(2,1fr)}
-  .nl-box{flex-direction:column;text-align:center;padding:40px 28px}
+  .hero{grid-template-columns:1fr;border-top:2px solid var(--ink)}
+  .hero-main{border-right:0;border-bottom:1px solid var(--rule);padding:28px 0}
+  .hero-ai,.hero-pulse{padding-left:0;padding-top:28px}
+  .feed-wrap{grid-template-columns:1fr;gap:48px}
+  .feed-wrap .side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .feed-feat{grid-template-columns:1fr;gap:24px}
+  .feat-r{display:none}
+  .bento,.tools-g,.community{grid-template-columns:repeat(2,1fr)}
+  .bento-card,.t-card,.thread{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .bento-card:nth-child(2n),.t-card:nth-child(2n),.thread:nth-child(2n){border-right:0}
+  .term-grid{grid-template-columns:1fr 1fr}
+  .term-card{border-right:1px solid var(--terminal-rule)!important;border-bottom:1px solid var(--terminal-rule)!important}
+  .term-card:nth-child(2n){border-right:none!important}
+  .term-card:nth-last-child(-n+2){border-bottom:none!important}
+  .nl-box{grid-template-columns:1fr;padding:44px 28px}
   .f-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .f-mast-l .f-brand{font-size:42px}
 }
 @media(max-width:768px){
   .nav-links{display:none}
   .burger{display:flex}
-  .hero-stack{grid-template-columns:1fr}
+  .ribbon-w{font-size:10px;gap:14px}
+  .pulse-grid{grid-template-columns:1fr 1fr}
   .f-card{grid-template-columns:1fr}
-  .f-vis{width:100%;height:120px}
-  .bento,.tools-g{grid-template-columns:1fr}
+  .f-vis{width:100%;height:180px}
+  .bento,.tools-g,.community{grid-template-columns:1fr}
+  .bento-card,.t-card,.thread{border-right:0}
   .feed-wrap .side{grid-template-columns:1fr}
-  .f-grid{grid-template-columns:1fr}
-  .nl-f{flex-direction:column;width:100%}
-  .nl-f input{width:100%}
-}
+  .term-grid{grid-template-columns:1fr}
+  .term-card{border-right:none!important}
+  .term-row{grid-template-columns:60px 1fr 70px;gap:12px}
+  .term-row .pl{display:none}
+  .f-grid{grid-template-columns:1fr 1fr}
+  .nl-box h2{font-size:36px}
+  .hero-main h1{font-size:clamp(32px,8vw,46px)}
+  .feat-l h3{font-size:24px}
+  .term-t,.sec-t{font-size:28px}
+  .f-mast-l .f-brand{font-size:36px}
 }
 </style>
 </head>
@@ -351,6 +480,23 @@ footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px
 
 <!-- READING PROGRESS -->
 <div class="progress"></div>
+
+<!-- DATE / ISSUE RIBBON -->
+<div class="ribbon">
+  <div class="ribbon-w">
+    <span class="dot"></span>
+    <span>Live · Apr 10, 2026</span>
+    <span style="opacity:.5">·</span>
+    <span>Issue No. 247</span>
+    <span style="opacity:.5">·</span>
+    <span>Independent ecommerce media</span>
+    <div class="ribbon-r">
+      <a href="/newsletter/">Newsletter</a>
+      <a href="/articles/">Archive</a>
+      <a href="/tools/">Tools</a>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -373,222 +519,384 @@ footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mob" id="mob">
-  <div class="mob-hd"><a class="logo" href="/">EcomNews<span>HQ</span></a><button class="nb" onclick="toggleMob()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
-  <a href="/news/">News</a><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a><a href="/tools/">Tools</a>
+<!-- LIVE TICKER -->
+<div class="ticker">
+  <div class="ticker-w">
+    <div class="ticker-tag">Live · Commerce Pulse</div>
+    <div class="ticker-track">
+      <div class="ticker-run" id="tickerRun">
+        <span class="tk"><span class="tk-l">TIKTOK SHOP Q1 GMV</span><span class="tk-v">$50.4B</span><span class="tk-d up">+184%</span></span>
+        <span class="tk"><span class="tk-l">AMAZON FBA FEES</span><span class="tk-v">15.0%</span><span class="tk-d up">+0.4 pp</span></span>
+        <span class="tk"><span class="tk-l">SHOPIFY PLUS ARR</span><span class="tk-v">$1.94B</span><span class="tk-d up">+22.1%</span></span>
+        <span class="tk"><span class="tk-l">WALMART MP SELLERS</span><span class="tk-v">152K</span><span class="tk-d up">+22%</span></span>
+        <span class="tk"><span class="tk-l">DTC FUNDING APR</span><span class="tk-v">$847M</span><span class="tk-d down">-12.4%</span></span>
+        <span class="tk"><span class="tk-l">RETURN RATES Q1</span><span class="tk-v">18.7%</span><span class="tk-d down">-1.2 pp</span></span>
+        <span class="tk"><span class="tk-l">AI TOOL ADOPTION</span><span class="tk-v">63%</span><span class="tk-d up">+11 pp</span></span>
+        <span class="tk"><span class="tk-l">AMAZON ACOS AVG</span><span class="tk-v">29.4%</span><span class="tk-d down">-2.1 pp</span></span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- SEARCH -->
-<div class="so" id="so" onclick="if(event.target===this)toggleSearch()">
-  <div class="s-box"><input type="text" placeholder="Search articles, tools, platforms..." id="sIn"><div class="hint"><kbd>ESC</kbd> close &middot; <kbd>Ctrl K</kbd> open</div></div>
-</div>
-
-<!-- HERO BENTO -->
-<section class="hero">
-  <div class="hero-bento">
-    <a class="hero-main" href="/articles/tiktok-shop-vs-amazon-2026.html">
-      <div class="hero-mesh"></div>
-      <div class="cat tiktok">TikTok Shop</div>
-      <h2>TikTok Shop vs Amazon in 2026: The Platform War That Will <em>Define&nbsp;Ecommerce</em></h2>
-      <div class="h-sub">$50B in Q1 GMV. Commission rates half of Amazon's. Every seller needs to rethink their channel strategy now.</div>
-      <div class="h-meta">Apr 9, 2026 &middot; 12 min read</div>
-      <div class="h-arrow">Read analysis <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+<!-- HERO -->
+<section class="hero-wrap">
+  <div class="hero">
+    <a class="hero-main" href="/articles/amazon-counterfeit-suspension-recovery-case.html">
+      <div class="img" style="background:linear-gradient(135deg,oklch(.82 .14 70),oklch(.45 .12 65))"><img src="/images/amazon-counterfeit-suspension-recovery-case.png" alt="" loading="eager" onerror="this.style.display='none'"></div>
+      <div class="cat amazon">Amazon FBA · Case Study</div>
+      <h1>How a 7-figure brand <em>beat a $2.3M counterfeit claim</em> and got back online in 11 days</h1>
+      <p class="hero-lede">A real audit of the evidence package, Plan of Action, and the four documents that flipped the verdict. We have the file numbers and the dollar figures.</p>
+      <div class="hero-byline"><span>By <b>EcomNewsHQ Desk</b></span><span class="dot"></span><span>13 min read</span><span class="dot"></span><span>Apr 9, 2026</span></div>
     </a>
-    <div class="hero-stack">
-      <a class="hero-card" href="/articles/helium-10-vs-jungle-scout-2026.html">
-        <div class="cat tools">Tools</div>
-        <h3>Helium 10 vs Jungle Scout 2026: We Tested Both for 90 Days Across 3&nbsp;Stores</h3>
-        <div class="meta">Apr 8 &middot; 14 min</div>
-      </a>
-      <a class="hero-card" href="/articles/best-shopify-apps-2026.html">
-        <div class="cat shopify">Shopify</div>
-        <h3>12 Shopify Apps That Actually Drive Revenue in 2026</h3>
-        <div class="meta">Apr 7 &middot; 10 min</div>
-      </a>
-      <a class="hero-card" href="/articles/mercury-bank-review-ecommerce-2026.html">
-        <div class="cat finance">Finance</div>
-        <h3>Mercury Bank for Ecommerce: Is It Still the Best in 2026?</h3>
-        <div class="meta">Apr 6 &middot; 8 min</div>
-      </a>
+    <div class="hero-side">
+      <div class="hero-ai">
+        <div class="badge">AI Briefing · 06:00 ET</div>
+        <h3>What sellers need to know today</h3>
+        <ul>
+          <li><span class="num">01</span><span>TikTok Shop Q1 GMV crosses $50B — half the take rate of Amazon, double the growth.</span></li>
+          <li><span class="num">02</span><span>Amazon rolls out 4-second video verification for new sellers across 6 EU marketplaces.</span></li>
+          <li><span class="num">03</span><span>Shopify "Markets Plus" margins now cover 38% of plan revenue, up from 24% YoY.</span></li>
+          <li><span class="num">04</span><span>Walmart Marketplace fees stay flat at 8–15% — last platform without a 2026 hike.</span></li>
+        </ul>
+        <div class="foot">Auto-summary · refreshes hourly</div>
+      </div>
+      <div class="hero-pulse">
+        <div class="label">Market Pulse · Live</div>
+        <div class="pulse-grid">
+          <div class="pulse-cell"><div class="pulse-l">TikTok Shop GMV</div><div class="pulse-v">$50.4B</div><div class="pulse-d up">▲ 184% YoY</div></div>
+          <div class="pulse-cell"><div class="pulse-l">Amazon Take Rate</div><div class="pulse-v">15.0%</div><div class="pulse-d up">▲ 0.4 pp</div></div>
+          <div class="pulse-cell"><div class="pulse-l">DTC Funding · Apr</div><div class="pulse-v">$847M</div><div class="pulse-d down">▼ 12.4%</div></div>
+          <div class="pulse-cell"><div class="pulse-l">Return Rate Q1</div><div class="pulse-v">18.7%</div><div class="pulse-d down">▼ 1.2 pp</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- SPONSOR: ASIN SPOTLIGHT -->
+<!-- SPONSORS -->
 <div class="sponsor">
   <a href="https://www.asinspotlight.com/?fpr=amzdoc" target="_blank" rel="noopener sponsored" class="sponsor-inner">
     <span class="sponsor-tag">Sponsored</span>
     <div class="sponsor-brand">
       <div class="sponsor-logo">
-        <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/jvx8rs82/theme/brand/22958/logo/icon.png" alt="ASINSpotlight" width="28" height="28" style="border-radius:6px">
+        <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/jvx8rs82/theme/brand/22958/logo/icon.png" alt="ASINSpotlight" width="28" height="28">
         <span>ASINSpotlight</span>
       </div>
     </div>
     <div class="sponsor-body">
-      <div class="sponsor-text"><strong>Bulk scan Amazon products</strong> across 18 marketplaces in real-time — pricing, competition, inventory</div>
-      <div class="sponsor-cta">Try Free</div>
+      <div class="sponsor-text"><strong>Bulk scan Amazon products</strong> across 18 marketplaces in real-time — pricing, competition, inventory.</div>
+      <div class="sponsor-cta">Try Free →</div>
     </div>
   </a>
 </div>
 
-<!-- SPONSOR: PROXY-CHEAP -->
 <div class="sponsor" style="margin-top:8px">
   <a href="https://app.proxy-cheap.com/r/J94MSL" target="_blank" rel="noopener sponsored" class="sponsor-inner">
     <span class="sponsor-tag">Sponsored</span>
     <div class="sponsor-brand">
       <div class="sponsor-logo">
-        <svg width="28" height="28" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#1a56db"/><path d="M20 8C14 8 9 13 9 19c0 4 2.5 7.5 6 9.5L20 32l5-3.5c3.5-2 6-5.5 6-9.5 0-6-5-11-11-11zm0 16a5 5 0 110-10 5 5 0 010 10z" fill="#fff"/></svg>
+        <svg width="28" height="28" viewBox="0 0 40 40"><rect width="40" height="40" rx="6" fill="#1a56db"/><path d="M20 8C14 8 9 13 9 19c0 4 2.5 7.5 6 9.5L20 32l5-3.5c3.5-2 6-5.5 6-9.5 0-6-5-11-11-11zm0 16a5 5 0 110-10 5 5 0 010 10z" fill="#fff"/></svg>
         <span>proxy-cheap</span>
       </div>
     </div>
-    <div class="sponsor-body" style="background:linear-gradient(135deg,#0f2257 0%,#1a3a8f 100%)">
-      <div class="sponsor-text"><strong>Datacenter & Residential proxies</strong> starting from <span style="color:#00e676;font-weight:800;font-size:18px;margin-left:4px">$1.99</span></div>
-      <div class="sponsor-cta" style="background:#1a56db">Buy Now</div>
+    <div class="sponsor-body">
+      <div class="sponsor-text"><strong>Datacenter & residential proxies</strong> from <em style="color:#1a56db">$1.99/GB</em> — perfect for scraping & multi-account.</div>
+      <div class="sponsor-cta">Buy Now →</div>
     </div>
   </a>
 </div>
 
-<!-- LATEST NEWS + SIDEBAR -->
+<!-- LATEST + SIDEBAR -->
 <div class="sec">
   <div class="sec-h">
-    <h2 class="sec-t">Latest</h2>
+    <div>
+      <div class="sec-k">Latest · Editor's Desk</div>
+      <h2 class="sec-t">The brief</h2>
+      <div class="sec-sub">What we're reading, testing, and reporting on this week — across every marketplace.</div>
+    </div>
     <a class="sec-l" href="/news/">All articles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
-  <div class="sec-line"></div>
-
-  <div class="pills">
-    <button class="pill on" onclick="fil('all',this)">All</button>
-    <button class="pill" onclick="fil('amazon',this)">Amazon FBA</button>
-    <button class="pill" onclick="fil('shopify',this)">Shopify</button>
-    <button class="pill" onclick="fil('tiktok',this)">TikTok Shop</button>
-    <button class="pill" onclick="fil('walmart',this)">Walmart</button>
-    <button class="pill" onclick="fil('tools',this)">Tools</button>
-    <button class="pill" onclick="fil('finance',this)">Finance</button>
-  </div>
+  <div class="sec-line double"></div>
 
   <div class="feed-wrap">
-    <div class="feed" id="feed">
-      <div class="f-date">Today</div>
+    <div>
+      <div class="pills">
+        <button class="pill on" onclick="fil('all',this)">All</button>
+        <button class="pill" onclick="fil('amazon',this)">Amazon FBA</button>
+        <button class="pill" onclick="fil('shopify',this)">Shopify</button>
+        <button class="pill" onclick="fil('tiktok',this)">TikTok Shop</button>
+        <button class="pill" onclick="fil('walmart',this)">Walmart</button>
+        <button class="pill" onclick="fil('tools',this)">Tools</button>
+      </div>
 
-      <a class="f-card" href="/articles/amazon-review-policy-violation-recovery.html" data-cat="amazon">
-        <div>
-          <div class="cat amazon">Amazon FBA</div>
-          <h3>Amazon Review Policy Violation: How I Saved a $50K/Month Account from Permanent Suspension</h3>
-          <div class="exc">One seller's 47-day journey from suspension to full reinstatement. The exact Plan of Action structure that worked.</div>
-          <div class="meta">Apr 10 &middot; 12 min read</div>
+      <!-- FEATURED ROW -->
+      <div class="feed-feat" data-cat="amazon">
+        <a class="feat-l" href="/articles/amazon-buy-box-loss-300k-case-study.html">
+          <div class="img" style="background:linear-gradient(135deg,oklch(.82 .14 70),oklch(.45 .12 65))"><img src="/images/amazon-buy-box-loss-300k-case-study.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+          <div class="cat amazon">Amazon FBA · Investigation</div>
+          <h3>Buy Box suppression cost this seller $300K — here's exactly what went wrong</h3>
+          <p class="exc">A 90-day forensic audit of how pricing-algorithm changes silently killed a profitable Amazon business. The four signals every seller should be monitoring.</p>
+          <div class="meta">Apr 8 · 12 min read · By <b style="color:var(--ink);font-weight:600">Editorial Desk</b></div>
+        </a>
+        <div class="feat-r">
+          <a class="feat-sm" href="/articles/tiktok-shop-vs-amazon-2026.html" data-cat="tiktok">
+            <div>
+              <div class="cat tiktok">TikTok Shop</div>
+              <h4>TikTok Shop vs Amazon in 2026: the platform war</h4>
+              <div class="meta">Apr 9 · 12 min</div>
+            </div>
+            <div class="img-sm"><div style="width:100%;height:100%;background:linear-gradient(135deg,oklch(.7 .2 320),oklch(.4 .15 280))"></div></div>
+          </a>
+          <a class="feat-sm" href="/articles/best-shopify-apps-2026.html" data-cat="shopify">
+            <div>
+              <div class="cat shopify">Shopify</div>
+              <h4>12 Shopify apps that actually drive revenue in 2026</h4>
+              <div class="meta">Apr 7 · 10 min</div>
+            </div>
+            <div class="img-sm"><div style="width:100%;height:100%;background:linear-gradient(135deg,oklch(.7 .17 150),oklch(.4 .12 160))"></div></div>
+          </a>
+          <a class="feat-sm" href="/articles/amazon-video-verification-guide-2026.html" data-cat="amazon">
+            <div>
+              <div class="cat amazon">Amazon FBA</div>
+              <h4>Amazon video verification: pass on the first attempt</h4>
+              <div class="meta">Apr 10 · 11 min</div>
+            </div>
+            <div class="img-sm" style="background:linear-gradient(135deg,oklch(.82 .14 70),oklch(.45 .12 65))"><img src="/images/amazon-video-verification-guide-2026.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'"></div>
+          </a>
         </div>
-        <div class="f-vis amazon" style="background:url(/images/amazon-review-policy-violation-recovery.png) center/cover;border-radius:var(--r)"><div class="mesh" style="opacity:.3"></div></div>
-      </a>
+      </div>
 
-      <a class="f-card" href="/articles/amazon-video-verification-guide-2026.html" data-cat="amazon">
-        <div>
-          <div class="cat amazon">Amazon FBA</div>
-          <h3>Amazon Video Verification 2026: Complete Guide to Passing on the First Attempt</h3>
-          <div class="exc">Step-by-step walkthrough of Amazon's identity verification video call. Documents, setup, and what to expect.</div>
-          <div class="meta">Apr 10 &middot; 11 min read</div>
-        </div>
-        <div class="f-vis amazon" style="background:url(/images/amazon-video-verification-guide-2026.png) center/cover;border-radius:var(--r)"><div class="mesh" style="opacity:.3"></div></div>
-      </a>
+      <div class="feed" id="feed">
+        <div class="f-date">Today · Apr 10</div>
 
-      <div class="f-date">This Week</div>
+        <a class="f-card" href="/articles/amazon-review-policy-violation-recovery.html" data-cat="amazon">
+          <div>
+            <div class="cat amazon">Amazon FBA · Recovery</div>
+            <h3>Review-policy violation: how I saved a $50K/month account from permanent suspension</h3>
+            <div class="exc">One seller's 47-day journey from suspension to full reinstatement. The exact Plan of Action structure, with the documents that worked.</div>
+            <div class="meta">Apr 10 · 12 min read · Account Health</div>
+          </div>
+          <div class="f-vis" style="background:linear-gradient(135deg,oklch(.82 .14 70),oklch(.45 .12 65))"><img src="/images/amazon-review-policy-violation-recovery.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+        </a>
 
-      <a class="f-card" href="/articles/amazon-counterfeit-suspension-recovery-case.html" data-cat="amazon">
-        <div>
-          <div class="cat amazon">Amazon FBA</div>
-          <h3>Counterfeit Complaint Suspension: How a 7-Figure Seller Beat a False IP Claim</h3>
-          <div class="exc">A brand owner's account was shut down over a false counterfeit complaint. The evidence strategy that got it reinstated.</div>
-          <div class="meta">Apr 9 &middot; 13 min read</div>
-        </div>
-        <div class="f-vis amazon" style="background:url(/images/amazon-counterfeit-suspension-recovery-case.png) center/cover;border-radius:var(--r)"><div class="mesh" style="opacity:.3"></div></div>
-      </a>
+        <div class="f-date">This Week</div>
 
-      <a class="f-card" href="/articles/amazon-buy-box-loss-300k-case-study.html" data-cat="amazon">
-        <div>
-          <div class="cat amazon">Amazon FBA</div>
-          <h3>Buy Box Suppression Cost This Seller $300K — Here's What Went Wrong</h3>
-          <div class="exc">An investigation into how pricing algorithm changes silently killed a profitable Amazon business over 90 days.</div>
-          <div class="meta">Apr 8 &middot; 12 min read</div>
-        </div>
-        <div class="f-vis amazon" style="background:url(/images/amazon-buy-box-loss-300k-case-study.png) center/cover;border-radius:var(--r)"><div class="mesh" style="opacity:.3"></div></div>
-      </a>
+        <a class="f-card" href="/articles/helium-10-vs-jungle-scout-2026.html" data-cat="tools">
+          <div>
+            <div class="cat tools">Tools · Head-to-Head</div>
+            <h3>Helium 10 vs Jungle Scout 2026: we tested both for 90 days across 3 stores</h3>
+            <div class="exc">Two suites. Three live Amazon businesses. Every major workflow timed and priced. What delivers ROI versus what's just hype.</div>
+            <div class="meta">Apr 7 · 14 min read · Tool Review</div>
+          </div>
+          <div class="f-vis" style="background:linear-gradient(135deg,oklch(.85 .07 50),oklch(.55 .05 40))"></div>
+        </a>
 
-      <a class="f-card" href="/articles/tiktok-shop-vs-amazon-2026.html" data-cat="tiktok">
-        <div>
-          <div class="cat tiktok">TikTok Shop</div>
-          <h3>TikTok Shop vs Amazon in 2026: The Platform War That Will Define Ecommerce</h3>
-          <div class="exc">$50B in Q1 GMV. Commission rates half of Amazon's. Every seller needs to rethink their channel strategy now.</div>
-          <div class="meta">Apr 9 &middot; 12 min read</div>
-        </div>
-        <div class="f-vis tiktok"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><circle cx="100" cy="70" r="45"/><line x1="10" y1="10" x2="70" y2="70"/><rect x="130" y="10" width="50" height="50" rx="8"/></svg></div>
-      </a>
+        <a class="f-card" href="/articles/best-shopify-apps-2026.html" data-cat="shopify">
+          <div>
+            <div class="cat shopify">Shopify · Apps</div>
+            <h3>The 12 Shopify apps that actually drive revenue in 2026</h3>
+            <div class="exc">After auditing 47 stores doing $1M–$50M, the same 12 apps keep showing up. The ones that move conversion, AOV, and retention — nothing else.</div>
+            <div class="meta">Apr 7 · 10 min read · Stack Audit</div>
+          </div>
+          <div class="f-vis" style="background:linear-gradient(135deg,oklch(.78 .15 150),oklch(.42 .12 160))"></div>
+        </a>
 
-      <a class="f-card" href="/articles/helium-10-vs-jungle-scout-2026.html" data-cat="tools">
-        <div>
-          <div class="cat tools">Tools</div>
-          <h3>Helium 10 vs Jungle Scout 2026: We Tested Both for 90 Days</h3>
-          <div class="exc">Tested every major tool across 3 active stores. What delivers ROI vs hype.</div>
-          <div class="meta">Apr 7 &middot; 14 min read</div>
-        </div>
-        <div class="f-vis tools"><div class="mesh"></div><svg class="geo" viewBox="0 0 200 140"><circle cx="60" cy="70" r="40"/><rect x="120" y="20" width="60" height="80" rx="10"/><line x1="20" y1="130" x2="180" y2="20"/></svg></div>
-      </a>
+        <a class="f-card" href="/articles/amazon-fba-warehouse-cleanup-2026.html" data-cat="amazon">
+          <div>
+            <div class="cat amazon">Amazon FBA · Inventory</div>
+            <h3>The 2026 Amazon FBA warehouse cleanup: removal fees, aged inventory, the math</h3>
+            <div class="exc">Storage fees doubled. Aged-inventory surcharges hit at 271 days. Here's how to model the breakpoint for liquidation versus removal versus relisting.</div>
+            <div class="meta">Apr 5 · 9 min read · Operations</div>
+          </div>
+          <div class="f-vis" style="background:linear-gradient(135deg,oklch(.82 .14 70),oklch(.45 .12 65))"></div>
+        </a>
+      </div>
     </div>
 
     <aside class="side">
       <div class="side-block">
-        <div class="side-h">Trending</div>
-        <a class="s-item" href="/articles/amazon-review-policy-violation-recovery.html"><div class="s-rank">01</div><div><div class="s-t">Review Policy Violation: How I Saved a $50K/Month Account</div><div class="s-m">Amazon FBA &middot; 12 min</div></div></a>
-        <a class="s-item" href="/articles/amazon-buy-box-loss-300k-case-study.html"><div class="s-rank">02</div><div><div class="s-t">Buy Box Suppression Cost This Seller $300K</div><div class="s-m">Amazon FBA &middot; 12 min</div></div></a>
-        <a class="s-item" href="/articles/amazon-counterfeit-suspension-recovery-case.html"><div class="s-rank">03</div><div><div class="s-t">Counterfeit Complaint: How a 7-Figure Seller Beat a False Claim</div><div class="s-m">Amazon FBA &middot; 13 min</div></div></a>
-        <a class="s-item" href="/articles/amazon-video-verification-guide-2026.html"><div class="s-rank">04</div><div><div class="s-t">Amazon Video Verification 2026: Pass on the First Attempt</div><div class="s-m">Amazon FBA &middot; 11 min</div></div></a>
-        <a class="s-item" href="/articles/helium-10-vs-jungle-scout-2026.html"><div class="s-rank">05</div><div><div class="s-t">Helium 10 vs Jungle Scout 2026: 90-Day Head-to-Head Test</div><div class="s-m">Tools &middot; 14 min</div></div></a>
+        <div class="side-h">Most read · 7 days</div>
+        <a class="s-item" href="/articles/amazon-review-policy-violation-recovery.html"><div class="s-rank">01</div><div><div class="s-t">Review-policy violation: how I saved a $50K/month account</div><div class="s-m">Amazon FBA · 12 min</div></div></a>
+        <a class="s-item" href="/articles/amazon-buy-box-loss-300k-case-study.html"><div class="s-rank">02</div><div><div class="s-t">Buy Box suppression cost this seller $300K</div><div class="s-m">Amazon FBA · 12 min</div></div></a>
+        <a class="s-item" href="/articles/amazon-counterfeit-suspension-recovery-case.html"><div class="s-rank">03</div><div><div class="s-t">Beating a false counterfeit complaint as a 7-figure seller</div><div class="s-m">Amazon FBA · 13 min</div></div></a>
+        <a class="s-item" href="/articles/tiktok-shop-vs-amazon-2026.html"><div class="s-rank">04</div><div><div class="s-t">TikTok Shop vs Amazon in 2026: the platform war</div><div class="s-m">TikTok Shop · 12 min</div></div></a>
+        <a class="s-item" href="/articles/helium-10-vs-jungle-scout-2026.html"><div class="s-rank">05</div><div><div class="s-t">Helium 10 vs Jungle Scout 2026: 90-day head-to-head</div><div class="s-m">Tools · 14 min</div></div></a>
       </div>
 
       <div class="side-block">
         <div class="side-nl">
-          <h4>Weekly Briefing</h4>
-          <p>Platform updates, tools, strategies. Every Tuesday. 47K+ readers.</p>
-          <form onsubmit="return false"><input type="email" placeholder="Your email"><button type="submit">Subscribe Free</button></form>
+          <div class="badge">Weekly Briefing</div>
+          <h4>The intelligence brief, <em>every Tuesday</em>.</h4>
+          <p>Platform moves, tool reviews, seller strategies. 47,000+ operators read it.</p>
+          <form onsubmit="return false"><input type="email" placeholder="you@company.com"><button type="submit">Subscribe — free</button></form>
           <div class="note">No spam. Unsubscribe anytime.</div>
         </div>
       </div>
 
       <div class="side-block">
-        <div class="side-h">Topics</div>
+        <div class="side-h">Beats</div>
         <div class="side-tags">
-          <a class="side-tag" href="#">Product Research</a><a class="side-tag" href="#">PPC Strategy</a><a class="side-tag" href="#">Email Marketing</a><a class="side-tag" href="#">Fulfillment</a><a class="side-tag" href="#">Listing Optimization</a><a class="side-tag" href="#">AI Tools</a><a class="side-tag" href="#">Analytics</a>
+          <a class="side-tag" href="/amazon-fba/">Amazon FBA</a>
+          <a class="side-tag" href="/shopify/">Shopify</a>
+          <a class="side-tag" href="/tiktok-shop/">TikTok Shop</a>
+          <a class="side-tag" href="/walmart/">Walmart</a>
+          <a class="side-tag" href="/tools/">Tools</a>
+          <a class="side-tag" href="#">PPC</a>
+          <a class="side-tag" href="#">Listings</a>
+          <a class="side-tag" href="#">Logistics</a>
+          <a class="side-tag" href="#">DTC</a>
+          <a class="side-tag" href="#">Funding</a>
+          <a class="side-tag" href="#">Account Health</a>
         </div>
       </div>
     </aside>
   </div>
 </div>
 
+<!-- COMMERCE TERMINAL -->
+<section class="terminal-sec">
+  <div class="term-w">
+    <div class="term-head">
+      <div>
+        <div class="term-k">Commerce Terminal · Real-time</div>
+        <h2 class="term-t">The numbers <em>behind</em> the news.</h2>
+      </div>
+      <div class="term-m">Updated 06:02 ET · 8 channels tracked</div>
+    </div>
+
+    <div class="term-grid">
+      <div class="term-card">
+        <div class="l"><span>TikTok Shop · Q1 GMV</span><span class="badge">+184%</span></div>
+        <div class="v">$50.4B</div>
+        <div class="d up">▲ $32.6B YoY</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="up" d="M0,28 L15,26 L30,24 L45,20 L60,17 L75,12 L90,7 L105,4 L120,2"/></svg>
+        <div class="ctx">Half the take rate of Amazon. Strongest growth in beauty & home.</div>
+      </div>
+      <div class="term-card">
+        <div class="l"><span>Amazon FBA · Take Rate</span><span class="badge">+0.4pp</span></div>
+        <div class="v">15.0%</div>
+        <div class="d up">▲ from 14.6%</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="up" d="M0,20 L20,19 L40,18 L60,16 L80,15 L100,13 L120,11"/></svg>
+        <div class="ctx">Referral + FBA + storage. Aged-inventory surcharge starts day 271.</div>
+      </div>
+      <div class="term-card">
+        <div class="l"><span>Shopify Plus · ARR</span><span class="badge">+22.1%</span></div>
+        <div class="v">$1.94B</div>
+        <div class="d up">▲ $352M YoY</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="up" d="M0,26 L20,23 L40,22 L60,18 L80,14 L100,10 L120,5"/></svg>
+        <div class="ctx">Markets Plus now 38% of plan revenue. International is the engine.</div>
+      </div>
+      <div class="term-card">
+        <div class="l"><span>Walmart · Marketplace Sellers</span><span class="badge">+22%</span></div>
+        <div class="v">152K</div>
+        <div class="d up">▲ 27K YoY</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="up" d="M0,24 L20,22 L40,20 L60,18 L80,15 L100,12 L120,9"/></svg>
+        <div class="ctx">Take rate held flat at 8–15%. WFS expanding to 32 fulfillment hubs.</div>
+      </div>
+      <div class="term-card">
+        <div class="l"><span>DTC Funding · April</span><span class="badge dn">-12.4%</span></div>
+        <div class="v">$847M</div>
+        <div class="d dn">▼ $120M MoM</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="dn" d="M0,8 L20,11 L40,9 L60,14 L80,18 L100,22 L120,26"/></svg>
+        <div class="ctx">31 deals. Median round size down. Beauty + supplements still leading.</div>
+      </div>
+      <div class="term-card">
+        <div class="l"><span>Return Rates · Q1 Avg</span><span class="badge dn">-1.2pp</span></div>
+        <div class="v">18.7%</div>
+        <div class="d dn">▼ from 19.9%</div>
+        <svg class="spark" viewBox="0 0 120 32" preserveAspectRatio="none"><path class="dn" d="M0,6 L20,10 L40,12 L60,15 L80,18 L100,21 L120,24"/></svg>
+        <div class="ctx">Apparel still 28%+. AI sizing tools driving the apparel drop.</div>
+      </div>
+    </div>
+
+    <!-- LIVE FEED -->
+    <div class="term-feed">
+      <div class="term-feed-h">
+        <span>Live signals · Last 4 hours</span>
+        <span>8 events</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">06:02 ET</span>
+        <span class="msg"><b>Amazon</b> rolls out 4-second video verification for new EU sellers across 6 marketplaces.</span>
+        <span class="pl">Account Health</span>
+        <span class="dt up">High impact</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">05:48 ET</span>
+        <span class="msg"><b>TikTok Shop</b> US commission tier drops to 6% for verified sellers above $500K GMV.</span>
+        <span class="pl">Fees</span>
+        <span class="dt up">↑ Margin</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">04:31 ET</span>
+        <span class="msg"><b>Shopify</b> opens Markets Plus to all plan tiers — $39 add-on across 28 countries.</span>
+        <span class="pl">Platform</span>
+        <span class="dt up">Expansion</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">03:14 ET</span>
+        <span class="msg"><b>Helium 10</b> ships Cerebro v4 with AI keyword clustering and competitor-listing diffs.</span>
+        <span class="pl">Tools</span>
+        <span class="dt up">Product</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">02:09 ET</span>
+        <span class="msg"><b>Walmart</b> Marketplace expands WFS to 32 fulfillment centers, adds 2-day to 95% of zip codes.</span>
+        <span class="pl">Logistics</span>
+        <span class="dt up">Coverage</span>
+      </div>
+      <div class="term-row">
+        <span class="ts">23:42 ET</span>
+        <span class="msg"><b>Amazon</b> aged-inventory surcharge schedule confirmed for Q3 — base rate up 9%.</span>
+        <span class="pl">Fees</span>
+        <span class="dt dn">↓ Margin</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PLATFORMS BENTO -->
 <div class="sec sr">
-  <div class="sec-h"><h2 class="sec-t">Platform Intelligence</h2><a class="sec-l" href="/news/">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+  <div class="sec-h">
+    <div>
+      <div class="sec-k">Coverage</div>
+      <h2 class="sec-t">Platform intelligence</h2>
+      <div class="sec-sub">Dedicated desks for every marketplace that matters. Updated as the platforms change.</div>
+    </div>
+    <a class="sec-l" href="/news/">Explore all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="sec-line"></div>
   <div class="bento">
     <a class="bento-card amazon" href="/amazon-fba/">
-      <div class="b-color"></div><h3>Amazon FBA</h3>
-      <div class="b-desc">40% of US online retail. 9.7M active sellers globally.</div>
-      <div class="b-num" data-count="600">$0B</div><div class="b-label">US GMV (2025)</div>
+      <div class="b-color"></div>
+      <h3>Amazon FBA</h3>
+      <div class="b-desc">40% of US online retail. 9.7M active sellers. The default.</div>
+      <div class="b-num" data-count="600" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="b-label">US GMV · 2025</div>
       <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
     </a>
     <a class="bento-card shopify" href="/shopify/">
-      <div class="b-color"></div><h3>Shopify</h3>
+      <div class="b-color"></div>
+      <h3>Shopify</h3>
       <div class="b-desc">4.8M stores. 24% YoY growth. The DTC default.</div>
-      <div class="b-num" data-count="235">$0B</div><div class="b-label">GMV (2025)</div>
+      <div class="b-num" data-count="235" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="b-label">GMV · 2025</div>
       <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
     </a>
     <a class="bento-card tiktok" href="/tiktok-shop/">
-      <div class="b-color"></div><h3>TikTok Shop</h3>
-      <div class="b-desc">Fastest-growing marketplace. 8% vs 15% Amazon.</div>
-      <div class="b-num" data-count="50">$0B</div><div class="b-label">Q1 2026 GMV</div>
+      <div class="b-color"></div>
+      <h3>TikTok Shop</h3>
+      <div class="b-desc">Fastest-growing marketplace. 8% take rate vs Amazon's 15%.</div>
+      <div class="b-num" data-count="50" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="b-label">Q1 2026 GMV</div>
       <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
     </a>
     <a class="bento-card walmart" href="/walmart/">
-      <div class="b-color"></div><h3>Walmart</h3>
-      <div class="b-desc">150K sellers. 22% growth. Less competition.</div>
-      <div class="b-num" data-count="82">$0B</div><div class="b-label">Revenue (2025)</div>
+      <div class="b-color"></div>
+      <h3>Walmart</h3>
+      <div class="b-desc">152K sellers. 22% YoY. Less competition than Amazon.</div>
+      <div class="b-num" data-count="82" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="b-label">MP Revenue · 2025</div>
       <div class="b-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
     </a>
   </div>
@@ -596,41 +904,216 @@ footer{margin-top:64px;border-top:1px solid var(--border);padding:48px 20px 28px
 
 <!-- TOOLS -->
 <div class="sec sr">
-  <div class="sec-h"><h2 class="sec-t">Top-Rated Tools</h2><a class="sec-l" href="/tools/">All 200+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+  <div class="sec-h">
+    <div>
+      <div class="sec-k">Independent reviews · No paid placements</div>
+      <h2 class="sec-t">Top-rated tools</h2>
+      <div class="sec-sub">We pay for accounts, run the workflows, publish the numbers. Affiliate-only — never sponsored.</div>
+    </div>
+    <a class="sec-l" href="/tools/">All 200+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="sec-line"></div>
   <div class="tools-g">
-    <div class="t-card dark"><span class="t-pip">Editor's Pick</span><div class="t-logo" style="background:#FF7A00">H10</div><div class="t-name">Helium 10</div><div class="t-d">Complete Amazon suite — research, keywords, PPC, listings.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="t-card"><div class="t-logo" style="background:#3B8B4A">JS</div><div class="t-name">Jungle Scout</div><div class="t-d">Product research, Supplier Database, Sales Analytics.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="t-card"><div class="t-logo" style="background:#1C0B23;color:#9BDD79">K</div><div class="t-name">Klaviyo</div><div class="t-d">Email & SMS for 7-figure Shopify brands.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="t-card"><div class="t-logo" style="background:#2B6CEB">SB</div><div class="t-name">ShipBob</div><div class="t-d">2-day shipping. 40+ fulfillment centers globally.</div><div class="t-link">Review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="t-card">
+      <span class="t-pip">Editor's Pick</span>
+      <div class="t-logo" style="background:#FF7A00">H10</div>
+      <div class="t-name">Helium 10</div>
+      <div class="t-meta"><span class="star">★★★★★</span><span>4.8 / 5</span></div>
+      <div class="t-d">Complete Amazon suite — product research, keywords, PPC, listings. The benchmark for serious operators.</div>
+      <div class="t-link">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="t-card">
+      <div class="t-logo" style="background:#3B8B4A">JS</div>
+      <div class="t-name">Jungle Scout</div>
+      <div class="t-meta"><span class="star">★★★★☆</span><span>4.5 / 5</span></div>
+      <div class="t-d">Product research, Supplier Database, sales analytics. Better UX, smaller dataset than H10.</div>
+      <div class="t-link">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="t-card">
+      <div class="t-logo" style="background:#1C0B23;color:#9BDD79">K</div>
+      <div class="t-name">Klaviyo</div>
+      <div class="t-meta"><span class="star">★★★★★</span><span>4.7 / 5</span></div>
+      <div class="t-d">Email & SMS for 7-figure Shopify brands. Owners-economics flywheel — flows that compound.</div>
+      <div class="t-link">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="t-card">
+      <div class="t-logo" style="background:#2B6CEB">M</div>
+      <div class="t-name">Mercury Bank</div>
+      <div class="t-meta"><span class="star">★★★★★</span><span>4.9 / 5</span></div>
+      <div class="t-d">Operating account built for ecommerce. Sub-accounts, virtual cards, treasury. Still the best in 2026.</div>
+      <div class="t-link">Read review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY -->
+<div class="sec sr">
+  <div class="sec-h">
+    <div>
+      <div class="sec-k">The Floor · Operator network</div>
+      <h2 class="sec-t">What sellers are saying</h2>
+      <div class="sec-sub">A curated discussion network for founders, operators, and consultants. Real businesses, real numbers.</div>
+    </div>
+    <a class="sec-l" href="#">Join the floor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="sec-line"></div>
+  <div class="community">
+    <a class="thread" href="#">
+      <div class="thread-meta">
+        <div class="thread-av" style="background:var(--c-amazon)">MR</div>
+        <div>
+          <div class="thread-who">Maya R.</div>
+          <div class="thread-role">$4.2M/yr · Amazon FBA</div>
+        </div>
+      </div>
+      <h4 class="thread-t">Anyone else seeing aged-inventory surcharges hit at day 181 now?</h4>
+      <p class="thread-body">Got two SKUs flagged this week — didn't see anything in seller central announcements. Pulled my reports and noticed the schedule shifted forward by 90 days quietly. Curious if this is rolling out by category.</p>
+      <div class="thread-stats">
+        <span>↑ <b>284</b></span>
+        <span>💬 <b>47</b> replies</span>
+        <span><b>2h</b> ago</span>
+      </div>
+    </a>
+    <a class="thread" href="#">
+      <div class="thread-meta">
+        <div class="thread-av" style="background:var(--c-tiktok)">DC</div>
+        <div>
+          <div class="thread-who">Devon C.</div>
+          <div class="thread-role">Founder · DTC Beauty</div>
+        </div>
+      </div>
+      <h4 class="thread-t">TikTok Shop affiliate program: posting our 90-day numbers</h4>
+      <p class="thread-body">Ran 47 creators, $180K spend, 6.2x ROAS. Sharing the full breakdown — creator tiers, content categories, commission structures that actually converted. AMA in the comments.</p>
+      <div class="thread-stats">
+        <span>↑ <b>619</b></span>
+        <span>💬 <b>132</b> replies</span>
+        <span><b>5h</b> ago</span>
+      </div>
+    </a>
+    <a class="thread" href="#">
+      <div class="thread-meta">
+        <div class="thread-av" style="background:var(--c-shopify)">JK</div>
+        <div>
+          <div class="thread-who">James K.</div>
+          <div class="thread-role">Agency · Shopify Plus</div>
+        </div>
+      </div>
+      <h4 class="thread-t">Klaviyo flow audit: the three triggers nobody's setting up correctly</h4>
+      <p class="thread-body">Audited 23 stores this quarter doing $2M–$30M. The same three flows are consistently broken or missing. Posting a teardown with the screenshots and revenue lift we measured after fixing each one.</p>
+      <div class="thread-stats">
+        <span>↑ <b>412</b></span>
+        <span>💬 <b>89</b> replies</span>
+        <span><b>1d</b> ago</span>
+      </div>
+    </a>
   </div>
 </div>
 
 <!-- NEWSLETTER -->
 <div class="nl-sec sr">
   <div class="nl-box">
-    <div><h2>Get the Weekly Briefing</h2><p>Platform updates, tool reviews, seller strategies. Every Tuesday. 47,000+ readers.</p></div>
-    <form class="nl-f" onsubmit="return false"><input type="email" placeholder="Your email address"><button type="submit">Subscribe Free</button></form>
+    <div>
+      <div class="badge">Weekly Briefing · Tuesdays · 06:00 ET</div>
+      <h2>The <em>intelligence brief</em> 47,000 operators read first.</h2>
+      <p>Platform updates, tool reviews, seller strategies. No fluff. No filler. The one email a serious ecommerce operator can't skip.</p>
+      <div class="nl-meta">
+        <div class="m"><b>47,000+</b>readers</div>
+        <div class="m"><b>62%</b>avg open rate</div>
+        <div class="m"><b>0</b>sponsored picks</div>
+      </div>
+    </div>
+    <form class="nl-f" onsubmit="return false">
+      <input type="email" placeholder="you@company.com">
+      <button type="submit">Subscribe — free →</button>
+      <div class="nl-fine">No spam. Unsubscribe in one click.</div>
+    </form>
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- FOOTER COLOPHON -->
 <footer>
-<div class="f-inner">
-  <div class="f-grid">
-    <div><div class="f-brand">EcomNews<span>HQ</span></div><p class="f-about">Independent ecommerce media. No paid placements. Ever.</p></div>
-    <div class="f-col"><h5>Platforms</h5><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a></div>
-    <div class="f-col"><h5>Tools</h5><a href="/tools/">Helium 10</a><a href="/tools/">Jungle Scout</a><a href="/tools/">Klaviyo</a><a href="/tools/">All Tools</a></div>
-    <div class="f-col"><h5>Learn</h5><a href="/articles/how-to-start-amazon-fba-2026.html">FBA Guide</a><a href="/articles/best-shopify-apps-2026.html">Shopify Apps</a><a href="/news/">News</a></div>
-    <div class="f-col"><h5>Company</h5><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/affiliate-disclosure.html">Affiliates</a><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+  <div class="f-inner">
+    <div class="f-mast">
+      <div class="f-mast-l">
+        <div class="f-brand">EcomNews<span>HQ</span></div>
+        <p>Independent ecommerce media for Amazon FBA, Shopify, TikTok Shop and Walmart operators. No paid placements. Ever.</p>
+      </div>
+      <div class="f-mast-r">
+        <b>Vol. 04 · No. 247</b>
+        Apr 10, 2026<br>
+        Published from the desk<br>
+        <span style="color:oklch(.78 .15 38)">ecomnewshq.com</span>
+      </div>
+    </div>
+
+    <div class="f-grid">
+      <div class="f-col">
+        <h5>Platforms</h5>
+        <a href="/amazon-fba/">Amazon FBA</a>
+        <a href="/shopify/">Shopify</a>
+        <a href="/tiktok-shop/">TikTok Shop</a>
+        <a href="/walmart/">Walmart</a>
+      </div>
+      <div class="f-col">
+        <h5>Tool reviews</h5>
+        <a href="/articles/helium-10-vs-jungle-scout-2026.html">Helium 10 vs JS</a>
+        <a href="/articles/best-shopify-apps-2026.html">Shopify apps</a>
+        <a href="/articles/mercury-bank-review-ecommerce-2026.html">Mercury Bank</a>
+        <a href="/tools/">All 200+ tools</a>
+      </div>
+      <div class="f-col">
+        <h5>Case studies</h5>
+        <a href="/articles/amazon-counterfeit-suspension-recovery-case.html">$2.3M counterfeit win</a>
+        <a href="/articles/amazon-buy-box-loss-300k-case-study.html">$300K Buy Box loss</a>
+        <a href="/articles/amazon-review-policy-violation-recovery.html">Account recovery</a>
+        <a href="/articles/amazon-video-verification-guide-2026.html">Video verification</a>
+      </div>
+      <div class="f-col">
+        <h5>Newsletter</h5>
+        <a href="/newsletter/">Subscribe free</a>
+        <a href="/news/">News archive</a>
+        <a href="/articles/">Articles</a>
+        <a href="/sitemap.html">Sitemap</a>
+      </div>
+      <div class="f-col">
+        <h5>Company</h5>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/affiliate-disclosure.html">Affiliate disclosure</a>
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </div>
+    </div>
+
+    <div class="f-bot">
+      <span>© 2026 EcomNewsHQ · An independent publication</span>
+      <div class="f-leg">
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/affiliate-disclosure.html">Affiliate disclosure</a>
+      </div>
+    </div>
   </div>
-  <div class="f-bot"><span>&copy; 2026 EcomNewsHQ</span><div class="f-leg"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/affiliate-disclosure.html">Affiliates</a></div></div>
-</div>
 </footer>
 
-<button class="top-btn" id="topBtn" onclick="window.scrollTo({top:0})"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<button class="top-btn" id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<!-- MOBILE -->
+<div class="mob" id="mob">
+  <div class="mob-hd"><a class="logo" href="/">EcomNews<span>HQ</span></a><button class="nb" onclick="toggleMob()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <a href="/news/">News</a><a href="/amazon-fba/">Amazon FBA</a><a href="/shopify/">Shopify</a><a href="/tiktok-shop/">TikTok Shop</a><a href="/walmart/">Walmart</a><a href="/tools/">Tools</a>
+</div>
+
+<!-- SEARCH -->
+<div class="so" id="so" onclick="if(event.target===this)toggleSearch()">
+  <div class="s-box">
+    <input type="text" placeholder="Search articles, tools, platforms..." id="sIn">
+    <div class="hint"><span><kbd>↵</kbd>open · <kbd>ESC</kbd>close</span><span><kbd>⌘ K</kbd>quick access</span></div>
+  </div>
+</div>
 
 <script>
-/* ═══ THEME ═══ */
+/* THEME */
 function toggleTheme(){
   const d=document.documentElement,dark=d.getAttribute('data-t')==='dark';
   d.setAttribute('data-t',dark?'light':'dark');
@@ -646,7 +1129,7 @@ function toggleTheme(){
   }
 })();
 
-/* ═══ SEARCH ═══ */
+/* SEARCH / MOBILE */
 function toggleSearch(){const o=document.getElementById('so');o.classList.toggle('open');if(o.classList.contains('open'))setTimeout(()=>document.getElementById('sIn').focus(),50)}
 function toggleMob(){document.getElementById('mob').classList.toggle('open')}
 document.addEventListener('keydown',e=>{
@@ -654,11 +1137,13 @@ document.addEventListener('keydown',e=>{
   if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();toggleSearch()}
 });
 
-/* ═══ FILTER ═══ */
+/* FILTER */
 function fil(c,btn){
   document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
   btn.classList.add('on');
-  document.querySelectorAll('#feed .f-card').forEach(el=>{el.style.display=(c==='all'||el.dataset.cat===c)?'':'none'});
+  document.querySelectorAll('#feed .f-card,.feed-feat .feat-sm').forEach(el=>{el.style.display=(c==='all'||el.dataset.cat===c)?'':'none'});
+  const feat=document.querySelector('.feed-feat');
+  feat.style.display=(c==='all'||feat.dataset.cat===c)?'':'none';
   document.querySelectorAll('#feed .f-date').forEach(d=>{
     if(c==='all'){d.style.display='';return}
     let n=d.nextElementSibling,v=false;
@@ -667,18 +1152,18 @@ function fil(c,btn){
   });
 }
 
-/* ═══ ANIMATED COUNTERS ═══ */
+/* COUNTERS */
 const counters=document.querySelectorAll('.b-num[data-count]');
 const cIO=new IntersectionObserver(es=>{es.forEach(e=>{
   if(!e.isIntersecting)return;
-  const el=e.target,target=+el.dataset.count;
-  let current=0;const step=Math.ceil(target/40);
-  const timer=setInterval(()=>{current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent='$'+current+'B'},25);
+  const el=e.target,target=+el.dataset.count,prefix=el.dataset.prefix||'',suffix=el.dataset.suffix||'';
+  let current=0;const step=Math.max(1,Math.ceil(target/40));
+  const timer=setInterval(()=>{current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=prefix+current+suffix},25);
   cIO.unobserve(el);
-})},{threshold:.5});
+})},{threshold:.4});
 counters.forEach(c=>cIO.observe(c));
 
-/* ═══ MAGNETIC BUTTON ═══ */
+/* MAGNETIC BUTTON */
 const mag=document.getElementById('magBtn');
 if(mag&&window.innerWidth>768){
   mag.addEventListener('mousemove',e=>{
@@ -690,27 +1175,19 @@ if(mag&&window.innerWidth>768){
   mag.addEventListener('mouseleave',()=>{mag.style.transform=''});
 }
 
-/* ═══ 3D TILT on feed cards ═══ */
-document.querySelectorAll('.f-vis').forEach(el=>{
-  el.parentElement.addEventListener('mousemove',e=>{
-    const r=el.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    el.style.transform=`rotateY(${x*8}deg) rotateX(${-y*8}deg) scale(1.02)`;
-  });
-  el.parentElement.addEventListener('mouseleave',()=>{el.style.transform=''});
-});
+/* TICKER duplication for seamless scroll */
+(()=>{const r=document.getElementById('tickerRun');if(r)r.innerHTML+=r.innerHTML})();
 
-/* ═══ SCROLL TOP + PROGRESS ═══ */
+/* SCROLL-TOP + PROGRESS */
 addEventListener('scroll',()=>{
   document.getElementById('topBtn').classList.toggle('show',scrollY>500);
   const h=document.documentElement.scrollHeight-innerHeight;
   document.querySelector('.progress').style.width=(scrollY/h*100)+'%';
 },{passive:true});
 
-/* ═══ REVEAL OBSERVER ═══ */
-const rIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');e.target.style.opacity='1';e.target.style.transform='none';rIO.unobserve(e.target)}})},{threshold:.1});
-document.querySelectorAll('.sr,.bento-card,.t-card').forEach(el=>rIO.observe(el));
+/* REVEAL */
+const rIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');rIO.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.sr').forEach(el=>rIO.observe(el));
 </script>
 </body>
 </html>
